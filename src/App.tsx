@@ -3,7 +3,7 @@ import { Toaster } from "./components/ui/toaster";
 import VintageCafeGame from "./pages/minigames/VintageCafeGame";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { CartProvider } from "./context/CartContext";
+import MainLayout from "./layouts/MainLayout";
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 
@@ -15,14 +15,13 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster />
       <BrowserRouter>
-        <Toaster />
-
-        <CartProvider>
-          <Routes>
+        <Routes>
+          <Route element={<MainLayout />}>
             <Route path="/" element={<VintageCafeGame />} />
-          </Routes>
-        </CartProvider>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </QueryClientProvider>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Coffee, Heart, StepBack } from "lucide-react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const VintageCafeGame = () => {
   const [score, setScore] = useState(0);
@@ -91,6 +92,8 @@ const VintageCafeGame = () => {
     items.forEach(checkCollision);
   }, [items, playerPosition]);
 
+  const { toast } = useToast();
+
   return (
     <div className="mx-auto flex h-screen max-w-screen flex-col overflow-hidden bg-amber-50">
       {/* Vintage Header */}
@@ -98,7 +101,12 @@ const VintageCafeGame = () => {
         <h1 className="mb-2 grid text-center font-serif text-3xl">
           <StepBack
             className="absolute top-4 size-7"
-            onClick={() => navigate(-1)}
+            onClick={() =>
+              toast({
+                title: "Scheduled: Catch up",
+                description: "Friday, February 10, 2023 at 5:57 PM",
+              })
+            }
           />{" "}
           Chai Bucks
         </h1>
