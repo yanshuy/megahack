@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MainLayout from "./layouts/MainLayout";
 import OnboardingScreen from "./pages/Onboarding/page";
 import MarketplaceScreen from "./pages/Marketplace/page";
+import ProductDetailScreen from "./pages/ProductDetails/page";
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/marketplace" element={<MarketplaceScreen />} />
           </Route>
           <Route path="/" element={<OnboardingScreen />} />
+          <Route path="/pd/:productId" element={<ProductDetailScreen />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
