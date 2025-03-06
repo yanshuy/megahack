@@ -22,9 +22,9 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             {/* <Route path="/" element={<VintageCafeGame />} /> */}
-            <Route path="/" element={<OnboardingScreen />} />
             <Route path="/marketplace" element={<MarketplaceScreen />} />
           </Route>
+          <Route path="/" element={<OnboardingScreen />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
