@@ -9,3 +9,5 @@ export function genColorFn(opacity: number) {
   const selectedColor = playfulColors[randomIndex];
   return `${selectedColor}${opacity})`;
 }
+
+export const RupeeSymbol = "₹" as const;

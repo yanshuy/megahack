@@ -4,6 +4,8 @@ import VintageCafeGame from "./pages/minigames/VintageCafeGame";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MainLayout from "./layouts/MainLayout";
+import OnboardingScreen from "./pages/Onboarding/page";
+import MarketplaceScreen from "./pages/Marketplace/page";
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 
@@ -19,7 +21,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<VintageCafeGame />} />
+            {/* <Route path="/" element={<VintageCafeGame />} /> */}
+            <Route path="/" element={<OnboardingScreen />} />
+            <Route path="/marketplace" element={<MarketplaceScreen />} />
           </Route>
         </Routes>
       </BrowserRouter>
