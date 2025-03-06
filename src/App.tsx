@@ -29,10 +29,10 @@ function App() {
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
-              <Route path="/3d" element={<ThreeD />} />
             </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
             <Route path="/pd/:productId" element={<ProductDetailScreen />} />
+            <Route path="/3d" element={<ThreeD />} />
             <Route path="*" element={<div>page under construction</div>} />
           </Routes>
         </BrowserRouter>
