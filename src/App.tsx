@@ -4,6 +4,7 @@ import VintageCafeGame from "./pages/minigames/VintageCafeGame";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MainLayout from "./layouts/MainLayout";
+import ThreeD from "./pages/3DIMS/3DIMS";
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<VintageCafeGame />} />
+            <Route path="/3d" element={<ThreeD />} />
           </Route>
         </Routes>
       </BrowserRouter>
