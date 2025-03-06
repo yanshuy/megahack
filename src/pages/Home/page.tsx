@@ -1,5 +1,6 @@
 import { products } from "@/components/data/product-dummy";
 import { Product, useCart } from "@/context/CartContext";
+import { RupeeSymbol } from "@/utils/randomcolor";
 import { Search, Menu, CarrotIcon, Cherry, Milk, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -42,7 +43,8 @@ const ProductCard: React.FC<{
         </div>
         <div className="flex items-center justify-between">
           <p className="text-sm font-bold">
-            ${product.price}/ {product.unit}
+            {RupeeSymbol}
+            {product.price}/ {product.unit}
           </p>
         </div>
       </div>
@@ -62,27 +64,26 @@ const ProductCard: React.FC<{
 };
 
 const HomeScreen = () => {
-  const { cart, addToCart } = useCart();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
-  const totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleAddToCart = (product: Product) => {
     addToCart(product, 1, product.unit);
   };
   return (
-    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral)">
+    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral) pb-[12vh]">
       <div className="flex items-center p-4">
         <div className="flex flex-grow items-center">
           <div className="flex items-center">
             <img
-              src="/placeholder.svg?height=40&width=40"
+              src="https://placehold.co/600x400/teal/gold/"
               alt="Profile"
-              className="mr-2 h-10 w-10 rounded-full"
+              className="mr-2 h-10 w-10 rounded-full object-cover"
             />
             <div>
-              <p className="text-sm font-medium">Robert Martiz</p>
+              <p className="text-sm font-medium">Vinayak Sharma</p>
               <div className="flex items-center text-xs text-gray-500">
-                <span className="mr-1">📍</span>
+                <span className="mt-1">📍</span>
                 <span>Los Angeles</span>
               </div>
             </div>
@@ -99,7 +100,7 @@ const HomeScreen = () => {
         </div>
       </div>
 
-      <div className="mb-[15vh] flex-grow overflow-y-auto pt-4">
+      <div className="flex-grow overflow-y-auto pt-4">
         <h2 className="mb-4 px-4 text-xl font-bold">Shop By Categories</h2>
 
         <div className="no-scrollbar mb-6 flex space-x-2 overflow-x-auto px-4 pb-2">

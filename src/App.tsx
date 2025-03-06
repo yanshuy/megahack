@@ -29,8 +29,9 @@ function App() {
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
             </Route>
-            <Route path="/" element={<OnboardingScreen />} />
+            <Route path="/onboarding" element={<OnboardingScreen />} />
             <Route path="/pd/:productId" element={<ProductDetailScreen />} />
+            <Route path="*" element={<div>page under construction</div>} />
           </Routes>
         </BrowserRouter>
       </CartProvider>

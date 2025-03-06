@@ -2,6 +2,7 @@ import type React from "react";
 import { ChevronLeft, Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { RupeeSymbol } from "@/utils/randomcolor";
 
 const CartScreen = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();
@@ -13,7 +14,7 @@ const CartScreen = () => {
   };
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral) pb-[12vh]">
       <div className="flex items-center border-b border-gray-100 p-4">
         <ChevronLeft
           className="cursor-pointer text-gray-700"
@@ -85,8 +86,8 @@ const CartScreen = () => {
                         </button>
                       </div>
                       <p className="mb-1 text-xs text-gray-500">
-                        {item.selectedUnit} • ${item.product.price}/
-                        {item.product.unit}
+                        {item.selectedUnit} • {RupeeSymbol}
+                        {item.product.price}/{item.product.unit}
                       </p>
                       <div className="mt-2 flex items-center justify-between">
                         <div className="flex items-center">
@@ -117,7 +118,8 @@ const CartScreen = () => {
                           </button>
                         </div>
                         <p className="font-bold">
-                          ${formatPrice(item.product.price * item.quantity)}
+                          {RupeeSymbol}
+                          {formatPrice(item.product.price * item.quantity)}
                         </p>
                       </div>
                     </div>
@@ -143,14 +145,15 @@ const CartScreen = () => {
                     {cart.summary.deliveryFee === 0 ? (
                       <span className="text-green-700">Free</span>
                     ) : (
-                      `$${formatPrice(cart.summary.deliveryFee)}`
+                      `${RupeeSymbol}${formatPrice(cart.summary.deliveryFee)}`
                     )}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Platform Fee (5%)</span>
                   <span className="font-medium">
-                    ${formatPrice(cart.summary.platformFee)}
+                    {RupeeSymbol}
+                    {formatPrice(cart.summary.platformFee)}
                   </span>
                 </div>
               </div>
@@ -158,7 +161,8 @@ const CartScreen = () => {
               <div className="flex justify-between border-t border-gray-200 pt-3">
                 <span className="font-bold">Total</span>
                 <span className="text-lg font-bold">
-                  ${formatPrice(cart.summary.total)}
+                  {RupeeSymbol}
+                  {formatPrice(cart.summary.total)}
                 </span>
               </div>
             </div>
@@ -199,11 +203,10 @@ const CartScreen = () => {
             </button>
             <button
               className="mt-3 w-full py-2 font-medium text-green-700"
-              onClick={() => {}}
+              onClick={() => navigate("/")}
             >
               Continue Shopping
             </button>
-            <div className="mx-auto mt-4 h-1 w-32 rounded-full bg-black"></div>
           </div>
         </>
       )}

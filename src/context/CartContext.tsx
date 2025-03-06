@@ -191,43 +191,30 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
-// Provider component to wrap the app with
+const loadState = (): CartState => {
+  try {
+    const savedCart = localStorage.getItem("farmersMarketCart");
+    return savedCart ? JSON.parse(savedCart) : initialState;
+  } catch (error) {
+    console.error("Failed to load cart:", error);
+    return initialState;
+  }
+};
+
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Load cart from localStorage on initial render
-  const [persistedState, setPersistedState] = React.useState<CartState | null>(
-    null,
-  );
+  const [cart, dispatch] = useReducer(cartReducer, loadState());
 
   useEffect(() => {
+    console.log("hrun");
+
     try {
-      const savedCart = localStorage.getItem("farmersMarketCart");
-      if (savedCart) {
-        setPersistedState(JSON.parse(savedCart));
-      } else {
-        setPersistedState(initialState);
-      }
+      localStorage.setItem("farmersMarketCart", JSON.stringify(cart));
     } catch (error) {
-      console.error("Failed to load cart from localStorage:", error);
-      setPersistedState(initialState);
+      console.error("Failed to save cart to localStorage:", error);
     }
-  }, []);
-
-  const [cart, dispatch] = useReducer(
-    cartReducer,
-    persistedState || initialState,
-  );
-
-  useEffect(() => {
-    if (persistedState !== null) {
-      try {
-        localStorage.setItem("farmersMarketCart", JSON.stringify(cart));
-      } catch (error) {
-        console.error("Failed to save cart to localStorage:", error);
-      }
-    }
-  }, [cart, persistedState]);
+  }, [cart]);
 
   // Cart actions
   const addToCart = (
@@ -252,11 +239,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
-
-  // If the persisted state is still loading, show nothing
-  if (persistedState === null) {
-    return null;
-  }
 
   return (
     <CartContext.Provider
