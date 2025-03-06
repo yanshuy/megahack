@@ -1,12 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Toaster } from "./components/ui/toaster";
-import VintageCafeGame from "./pages/minigames/VintageCafeGame";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "./components/ui/toaster";
+import { CartProvider } from "./context/CartContext";
+
+import VintageCafeGame from "./pages/minigames/VintageCafeGame";
 import MainLayout from "./layouts/MainLayout";
 import OnboardingScreen from "./pages/Onboarding/page";
-import MarketplaceScreen from "./pages/Marketplace/page";
 import ProductDetailScreen from "./pages/ProductDetails/page";
+import HomeScreen from "./pages/Home/page";
+import CartScreen from "./pages/Cart/page";
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 
@@ -19,16 +21,19 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<MainLayout />}>
-            {/* <Route path="/" element={<VintageCafeGame />} /> */}
-            <Route path="/marketplace" element={<MarketplaceScreen />} />
-          </Route>
-          <Route path="/" element={<OnboardingScreen />} />
-          <Route path="/pd/:productId" element={<ProductDetailScreen />} />
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<MainLayout />}>
+              {/* <Route path="/" element={<VintageCafeGame />} /> */}
+              <Route path="/" element={<HomeScreen />} />
+              <Route path="/cart" element={<CartScreen />} />
+            </Route>
+            <Route path="/" element={<OnboardingScreen />} />
+            <Route path="/pd/:productId" element={<ProductDetailScreen />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </QueryClientProvider>
   );
 }

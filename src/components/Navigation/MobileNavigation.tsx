@@ -31,9 +31,7 @@ const MobileNavigation = () => {
               </div>
               <span
                 className={`absolute left-1/2 mt-1 -translate-x-1/2 translate-y-[15px] text-xs font-medium ${
-                  isActive(item.path)
-                    ? item.color || "text-black"
-                    : "text-gray-500"
+                  isActive(item.path) ? "text-green-600" : "text-gray-500"
                 }`}
               >
                 {item.name}
@@ -45,16 +43,12 @@ const MobileNavigation = () => {
             <>
               <item.icon
                 className={`h-6 w-6 ${
-                  isActive(item.path)
-                    ? item.color || "text-black"
-                    : "text-gray-500"
+                  isActive(item.path) ? "text-green-700" : "text-gray-500"
                 }`}
               />
               <span
                 className={`mt-1 text-xs font-medium ${
-                  isActive(item.path)
-                    ? item.color || "text-black"
-                    : "text-gray-500"
+                  isActive(item.path) ? "text-green-700" : "text-gray-500"
                 }`}
               >
                 {item.name}
