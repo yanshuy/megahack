@@ -19,6 +19,7 @@ import { AddOperation } from "three/src/constants.js";
 import AddItems from "./pages/FarmerDasboard/AddItems";
 import FarmerProfile from "./pages/FarmerDasboard/FarmerProfile";
 import SearchFramersMarket from "./pages/SearchFramersMarket/SearchFramersMarket";
+import ThreeDIMS from "./pages/3DIMS/3DIMS";
 
 export const BASE_URL = "https://live-merely-drum.ngrok-free.app";
 
@@ -56,7 +57,7 @@ function App() {
               path="/product/:productId"
               element={<FarmerProductListing />}
             />
-            {/* <Route path="/3d" element={<ThreeD />} /> */}
+            <Route path="/3d" element={<ThreeDIMS />} />
             <Route path="*" element={<div>page under construction</div>} />
 
             <Route path="farmer" element={<FarmerLayout />}>
