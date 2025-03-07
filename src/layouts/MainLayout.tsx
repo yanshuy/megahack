@@ -7,7 +7,7 @@ export default function MainLayout() {
       <main>
         <Outlet />
       </main>
-      <nav className="sticky bottom-0 z-[9999]">
+      <nav className="sticky bottom-0 z-50">
         <MobileNavigation />
       </nav>
     </>
