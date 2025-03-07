@@ -1,5 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import LanguageSettings from "./LanguageSettings";
 
 const OnboardingScreen = () => {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const OnboardingScreen = () => {
         </div>
       </div>
 
+      <LanguageSettings />
       <div className="p-6 pb-10">
         <button
           className="w-full rounded-full bg-green-700 py-3 font-medium text-white"

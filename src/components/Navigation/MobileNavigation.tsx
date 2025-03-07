@@ -33,7 +33,7 @@ const MobileNavigation = () => {
         <span
           className={`absolute top-[4.25rem] left-1/2 mt-1 -translate-x-1/2 text-xs font-medium text-gray-500`}
         >
-          Quick
+          Renu
         </span>
         <div className="absolute top-[31px] -left-[46.5px] z-30 size-3 -rotate-6 rounded-tr-full bg-white shadow-[4px_-2px__0px_-1px_#eef1f1]"></div>
         <div className="absolute top-[31px] -right-[46.5px] z-30 size-3 rotate-6 rounded-tl-full bg-white shadow-[-4px_-2px__0px_-1px_#eef1f1]"></div>

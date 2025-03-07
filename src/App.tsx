@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { CartProvider } from "./context/CartContext";
-import { VoiceCommandButton } from "./components/VoiceCommandButton"; // Import the component
 
 import MainLayout from "./layouts/MainLayout";
 import OnboardingScreen from "./pages/onboarding/page";
@@ -21,6 +20,7 @@ import FarmerProfile from "./pages/FarmerDasboard/FarmerProfile";
 import SearchFramersMarket from "./pages/SearchFramersMarket/SearchFramersMarket";
 import ThreeDIMS from "./pages/3DIMS/3DIMS";
 import Shop from "./pages/shop/page";
+import { LanguageProvider } from "./context/LanguageContext";
 
 export const BASE_URL = "https://live-merely-drum.ngrok-free.app";
 
@@ -33,6 +33,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
+
       <CartProvider>
         <BrowserRouter>
           <Routes>
