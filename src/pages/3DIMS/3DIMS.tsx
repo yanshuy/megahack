@@ -5,7 +5,7 @@ import { InventoryControls } from "@/components/3dInventory/InventoryControls"
 
 const ThreeDIMS = () => {
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-screen" id="threed">
       <InventoryProvider>
         <Canvas
           shadows

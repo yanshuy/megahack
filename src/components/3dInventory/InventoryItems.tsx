@@ -7,10 +7,11 @@ import { Carrot } from "./items/Carrot";
 import { Broccoli } from "./items/Brocolli";
 import { Html } from "@react-three/drei";
 import { X } from "lucide-react";
+import { log } from "console";
 
 interface InventoryItem {
   id: string;
-  type: "apple" | "banana" | "orange" | "carrot" | "broccoli";
+  name: string;
   position: [number, number, number];
   rotation?: [number, number, number];
   scale?: [number, number, number];
@@ -21,7 +22,7 @@ interface InventoryItem {
 }
 
 // Map item types to components
-const itemComponents: Record<InventoryItem["type"], React.FC<any>> = {
+const itemComponents: Record<InventoryItem["name"], React.FC<any>> = {
   apple: Apple,
   banana: Banana,
   orange: Orange,
@@ -36,7 +37,9 @@ export const InventoryItems = () => {
   return (
     <group>
       {items.map((item) => {
-        const ItemComponent = itemComponents[item.type];
+        const ItemComponent = itemComponents[item.name.toLowerCase()];
+        console.log(ItemComponent);
+        
 
         if (!ItemComponent) return null; // Ensure the component exists
 
@@ -65,11 +68,11 @@ export const InventoryItems = () => {
               >
                 <div className="absolute top-1/2 left-1/2 min-w-42 -translate-x-1/2 -translate-y-full transform rounded-lg bg-black/50 p-5 text-white shadow-lg">
                   <h3 className={`text-${item.color}-500 font-semibold`}>
-                    {item.type.toUpperCase()}
+                    {item.name.toUpperCase()}
                   </h3>
                   <p className="mt-1 text-xs">Stock: {item.stock}</p>
                   <p className="text-xs">Expiry: {item.expiry}</p>
-                  <p className="text-xs">Depletion: {item.depletionTime}</p>
+                  <p className="text-xs">Depletion: {item.depletionTime} days</p>
                   <X className="absolute top-2 right-2 h-5 w-5" onClick={() => setSelectedItem(null)}/>
                 </div>
               </Html>

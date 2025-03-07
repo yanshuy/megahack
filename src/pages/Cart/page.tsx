@@ -1,7 +1,7 @@
 import { ChevronLeft, Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom";
-import { RupeeSymbol } from "@/utils/randomcolor";
+import { RupeeSymbol } from "@/utils/utility";
 
 const CartScreen = () => {
   const { cart, removeFromCart, updateQuantity } = useCart();

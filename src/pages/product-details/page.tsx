@@ -3,7 +3,7 @@ import { ChevronLeft, Bookmark, ShoppingCart, Minus, Plus } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import { products } from "@/data/product-dummy";
-import { RupeeSymbol } from "@/utils/randomcolor";
+import { RupeeSymbol } from "@/utils/utility";
 
 const ProductDetailScreen = () => {
   const { productId } = useParams();
