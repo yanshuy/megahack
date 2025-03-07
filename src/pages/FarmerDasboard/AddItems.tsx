@@ -11,13 +11,13 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 
 const AddItems = () => {
   const [product, setProduct] = useState({
-    name: "Alphonso Mangoes",
-    description: "Experience the king of mangoes! Our Alphonso mangoes are grown in the sun-drenched orchards of Ratnagiri, Maharashtra, using time-honored techniques passed down through generations. These mangoes are known for their exquisite sweetness, rich aroma, and unparalleled flavor. Each bite is a burst of sunshine, perfect for enjoying fresh or using in your favorite desserts and smoothies.",
-    price: 1200,
-    unit: "1 dozen",
-    certifications: ["FSSAI", "India Organic"],
-    category: "Fruits",
-    availableQuantities: ["1 dozen", "2 dozen", "5 kg"],
+    name: "",
+    description: "",
+    price: null,
+    unit: "",
+    certifications: [],
+    category: "",
+    availableQuantities: [],
   });
 
   const [images, setImages] = useState([]);
@@ -28,25 +28,25 @@ const AddItems = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const {
-    transcript,
-    listening,
-    resetTranscript,
-    browserSupportsSpeechRecognition
-  } = useSpeechRecognition();
+ 
 
-  useEffect(() => {
-    if (!listening && transcript) {
-      setProduct(prevProduct => ({
-        ...prevProduct,
-        description: transcript
-      }));
+
+  
+ const [speech, setSpeech] = useState(''); 
+    const startListening = () => SpeechRecognition.startListening({ continuous: true, language: 'en-IN' });
+    const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
+
+    if (!browserSupportsSpeechRecognition) {
+        return <span className="block text-center text-red-500 font-medium">Your browser does not support speech recognition.</span>;
     }
-  }, [listening, transcript]);
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Your browser does not support speech recognition.</span>;
-  }
+    const handleCopyText = () => {
+        navigator.clipboard.writeText(transcript).then(() => {
+            alert('Text copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    };
 
   const toggleSpeaking = () => {
     if (listening) {
@@ -87,6 +87,47 @@ const AddItems = () => {
     }
   };
 
+
+   const fetchGeminiData = async ()=>{
+    console.log("loading....");
+    
+    const geminiApiKey = import.meta.env.VITE_GEMINI_KEY as string || '';
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,{
+      
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+     "contents": [
+  {
+    "parts": [
+      {
+        "text": `Extract relevant details from the given voice message transcript and return a JSON object. Use the following JSON structure as a reference:\n\n{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": number,\n  \"unit\": \"string\",\n  \"certifications\": [\"array\"],\n  \"category\": \"string\",\n  \"availableQuantities\": [\"array\"]\n}\n\nExtract only the details explicitly mentioned in the transcript. Do not assume any values. If a field is not mentioned, keep the key but assign it an appropriate empty value: \n- For strings, use an empty string \"\".\n- For numbers, use 0.\n- For arrays, use an empty array [].\n\nIf a field is present in the transcript and a change is requested, update it accordingly. However, if a field is present but no change is requested, retain its original value. Additionally, if existing information in the transcript can help determine the value of another field, use that information intelligently.\n\nEnsure that the description is expanded naturally to make it more detailed and engaging. All extracted details must be formatted in proper English, even if they were originally in Hindi or Hinglish.\n\nVoice Message Transcript: ${transcript}\n\nOnly return the JSON output. Do not include any additional text, explanations, or formatting. ALSO GIVE CATEGORY,UNIT AT ANY COST ALSO CERTIFICATE IF POSSIBLE  ,I WANT FIELDS VALUE IN ENGLISH EVEN IF THE VOICE MESSAGE IS IN HINDI/HINGLISH `
+      }
+    ]
+  }
+]
+
+
+
+
+    })
+    })
+
+    const data = await response.json()
+    const json = data["candidates"][0]["content"]["parts"][0]["text"]
+    let slicedJsonString = json.slice(7, -3); 
+    let jsonObject = JSON.parse(slicedJsonString); 
+    setProduct(jsonObject);
+  }
+
+
+
+
+  
+  
+
   return (
     <div className="w-full min-h-screen bg-gray-50">
       <div className="fixed bottom-4 cursor-pointer rounded-3xl right-4 flex flex-col items-center justify-center">
@@ -96,8 +137,8 @@ const AddItems = () => {
         <p className="text-center">Smart Fill</p>
       </div>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-md">
+      <Dialog  open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-w-3xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Mic className="h-5 w-5" />
@@ -113,56 +154,46 @@ const AddItems = () => {
               <span className="sr-only">Close</span>
             </Button>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <Textarea
-              value={transcript}
-              onChange={(e) => setProduct(prevProduct => ({
-                ...prevProduct,
-                description: e.target.value
-              }))}
-              placeholder="Speak or type your message here..."
-              className="min-h-32 resize-none"
-            />
-            
-            <div className="flex items-center justify-between gap-2">
-              <div>
-                {!listening ? (
-                  <Button
-                    onClick={toggleSpeaking}
-                    variant="outline"
-                    className="gap-2"
-                  >
-                    <Mic size={16} />
-                    Start Speaking
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={toggleSpeaking}
-                    variant="destructive"
-                    className="gap-2"
-                  >
-                    <MicOff size={16} />
-                    Stop Speaking
-                  </Button>
-                )}
-              </div>
-              
-              <Button
-                onClick={() => {
-                  setProduct(prevProduct => ({
-                    ...prevProduct,
-                    description: transcript
-                  }));
-                  setIsOpen(false);
-                }}
-                disabled={!transcript.trim()}
-                className="gap-2"
-              >
-                <Send size={16} />
-                Submit
-              </Button>
+         <div className=" mx-auto my-10 p-8 bg-white rounded-xl shadow-lg">
+            <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-3">Speech to Text Converter</h2>
             </div>
-          </div>
+
+            <div 
+                className="min-h-48 p-5 bg-gray-50 rounded-lg border border-gray-200 mb-8 cursor-pointer transition-all hover:bg-gray-100 hover:border-gray-300"
+                onClick={handleCopyText}
+            >
+                {transcript ? (
+                    <p className="text-gray-800">{transcript}</p>
+                ) : (
+                    <p className="text-gray-400 text-center italic">Your speech will appear here. Speak in Hindi or English</p>
+                )}
+            </div>
+
+            <div className="flex justify-center gap-5">
+                <button 
+                    className="flex items-center px-6 py-3 bg-green-500 text-white font-semibold rounded-full transition-all hover:bg-green-600 hover:shadow-md hover:-translate-y-1"
+                    onClick={startListening}
+                >
+                    <span className="mr-2">🎤</span>
+                    Start Listening
+                </button>
+                <button 
+                    className="flex items-center px-6 py-3 bg-red-500 text-white font-semibold rounded-full transition-all hover:bg-red-600 hover:shadow-md hover:-translate-y-1"
+                    onClick={SpeechRecognition.stopListening}
+                >
+                    <span className="mr-2">⏹️</span>
+                    Stop Listening
+                </button>
+                <button 
+                    className="flex items-center px-6 py-3 bg-red-500 text-white font-semibold rounded-full transition-all hover:bg-red-600 hover:shadow-md hover:-translate-y-1"
+                    onClick={()=>{fetchGeminiData(), setIsOpen(false)}}
+                >
+                    <span className="mr-2">⏹️</span>
+                    Submit
+                </button>
+            </div>
+        </div>
         </DialogContent>
       </Dialog>
 

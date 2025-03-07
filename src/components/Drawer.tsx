@@ -96,7 +96,7 @@ export default function Drawer({
     <div
       ref={drawerRef}
       className={combineClassNames(
-        "fixed bottom-0 left-0 right-0 bg-background rounded-t-3xl shadow-2xl transition-shadow",
+        "fixed bottom-0 left-0 right-0  bg-background rounded-t-3xl shadow-2xl transition-shadow",
         isDragging && "shadow-3xl",
         className
       )}
@@ -108,10 +108,10 @@ export default function Drawer({
     >
       <div 
         ref={dragHandleRef}
-        className="absolute top-0 left-0 bg-white right-0 h-9 cursor-grab active:cursor-grabbing touch-none"
+        className="sticky top-0 left-0 z-[1000] bg-white right-0 h-4 cursor-grab active:cursor-grabbing touch-none"
       >
-        <div className="w-12 h-2 bg-muted-foreground/20 rounded-full mx-auto mt-3" />
-        <X onClick={()=>setIsOpen(false)} className="absolute cursor-pointer right-3 top-2"/>
+        <div className="w-12  h-2 bg-muted-foreground/20 rounded-full mx-auto mt-3" />
+        <X onClick={()=>setIsOpen(false)} className="absolute  cursor-pointer right-3 top-0 z-40"/>
       </div>
       <div 
         className="h-full overflow-y-auto pt-8 pb-safe overscroll-contain"

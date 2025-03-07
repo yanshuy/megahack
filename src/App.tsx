@@ -39,9 +39,10 @@ function App() {
               <Route path="/" element={<MarketplacesPage />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
-              <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
+              
           </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
+            <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
             <Route
               path="/market/:marketId"
               element={<MarketplaceDetailPage />}
