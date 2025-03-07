@@ -9,6 +9,7 @@ import HomeScreen from "./pages/Home/page";
 import CartScreen from "./pages/Cart/page";
 import FarmerProductListing from "./pages/farmer-products/page";
 import FarmersDirectoryPage from "./pages/farmers-directory/page";
+import { FarmerProfile } from "./pages/farmer-profile/page";
 
 export const BASE_URL = "https://toucan-driven-admittedly.ngrok-free.app";
 
@@ -29,6 +30,7 @@ function App() {
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
+              <Route path="/farmers/:id" element={<FarmerProfile />} />
             </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
             {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
