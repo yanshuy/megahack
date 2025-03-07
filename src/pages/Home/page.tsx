@@ -182,9 +182,9 @@ const HomeScreen = () => {
                   />
                 </div>
                 <div className="flex items-start gap-2">
-                  <MapPin className="h-5 w-5 flex-shrink-0 text-cyan-400" />
+                  <MapPin className="h-5 w-5 flex-shrink-0 -translate-x-0.5 text-cyan-400" />
                   <div className="flex flex-col">
-                    <p className="text-start text-sm font-medium">
+                    <p className="-translate-x-1 text-start text-sm font-medium">
                       {!isLocationExpanded && window.innerWidth < 768
                         ? userLocation
                           ? truncateLocation(userLocation)

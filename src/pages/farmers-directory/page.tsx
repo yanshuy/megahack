@@ -162,7 +162,7 @@ const FarmersDirectoryPage = () => {
             className="rounded-full p-2 hover:bg-gray-100"
             onClick={() => setShowFilters(true)}
           >
-            <Filter className="h-5 w-5" />
+            <Filter className="size-6" />
           </button>
         </div>
       </div>
