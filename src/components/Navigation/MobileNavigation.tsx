@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Search, Users, ShoppingCart, Plus } from "lucide-react";
+import { Home, Users, ShoppingCart, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { VoiceCommandButton } from "../VoiceCommandButton";
 
@@ -12,7 +12,7 @@ const MobileNavigation = () => {
 
   const navItems = [
     { name: "Home", path: "/", icon: Home },
-    { name: "Explore", path: "/explore", icon: Search },
+    { name: "Shop", path: "/shop", icon: ShoppingBag },
     { name: "", path: "" },
 
     { name: "Farmers", path: "/farmers", icon: Users },

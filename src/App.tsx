@@ -20,6 +20,7 @@ import AddItems from "./pages/FarmerDasboard/AddItems";
 import FarmerProfile from "./pages/FarmerDasboard/FarmerProfile";
 import SearchFramersMarket from "./pages/SearchFramersMarket/SearchFramersMarket";
 import ThreeDIMS from "./pages/3DIMS/3DIMS";
+import Shop from "./pages/shop/page";
 
 export const BASE_URL = "https://live-merely-drum.ngrok-free.app";
 
@@ -38,6 +39,7 @@ function App() {
             <Route element={<MainLayout />}>
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
               <Route path="/" element={<HomeScreen />} />
+              <Route path="/shop" element={<Shop />} />
               <Route path="/mp" element={<MarketplacesPage />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
@@ -51,7 +53,7 @@ function App() {
               path="/market/:marketId"
               element={<MarketplaceDetailPage />}
             />
-              <Route path="/farmers/:id" element={<FarmerProfileForUser />} />
+            <Route path="/farmers/:id" element={<FarmerProfileForUser />} />
             {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
             <Route
               path="/product/:productId"
