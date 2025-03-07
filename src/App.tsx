@@ -33,8 +33,6 @@ function App() {
       <Toaster />
       <CartProvider>
         <BrowserRouter>
-          {/* Voice command button that appears on all pages */}
-          <VoiceCommandButton />
           <Routes>
             <Route element={<MainLayout />}>
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
@@ -42,8 +40,11 @@ function App() {
               <Route path="/mp" element={<MarketplacesPage />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
-              <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
-          </Route>
+              <Route
+                path="/search/marketplace"
+                element={<SearchFramersMarket />}
+              />
+            </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
             <Route
               path="/market/:marketId"
@@ -57,16 +58,12 @@ function App() {
             />
             {/* <Route path="/3d" element={<ThreeD />} /> */}
             <Route path="*" element={<div>page under construction</div>} />
-  
 
-
-           <Route path="farmer" element={<FarmerLayout />}>
-            <Route index element={<AddItems/>} />
-            <Route path="/farmer/profile" element={<FarmerProfile/>} />
-            
-            
-          </Route>
-        </Routes>
+            <Route path="farmer" element={<FarmerLayout />}>
+              <Route index element={<AddItems />} />
+              <Route path="/farmer/profile" element={<FarmerProfile />} />
+            </Route>
+          </Routes>
         </BrowserRouter>
       </CartProvider>
     </QueryClientProvider>

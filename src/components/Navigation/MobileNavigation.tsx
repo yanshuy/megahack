@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, Search, Users, ShoppingCart, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { VoiceCommandButton } from "../VoiceCommandButton";
 
 const MobileNavigation = () => {
   const location = useLocation();
@@ -26,13 +27,13 @@ const MobileNavigation = () => {
       <div className="relative -top-8 left-1/2 grid max-w-fit -translate-x-1/2">
         <div className="absolute top-8 z-20 h-[33px] w-[70px] -translate-x-1/2 rounded-b-full bg-(--bg-neutral) [grid-area:1/1]"></div>
 
-        <div className="absolute z-30 flex size-14 -translate-x-1/2 items-center justify-center rounded-full bg-green-700 [grid-area:1/1]">
-          <Plus className="h-6 w-6 text-white" />
+        <div className="absolute z-30 flex size-14 -translate-x-1/2 items-center justify-center rounded-full [grid-area:1/1]">
+          <VoiceCommandButton />
         </div>
         <span
           className={`absolute top-[4.25rem] left-1/2 mt-1 -translate-x-1/2 text-xs font-medium text-gray-500`}
         >
-          Add
+          Quick
         </span>
         <div className="absolute top-[31px] -left-[46.5px] z-30 size-3 -rotate-6 rounded-tr-full bg-white shadow-[4px_-2px__0px_-1px_#eef1f1]"></div>
         <div className="absolute top-[31px] -right-[46.5px] z-30 size-3 rotate-6 rounded-tl-full bg-white shadow-[-4px_-2px__0px_-1px_#eef1f1]"></div>

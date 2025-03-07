@@ -1,7 +1,13 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Mic, Loader2, MicOff } from "lucide-react";
+import {
+  Mic,
+  Loader2,
+  MicOff,
+  Navigation2Off,
+  Navigation2,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { accessToken, BASE_URL } from "@/App";
 
@@ -21,7 +27,10 @@ export function VoiceCommandButton() {
     }
 
     // Check if browser supports speech recognition
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    if (
+      !("webkitSpeechRecognition" in window) &&
+      !("SpeechRecognition" in window)
+    ) {
       toast({
         title: "Not Supported",
         description: "Voice recognition is not supported in your browser",
@@ -30,28 +39,30 @@ export function VoiceCommandButton() {
       return;
     }
 
-    const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+    const SpeechRecognition =
+      (window as any).webkitSpeechRecognition ||
+      (window as any).SpeechRecognition;
     const recognition = new SpeechRecognition();
     recognitionRef.current = recognition;
-    
-    recognition.lang = 'en-US';
+
+    recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
-    
+
     setIsListening(true);
-    
+
     toast({
       title: "Listening",
       description: "Speak your command, or tap again to cancel",
     });
-    
+
     recognition.start();
 
     recognition.onresult = async (event) => {
       const transcript = event.results[0][0].transcript;
       setIsListening(false);
       setProcessing(true);
-      
+
       toast({
         title: "Processing command",
         description: `"${transcript}"`,
@@ -63,7 +74,7 @@ export function VoiceCommandButton() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
           body: JSON.stringify({ command: transcript }),
         });
@@ -73,12 +84,12 @@ export function VoiceCommandButton() {
         }
 
         const data = await response.json();
-        
+
         if (data.redirect_url) {
           // Extract the path from the full URL
           const url = new URL(data.redirect_url);
           const pathWithQuery = url.pathname + url.search + url.hash;
-          
+
           navigate(pathWithQuery);
           toast({
             title: "Command executed",
@@ -94,7 +105,7 @@ export function VoiceCommandButton() {
         toast({
           title: "Error",
           description: "Failed to process your voice command",
-          variant: "destructive", 
+          variant: "destructive",
         });
       } finally {
         setProcessing(false);
@@ -106,9 +117,9 @@ export function VoiceCommandButton() {
       setIsListening(false);
       setProcessing(false);
       recognitionRef.current = null;
-      
+
       // Don't show error toast if it was aborted by the user
-      if (event.error !== 'aborted') {
+      if (event.error !== "aborted") {
         toast({
           title: "Error",
           description: `Recognition error: ${event.error}`,
@@ -127,19 +138,21 @@ export function VoiceCommandButton() {
     <Button
       onClick={handleVoiceCommand}
       disabled={processing}
-      className={`rounded-full h-12 w-12 p-0 fixed bottom-20 right-4 z-50 shadow-lg ${
-        isListening ? "bg-red-600 hover:bg-red-700" : "bg-green-700 hover:bg-green-800"
+      className={`z-50 size-full rounded-full p-0 ${
+        isListening
+          ? "bg-red-600 hover:bg-red-700"
+          : "bg-green-700 hover:bg-green-800"
       }`}
       aria-label={isListening ? "Stop voice command" : "Start voice command"}
     >
       {isListening ? (
         <div className="animate-pulse">
-          <MicOff className="h-6 w-6" />
+          <Navigation2Off className="size-6" />
         </div>
       ) : processing ? (
         <Loader2 className="h-6 w-6 animate-spin" />
       ) : (
-        <Mic className="h-6 w-6" />
+        <Navigation2 className="size-6" />
       )}
     </Button>
   );
