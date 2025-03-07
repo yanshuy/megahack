@@ -16,51 +16,11 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { marketplaces } from "@/data/marketplaces";
 import { farmers } from "@/data/farmer-dummy";
+import { products } from "@/data/product-dummy";
+import { RupeeSymbol } from "@/utils/randomcolor";
 
 const MarketplaceDetailPage = () => {
   // Products sample data
-  const products = [
-    {
-      id: "1",
-      name: "Alphonso Mangoes",
-      price: "₹1200/ 1 dozen",
-      image: "/api/placeholder/120/120",
-      category: "Fruits",
-      farmer: "Rajesh Patil",
-    },
-    {
-      id: "2",
-      name: "Gir Cow Ghee",
-      price: "₹2500/ 1 kg",
-      image: "/api/placeholder/120/120",
-      category: "Dairy",
-      farmer: "Suresh Kumar",
-    },
-    {
-      id: "3",
-      name: "Organic Tomatoes",
-      price: "₹60/ 1 kg",
-      image: "/api/placeholder/120/120",
-      category: "Vegetables",
-      farmer: "S. Anant",
-    },
-    {
-      id: "4",
-      name: "Kashmiri Saffron",
-      price: "₹450/ 1 g",
-      image: "/api/placeholder/120/120",
-      category: "Spices",
-      farmer: "Rajesh Patil",
-    },
-    {
-      id: "5",
-      name: "Pure Honey",
-      price: "₹350/ 500 g",
-      image: "/api/placeholder/120/120",
-      category: "Others",
-      farmer: "D. Singh",
-    },
-  ];
 
   const { marketId } = useParams();
   const marketplace =
@@ -374,14 +334,14 @@ const MarketplaceDetailPage = () => {
                   className="flex overflow-hidden rounded-lg bg-white shadow-sm"
                 >
                   <img
-                    src={product.image}
+                    src={product.images[0]}
                     alt={product.name}
-                    className="h-24 w-24 object-cover"
+                    className="h-full w-24 object-cover"
                   />
                   <div className="flex-1 p-3">
                     <span
                       className={`mb-1 inline-block rounded-full px-2 py-1 text-xs ${
-                        product.category === "Vegetables"
+                        product.category === "Veggies"
                           ? "bg-green-100 text-green-800"
                           : product.category === "Fruits"
                             ? "bg-orange-100 text-orange-800"
@@ -395,10 +355,13 @@ const MarketplaceDetailPage = () => {
                       {product.category}
                     </span>
                     <h3 className="font-medium">{product.name}</h3>
-                    <p className="text-sm text-gray-500">By {product.farmer}</p>
+                    <p className="text-sm text-gray-500">
+                      By {product.farmer.name}
+                    </p>
                     <div className="mt-1 flex items-center justify-between">
                       <span className="font-bold text-green-600">
-                        {product.price}
+                        {RupeeSymbol}
+                        {product.price}/{product.unit}
                       </span>
                       <button className="rounded-full bg-green-600 px-3 py-1 text-xs font-medium text-white">
                         ADD
@@ -407,11 +370,6 @@ const MarketplaceDetailPage = () => {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className="flex justify-center">
-              <button className="flex items-center font-medium text-green-600">
-                View All Products <ChevronRight className="ml-1 h-4 w-4" />
-              </button>
             </div>
           </div>
         )}

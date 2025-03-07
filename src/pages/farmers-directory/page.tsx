@@ -1,23 +1,79 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import FarmerCard from "@/components/FarmerCard";
 import { farmers } from "@/data/farmer-dummy";
 
-// Sample data for farmers
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const FarmersDirectoryPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [showFilters, setShowFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLocation, setSelectedLocation] = useState("");
-  const [selectedProductType, setSelectedProductType] = useState("");
-  const [minRating, setMinRating] = useState(0);
+
+  // Initialize state from URL parameters
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("search") || "",
+  );
+  const [selectedLocation, setSelectedLocation] = useState(
+    searchParams.get("location") || "",
+  );
+  const [selectedProductType, setSelectedProductType] = useState(
+    searchParams.get("product") || "",
+  );
+  const [minRating, setMinRating] = useState(
+    parseFloat(searchParams.get("rating") || "0"),
+  );
   const [activeFilters, setActiveFilters] = useState<
-    {
-      type: string;
-      value: string;
-    }[]
+    { type: string; value: string }[]
   >([]);
+
+  // Update active filters based on URL parameters
+  useEffect(() => {
+    const newActiveFilters = [];
+
+    if (selectedLocation) {
+      newActiveFilters.push({ type: "location", value: selectedLocation });
+    }
+
+    if (selectedProductType) {
+      newActiveFilters.push({ type: "product", value: selectedProductType });
+    }
+
+    if (minRating > 0) {
+      newActiveFilters.push({ type: "rating", value: `${minRating}+ Stars` });
+    }
+
+    setActiveFilters(newActiveFilters);
+  }, [selectedLocation, selectedProductType, minRating]);
+
+  // Update URL parameters when filters change
+  const updateUrlParams = () => {
+    const params = new URLSearchParams();
+
+    if (searchQuery) params.set("search", searchQuery);
+    if (selectedLocation) params.set("location", selectedLocation);
+    if (selectedProductType) params.set("product", selectedProductType);
+    if (minRating > 0) params.set("rating", minRating.toString());
+
+    setSearchParams(params);
+  };
+
+  // Sync URL with search input changes
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      updateUrlParams();
+    }, 300); // Debounce search input changes
+
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   // Filter farmers based on current filters
   const filteredFarmers = farmers.filter((farmer) => {
@@ -47,23 +103,9 @@ const FarmersDirectoryPage = () => {
     return true;
   });
 
-  // Apply filters and update active filters
+  // Apply filters and update URL
   const applyFilters = () => {
-    const newActiveFilters = [];
-
-    if (selectedLocation) {
-      newActiveFilters.push({ type: "location", value: selectedLocation });
-    }
-
-    if (selectedProductType) {
-      newActiveFilters.push({ type: "product", value: selectedProductType });
-    }
-
-    if (minRating > 0) {
-      newActiveFilters.push({ type: "rating", value: `${minRating}+ Stars` });
-    }
-
-    setActiveFilters(newActiveFilters);
+    updateUrlParams();
     setShowFilters(false);
   };
 
@@ -83,6 +125,9 @@ const FarmersDirectoryPage = () => {
           !(f.type === filterToRemove.type && f.value === filterToRemove.value),
       ),
     );
+
+    // Update URL after removing filter
+    setTimeout(updateUrlParams, 0);
   };
 
   // Clear all filters
@@ -92,7 +137,25 @@ const FarmersDirectoryPage = () => {
     setSelectedProductType("");
     setMinRating(0);
     setActiveFilters([]);
+
+    // Reset URL to base path
+    setSearchParams(new URLSearchParams());
   };
+
+  // Handle URL parameter changes
+  useEffect(() => {
+    const newSearchQuery = searchParams.get("search") || "";
+    const newLocation = searchParams.get("location") || "";
+    const newProductType = searchParams.get("product") || "";
+    const newMinRating = parseFloat(searchParams.get("rating") || "0");
+
+    // Only update state if values are different to prevent infinite loops
+    if (searchQuery !== newSearchQuery) setSearchQuery(newSearchQuery);
+    if (selectedLocation !== newLocation) setSelectedLocation(newLocation);
+    if (selectedProductType !== newProductType)
+      setSelectedProductType(newProductType);
+    if (minRating !== newMinRating) setMinRating(newMinRating);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-(--bg-neutral) pb-[12vh]">
@@ -154,7 +217,7 @@ const FarmersDirectoryPage = () => {
       {/* Farmers Grid */}
       <div className="grid grid-cols-1 gap-4 p-4">
         {filteredFarmers.map((farmer) => (
-          <FarmerCard farmer={farmer} />
+          <FarmerCard key={farmer.id} farmer={farmer} />
         ))}
       </div>
 
@@ -185,39 +248,47 @@ const FarmersDirectoryPage = () => {
 
               <div className="space-y-4">
                 {/* Location Filter */}
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
                     Location
                   </label>
-                  <select
-                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                  <Select
                     value={selectedLocation}
-                    onChange={(e) => setSelectedLocation(e.target.value)}
+                    onValueChange={setSelectedLocation}
                   >
-                    <option value="">All Locations</option>
-                    <option value="Karnataka">Karnataka</option>
-                    <option value="Tamil Nadu">Tamil Nadu</option>
-                    <option value="Punjab">Punjab</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                    <option value="Haryana">Haryana</option>
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="All Locations" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All Locations</SelectItem>
+                      <SelectItem value="Karnataka">Karnataka</SelectItem>
+                      <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
+                      <SelectItem value="Punjab">Punjab</SelectItem>
+                      <SelectItem value="Maharashtra">Maharashtra</SelectItem>
+                      <SelectItem value="Haryana">Haryana</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Product Type Filter */}
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">
                     Product Type
                   </label>
-                  <select
-                    className="w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                  <Select
                     value={selectedProductType}
-                    onChange={(e) => setSelectedProductType(e.target.value)}
+                    onValueChange={setSelectedProductType}
                   >
-                    <option value="">All Products</option>
-                    <option value="Vegetables">Vegetables</option>
-                    <option value="Fruits">Fruits</option>
-                    <option value="Dairy">Dairy</option>
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="All Products" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All Products</SelectItem>
+                      <SelectItem value="Vegetables">Vegetables</SelectItem>
+                      <SelectItem value="Fruits">Fruits</SelectItem>
+                      <SelectItem value="Dairy">Dairy</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 {/* Rating Filter */}
