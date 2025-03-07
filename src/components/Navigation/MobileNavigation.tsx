@@ -16,6 +16,10 @@ const MobileNavigation = () => {
     { name: "Cart", path: "/cart", icon: ShoppingCart },
   ];
 
+  if (true) {
+    return
+  }
+
   return (
     <div className="fixed right-0 bottom-0 left-0 flex items-center justify-between bg-white px-2 pt-1 pb-2">
       {navItems.map((item) => (

@@ -7,6 +7,12 @@ import MainLayout from "./layouts/MainLayout";
 import OnboardingScreen from "./pages/Onboarding/page";
 import MarketplaceScreen from "./pages/Marketplace/page";
 import ProductDetailScreen from "./pages/ProductDetails/page";
+import FarmerSidebar from "./components/FarmerSidebar";
+import FarmerLayout from "./layouts/FarmerLayout";
+import { AddOperation } from "three/src/constants.js";
+import AddItems from "./pages/FarmerDasboard/AddItems";
+import FarmerProfile from "./pages/FarmerDasboard/FarmerProfile";
+import SearchFramersMarket from "./pages/SearchFramersMarket/SearchFramersMarket";
 
 export const BASE_URL = "https://natural-ape-severely.ngrok-free.app";
 
@@ -24,9 +30,19 @@ function App() {
           <Route element={<MainLayout />}>
             {/* <Route path="/" element={<VintageCafeGame />} /> */}
             <Route path="/marketplace" element={<MarketplaceScreen />} />
+            <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
           </Route>
           <Route path="/" element={<OnboardingScreen />} />
           <Route path="/pd/:productId" element={<ProductDetailScreen />} />
+
+
+
+           <Route path="farmer" element={<FarmerLayout />}>
+            <Route index element={<AddItems/>} />
+            <Route path="/farmer/profile" element={<FarmerProfile/>} />
+            
+            
+          </Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
