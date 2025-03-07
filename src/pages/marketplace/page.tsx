@@ -17,7 +17,7 @@ import { Link, useParams } from "react-router-dom";
 import { marketplaces } from "@/data/marketplaces";
 import { farmers } from "@/data/farmer-dummy";
 import { products } from "@/data/product-dummy";
-import { RupeeSymbol } from "@/utils/randomcolor";
+import { RupeeSymbol } from "@/utils/utility";
 
 const MarketplaceDetailPage = () => {
   // Products sample data

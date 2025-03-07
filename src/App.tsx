@@ -35,8 +35,8 @@ function App() {
             <Route element={<MainLayout />}>
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
 
-              <Route path="/mp" element={<HomeScreen />} />
-              <Route path="/" element={<MarketplacesPage />} />
+              <Route path="/" element={<HomeScreen />} />
+              <Route path="/mp" element={<MarketplacesPage />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
               <Route path="/search/marketplace" element={<SearchFramersMarket/>} />

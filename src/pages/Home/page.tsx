@@ -1,7 +1,7 @@
 import { products } from "@/data/product-dummy";
 import { FarmerProduct, useCart } from "@/context/CartContext";
-import { RupeeSymbol } from "@/utils/randomcolor";
-import { icon } from "leaflet";
+import { getProductBadgeStyle, RupeeSymbol } from "@/utils/utility";
+
 import {
   Search,
   Menu,
@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProductCard: React.FC<{
+export const ProductCard: React.FC<{
   product: FarmerProduct;
   onClick: () => void;
   onAddToCart: () => void;
@@ -43,7 +43,9 @@ const ProductCard: React.FC<{
       {/* Product details */}
       <div className="p-3" onClick={onClick}>
         <div className="mb-1 flex items-center">
-          <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">
+          <span
+            className={`rounded-full px-2 py-0.5 text-xs ${getProductBadgeStyle(product.category)}`}
+          >
             {product.category}
           </span>
         </div>
