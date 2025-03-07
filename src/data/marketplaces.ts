@@ -93,7 +93,7 @@ export interface Marketplace {
 
 export const marketplaces: Marketplace[] = [
   {
-    id: "2",
+    id: "1",
     name: "Apna Mandi",
     description:
       "A bustling weekly market showcasing the rich agricultural diversity of India. Discover fresh, locally-sourced produce, traditional spices, handcrafted textiles, and regional delicacies. Experience the vibrant culture and warm hospitality of rural India.",

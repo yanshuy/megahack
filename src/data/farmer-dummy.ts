@@ -4,6 +4,7 @@ export interface Farmer {
   image: string;
   location: string;
   rating: number;
+  currentMarketPlaceId?: number;
   products: string[];
   verificationBadges: string[];
 }
@@ -17,6 +18,7 @@ export const farmers: Farmer[] = [
     products: ["Vegetables", "Fruits"],
     location: "Karnataka",
     verificationBadges: ["Free-range", "Local"],
+    currentMarketPlaceId: 1, // Assigned to marketplace with id 1
   },
   {
     id: 2,
@@ -26,6 +28,7 @@ export const farmers: Farmer[] = [
     products: ["Fruits"],
     location: "Tamil Nadu",
     verificationBadges: ["Free-range", "Local"],
+    currentMarketPlaceId: 1, // Assigned to marketplace with id 1
   },
   {
     id: 3,
@@ -35,6 +38,7 @@ export const farmers: Farmer[] = [
     products: ["Dairy", "Vegetables"],
     location: "Punjab",
     verificationBadges: ["Free-range", "Local"],
+    // No currentMarketPlaceId for this farmer
   },
   {
     id: 4,
@@ -44,6 +48,7 @@ export const farmers: Farmer[] = [
     products: ["Fruits", "Vegetables"],
     location: "Maharashtra",
     verificationBadges: ["Free-range", "Local"],
+    currentMarketPlaceId: 1, // Assigned to marketplace with id 1
   },
   {
     id: 5,
@@ -53,6 +58,7 @@ export const farmers: Farmer[] = [
     products: ["Fruits"],
     location: "Maharashtra",
     verificationBadges: ["Free-range", "Local"],
+    // No currentMarketPlaceId for this farmer
   },
   {
     id: 6,
@@ -62,62 +68,6 @@ export const farmers: Farmer[] = [
     products: ["Dairy"],
     location: "Haryana",
     verificationBadges: ["Free-range", "Local"],
-  },
-];
-
-const farmers2 = [
-  {
-    id: "1",
-    name: "John Smith",
-    image: "/placeholder.svg?height=300&width=300",
-    location: "California",
-    rating: 4.8,
-    products: ["Apples", "Pears", "Cherries"],
-    verificationBadges: ["Organic", "Local"],
-  },
-  {
-    id: "2",
-    name: "Emma Johnson",
-    image: "/placeholder.svg?height=300&width=300",
-    location: "Texas",
-    rating: 4.5,
-    products: ["Tomatoes", "Cucumbers", "Peppers"],
-    verificationBadges: ["Sustainable"],
-  },
-  {
-    id: "3",
-    name: "Michael Brown",
-    image: "/placeholder.svg?height=300&width=300",
-    location: "New York",
-    rating: 4.9,
-    products: ["Milk", "Cheese", "Yogurt"],
-    verificationBadges: ["Organic", "Humane"],
-  },
-  {
-    id: "4",
-    name: "Sarah Davis",
-    image: "/placeholder.svg?height=300&width=300",
-    location: "Oregon",
-    rating: 4.7,
-    products: ["Beef", "Pork", "Chicken"],
-    verificationBadges: ["Free-range", "Local"],
-  },
-  {
-    id: "5",
-    name: "David Wilson",
-    image: "/placeholder.svg?height=300&width=300",
-    location: "Florida",
-    rating: 4.6,
-    products: ["Oranges", "Grapefruits", "Lemons"],
-    verificationBadges: ["Organic"],
-  },
-  {
-    id: "6",
-    name: "Lisa Taylor",
-    image: "/placeholder.svg?height=300&width=300",
-    location: "Washington",
-    rating: 4.8,
-    products: ["Potatoes", "Onions", "Carrots"],
-    verificationBadges: ["Sustainable", "Local"],
+    currentMarketPlaceId: 1, // Assigned to marketplace with id 1
   },
 ];

@@ -30,12 +30,15 @@ function App() {
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
 
               <Route path="/mp" element={<HomeScreen />} />
-              <Route path="/test" element={<MarketplaceDetailPage />} />
               <Route path="/" element={<MarketplacesPage />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
             </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
+            <Route
+              path="/market/:marketId"
+              element={<MarketplaceDetailPage />}
+            />
             {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
             <Route
               path="/product/:productId"

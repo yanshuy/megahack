@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  ArrowLeft,
   MapPin,
-  Phone,
-  Mail,
-  Globe,
   Star,
   MessageSquare,
   ChevronRight,
@@ -15,90 +11,13 @@ import {
   Music,
   ParkingCircle,
   Toilet,
-  ChevronLast,
   ChevronLeft,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { marketplaces } from "@/data/marketplaces";
+import { farmers } from "@/data/farmer-dummy";
 
 const MarketplaceDetailPage = () => {
-  // Sample marketplace data
-  const marketplace = {
-    id: "2",
-    name: "Apna Mandi",
-    description:
-      "A bustling weekly market showcasing the rich agricultural diversity of India. Discover fresh, locally-sourced produce, traditional spices, handcrafted textiles, and regional delicacies. Experience the vibrant culture and warm hospitality of rural India.",
-    address: {
-      street: "Near Gandhi Maidan",
-      city: "Palghar",
-      state: "Maharashtra",
-      zipCode: "401404",
-      country: "India",
-      coordinates: {
-        latitude: 19.6929,
-        longitude: 72.7469,
-      },
-    },
-    images: [
-      "/api/placeholder/600/400",
-      "/api/placeholder/600/400",
-      "/api/placeholder/600/400",
-    ],
-    operatingHours: [
-      { day: "Monday", open: "Closed", close: "Closed", isClosed: true },
-      { day: "Tuesday", open: "7:00", close: "19:00", isClosed: false },
-      { day: "Wednesday", open: "7:00", close: "19:00", isClosed: false },
-      { day: "Thursday", open: "7:00", close: "19:00", isClosed: false },
-      { day: "Friday", open: "7:00", close: "19:00", isClosed: false },
-      { day: "Saturday", open: "6:00", close: "20:00", isClosed: false },
-      { day: "Sunday", open: "6:00", close: "18:00", isClosed: false },
-    ],
-
-    farmers: ["farmer1", "farmer2", "farmer3", "farmer4", "farmer5"],
-    products: ["1", "2", "3", "4", "5"],
-    features: ["parking", "restrooms", "street food stalls"],
-    rating: 4.5,
-    totalReviews: 150,
-  };
-
-  // Farmers sample data
-  const farmers = [
-    {
-      id: "farmer1",
-      name: "S. Anant",
-      image: "/api/placeholder/80/80",
-      rating: 4.9,
-      products: ["Vegetables"],
-    },
-    {
-      id: "farmer2",
-      name: "A. Prakash",
-      image: "/api/placeholder/80/80",
-      rating: 4.8,
-      products: ["Fruits"],
-    },
-    {
-      id: "farmer3",
-      name: "D. Singh",
-      image: "/api/placeholder/80/80",
-      rating: 4.7,
-      products: ["Dairy"],
-    },
-    {
-      id: "farmer4",
-      name: "Kutu Tai",
-      image: "/api/placeholder/80/80",
-      rating: 4.8,
-      products: ["Fruits", "Vegetables"],
-    },
-    {
-      id: "farmer5",
-      name: "Rajesh Patil",
-      image: "/api/placeholder/80/80",
-      rating: 4.6,
-      products: ["Spices"],
-    },
-  ];
-
   // Products sample data
   const products = [
     {
@@ -143,6 +62,9 @@ const MarketplaceDetailPage = () => {
     },
   ];
 
+  const { marketId } = useParams();
+  const marketplace =
+    marketplaces[Number.isNaN(Number(marketId)) ? 1 : Number(marketId) - 1];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("info");
 
@@ -383,46 +305,56 @@ const MarketplaceDetailPage = () => {
           <div className="space-y-4">
             <h2 className="mb-2 text-lg font-bold">Featured Farmers</h2>
             <div className="grid grid-cols-1 gap-3">
-              {farmers.map((farmer) => (
-                <div
-                  key={farmer.id}
-                  className="flex items-center rounded-lg bg-white p-3 shadow-sm"
-                >
-                  <img
-                    src={farmer.image}
-                    alt={farmer.name}
-                    className="mr-3 h-16 w-16 rounded-full object-cover"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-medium">{farmer.name}</h3>
-                    <div className="mb-1 flex items-center text-sm text-amber-500">
-                      <Star className="mr-1 h-4 w-4 fill-amber-500 stroke-amber-500" />
-                      <span>{farmer.rating}</span>
+              {farmers
+                .filter((farmer) => {
+                  if (
+                    farmer.currentMarketPlaceId ==
+                    (Number.isNaN(Number(marketId)) ? 1 : Number(marketId))
+                  ) {
+                    return true;
+                  }
+                  return false;
+                })
+                .map((farmer) => (
+                  <div
+                    key={farmer.id}
+                    className="flex items-center rounded-lg bg-white p-3 shadow-sm"
+                  >
+                    <img
+                      src={farmer.image}
+                      alt={farmer.name}
+                      className="mr-3 h-16 w-16 rounded-full object-cover"
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-medium">{farmer.name}</h3>
+                      <div className="mb-1 flex items-center text-sm text-amber-500">
+                        <Star className="mr-1 h-4 w-4 fill-amber-500 stroke-amber-500" />
+                        <span>{farmer.rating}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {farmer.products.map((product, idx) => (
+                          <span
+                            key={idx}
+                            className={`rounded-full px-2 py-1 text-xs ${
+                              product === "Vegetables"
+                                ? "bg-green-100 text-green-800"
+                                : product === "Fruits"
+                                  ? "bg-orange-100 text-orange-800"
+                                  : product === "Dairy"
+                                    ? "bg-blue-100 text-blue-800"
+                                    : product === "Spices"
+                                      ? "bg-yellow-100 text-yellow-800"
+                                      : "bg-gray-100 text-gray-800"
+                            }`}
+                          >
+                            {product}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-1">
-                      {farmer.products.map((product, idx) => (
-                        <span
-                          key={idx}
-                          className={`rounded-full px-2 py-1 text-xs ${
-                            product === "Vegetables"
-                              ? "bg-green-100 text-green-800"
-                              : product === "Fruits"
-                                ? "bg-orange-100 text-orange-800"
-                                : product === "Dairy"
-                                  ? "bg-blue-100 text-blue-800"
-                                  : product === "Spices"
-                                    ? "bg-yellow-100 text-yellow-800"
-                                    : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {product}
-                        </span>
-                      ))}
-                    </div>
+                    <ChevronRight className="h-5 w-5 text-gray-400" />
                   </div>
-                  <ChevronRight className="h-5 w-5 text-gray-400" />
-                </div>
-              ))}
+                ))}
             </div>
             <div className="flex justify-center">
               <button className="flex items-center font-medium text-green-600">
