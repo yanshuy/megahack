@@ -2,18 +2,18 @@
 
 import { useRef } from "react"
 import { useFrame } from "@react-three/fiber"
-import type * as THREE from "three"
 import { useInventory } from "@/context/InventoryContext"
+import type * as THREE from "three"
 
 interface BroccoliProps {
   position: [number, number, number]
   rotation?: [number, number, number]
   scale?: number
   itemId: string
+  onPointerDown?: (e: React.PointerEvent) => void;
 }
 
-export const Broccoli = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: BroccoliProps) => {
-  const { removeItem } = useInventory()
+export const Broccoli = ({ position, rotation = [0, 0, 0], scale = 1, itemId, onPointerDown }: BroccoliProps) => {
   const meshRef = useRef<THREE.Group>(null)
 
   // Optional: Add subtle animation
@@ -28,7 +28,7 @@ export const Broccoli = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: 
       position={position}
       rotation={rotation as [number, number, number]}
       scale={scale}
-      onClick={() => removeItem(itemId)}
+      onPointerDown={onPointerDown}
       ref={meshRef}
     >
       {/* Broccoli stem */}

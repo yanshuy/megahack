@@ -1,8 +1,13 @@
-import { useGLTF } from "@react-three/drei"
-import type * as THREE from "three"
+import { useGLTF } from "@react-three/drei";
+import { useMemo } from "react";
+import type * as THREE from "three";
 
 export function Rack(props) {
-  const { nodes, materials } = useGLTF("../models/scene.gltf")
+  const { nodes, materials } = useMemo(
+    () => useGLTF("../models/scene.gltf"),
+    [],
+  );
+
   return (
     <group {...props} dispose={null}>
       <group position={[15.285, 5.164, 38.998]} rotation={[-Math.PI / 2, 0, 0]}>
@@ -16,8 +21,7 @@ export function Rack(props) {
         </group>
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload("../models/scene.gltf")
-
+useGLTF.preload("../models/scene.gltf");

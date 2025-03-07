@@ -1,6 +1,6 @@
 "use client"
 
-import { useInventory, type ItemType } from "../../context/InventoryContext"
+import { useInventory, type ItemType } from "@/context/InventoryContext"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useState } from "react"
@@ -9,9 +9,10 @@ export const InventoryControls = () => {
   const { addItem, clearInventory } = useInventory()
   const [selectedItem, setSelectedItem] = useState<ItemType>("apple")
   const [selectedShelf, setSelectedShelf] = useState<number>(0)
+  const [selectedColumn, setSelectedColumn] = useState<number>(0)
 
   const handleAddItem = () => {
-    addItem(selectedItem, selectedShelf)
+    addItem(selectedItem, selectedShelf, selectedColumn)
   }
 
   return (
@@ -48,6 +49,20 @@ export const InventoryControls = () => {
         </Select>
       </div>
 
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Column</label>
+        <Select value={selectedColumn.toString()} onValueChange={(value) => setSelectedColumn(Number.parseInt(value))}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select column" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="0">Left</SelectItem>
+            <SelectItem value="1">Middle</SelectItem>
+            <SelectItem value="2">Right</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
       <div className="flex gap-2">
         <Button onClick={handleAddItem} className="flex-1">
           Add Item
@@ -59,4 +74,3 @@ export const InventoryControls = () => {
     </div>
   )
 }
-

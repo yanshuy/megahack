@@ -1,34 +1,40 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import { useFrame } from "@react-three/fiber"
-import type * as THREE from "three"
-import { useInventory } from "@/context/InventoryContext"
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useInventory } from "@/context/InventoryContext";
+import type * as THREE from "three";
 
 interface CarrotProps {
-  position: [number, number, number]
-  rotation?: [number, number, number]
-  scale?: number
-  itemId: string
+  position: [number, number, number];
+  rotation?: [number, number, number];
+  scale?: number;
+  itemId: string;
+  onPointerDown?: (e: React.PointerEvent) => void;
 }
 
-export const Carrot = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: CarrotProps) => {
-  const { removeItem } = useInventory()
-  const meshRef = useRef<THREE.Group>(null)
+export const Carrot = ({
+  position,
+  rotation = [0, 0, 0],
+  scale = 1,
+  itemId,
+  onPointerDown,
+}: CarrotProps) => {
+  const meshRef = useRef<THREE.Group>(null);
 
   // Optional: Add subtle animation
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.002
+      meshRef.current.rotation.y += 0.002;
     }
-  })
+  });
 
   return (
     <group
       position={position}
       rotation={rotation as [number, number, number]}
       scale={scale}
-      onClick={() => removeItem(itemId)}
+      onPointerDown={onPointerDown}
       ref={meshRef}
     >
       {/* Carrot body */}
@@ -47,7 +53,11 @@ export const Carrot = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: Ca
               0.1 + Math.random() * 0.1,
               Math.cos((i * Math.PI) / 2.5) * 0.05,
             ]}
-            rotation={[Math.random() * 0.2, Math.random() * Math.PI * 2, Math.random() * 0.2]}
+            rotation={[
+              Math.random() * 0.2,
+              Math.random() * Math.PI * 2,
+              Math.random() * 0.2,
+            ]}
           >
             <boxGeometry args={[0.02, 0.2, 0.01]} />
             <meshStandardMaterial color="#27ae60" roughness={0.5} />
@@ -55,6 +65,5 @@ export const Carrot = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: Ca
         ))}
       </group>
     </group>
-  )
-}
-
+  );
+};

@@ -1,34 +1,40 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import { useFrame } from "@react-three/fiber"
-import type * as THREE from "three"
-import { useInventory } from "@/context/InventoryContext"
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useInventory } from "@/context/InventoryContext";
+import type * as THREE from "three";
 
 interface BananaProps {
-  position: [number, number, number]
-  rotation?: [number, number, number]
-  scale?: number
-  itemId: string
+  position: [number, number, number];
+  rotation?: [number, number, number];
+  scale?: number;
+  itemId: string;
+  onPointerDown?: (e: React.PointerEvent) => void;
 }
 
-export const Banana = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: BananaProps) => {
-  const { removeItem } = useInventory()
-  const meshRef = useRef<THREE.Group>(null)
+export const Banana = ({
+  position,
+  rotation = [0, 0, 0],
+  scale = 1,
+  itemId,
+  onPointerDown,
+}: BananaProps) => {
+  const meshRef = useRef<THREE.Group>(null);
 
   // Optional: Add subtle animation
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.002
+      meshRef.current.rotation.y += 0.002;
     }
-  })
+  });
 
   return (
     <group
       position={position}
       rotation={rotation as [number, number, number]}
       scale={scale}
-      onClick={() => removeItem(itemId)}
+      onPointerDown={onPointerDown}
       ref={meshRef}
     >
       {/* Create a curved banana shape using a curved cylinder */}
@@ -43,6 +49,5 @@ export const Banana = ({ position, rotation = [0, 0, 0], scale = 1, itemId }: Ba
         <meshStandardMaterial color="#f1c40f" roughness={0.5} />
       </mesh>
     </group>
-  )
-}
-
+  );
+};

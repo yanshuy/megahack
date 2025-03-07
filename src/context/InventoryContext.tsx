@@ -1,100 +1,124 @@
-"use client"
+import { createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { BASE_URL, accessToken } from "@/App";
 
-import type React from "react"
-import { createContext, useContext, useState, type ReactNode } from "react"
+const InventoryContext = createContext(null);
 
-// Define item types
-export type ItemType = "apple" | "banana" | "orange" | "carrot" | "broccoli"
+export const useInventory = () => useContext(InventoryContext);
 
-export interface InventoryItem {
-  id: string
-  type: ItemType
-  position: [number, number, number] // x, y, z
-  rotation?: [number, number, number] // x, y, z
-  scale?: number
-}
+const shelfGridPositions = [
+  // Bottom shelf
+  [
+    [15.285, 1.3, 43], // Left
+    [15.285, 1.3, 38.998], // Middle
+    [15.285, 1.3, 35], // Right
+  ],
+  // Middle shelf
+  [
+    [15.285, 4.45, 43], // Left
+    [15.285, 4.45, 38.998], // Middle
+    [15.285, 4.45, 35], // Right
+  ],
+  // Top shelf
+  [
+    [15.285, 7.0, 43], // Left
+    [15.285, 7.0, 38.998], // Middle
+    [15.285, 7.0, 35], // Right
+  ],
+];
 
-interface InventoryContextType {
-  items: InventoryItem[]
-  addItem: (type: ItemType, shelfIndex: number) => void
-  removeItem: (id: string) => void
-  clearInventory: () => void
-  updateItemPosition: (id: string, newPosition: [number, number, number]) => void
-}
-
-const InventoryContext = createContext<InventoryContextType | undefined>(undefined)
-
-// Define shelf positions based on the actual rack model
-// The main rack is at position [15.285, 5.164, 38.998] with rotation [-Math.PI / 2, 0, 0]
-// We need to position items relative to this coordinate system
-const shelfPositions = [
-  [15.285, 3.5, 38.998], // Bottom shelf
-  [15.285, 5.164, 38.998], // Middle shelf
-  [15.285, 7.0, 38.998], // Top shelf
-]
-
-export const InventoryProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<InventoryItem[]>([])
-
-  const addItem = (type: ItemType, shelfIndex: number) => {
-    const shelfPosition = shelfPositions[shelfIndex] || shelfPositions[0]
-
-    // Calculate a random position on the shelf
-    // Since the rack is rotated, we need to adjust our random positioning
-    const randomX = Math.random() * 2 - 1 // -1 to 1
-    const randomZ = Math.random() * 2 - 1 // -1 to 1
-
-    const position: [number, number, number] = [
-      shelfPosition[0] + randomX,
-      shelfPosition[1],
-      shelfPosition[2] + randomZ,
-    ]
-
-    // Random rotation for variety
-    const rotation: [number, number, number] = [
-      0,
-      Math.random() * Math.PI * 2, // Random Y rotation
-      0,
-    ]
-
-    // Random scale variation for realism, but keep it small to fit on shelves
-    const scale = 0.5 + Math.random() * 0.3 // 0.5 to 0.8
-
-    const newItem: InventoryItem = {
-      id: `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type,
-      position,
-      rotation,
-      scale,
-    }
-
-    setItems((prevItems) => [...prevItems, newItem])
+// Hash function to generate consistent pseudo-random values based on item ID
+const hashString = (str) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
+  return hash;
+};
 
-  const removeItem = (id: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id))
-  }
+const generateStableRandom = (min, max, seed) => {
+  const normalized = (Math.sin(seed) + 1) / 2; // Normalize between 0 and 1
+  return min + normalized * (max - min);
+};
 
-  const clearInventory = () => {
-    setItems([])
-  }
+const generateStablePosition = (id, index) => {
+  const hash = hashString(id);
 
-  const updateItemPosition = (id: string, newPosition: [number, number, number]) => {
-    setItems((prevItems) => prevItems.map((item) => (item.id === id ? { ...item, position: newPosition } : item)))
-  }
+  const shelfIndex = index % shelfGridPositions.length;
+  const columnIndex = index % shelfGridPositions[shelfIndex].length;
+  const basePosition = shelfGridPositions[shelfIndex][columnIndex];
+
+  if (!basePosition) return [0, 0, 0];
+
+  return [
+    basePosition[0] + generateStableRandom(-1, 1, hash), // Stable offset in X
+    basePosition[1], // Keep the same shelf height
+    basePosition[2] + generateStableRandom(-1, 1, hash * 2), // Stable offset in Z
+  ];
+};
+
+const generateStableRotation = (id) => {
+  const hash = hashString(id);
+  return [0, generateStableRandom(0, Math.PI * 2, hash), 0];
+};
+
+const dummyData = [
+  {
+    id: "broccoli-1",
+    type: "broccoli",
+    stock: 10,
+    expiry: "2025-06-10",
+    depletionTime: "3 days",
+    color: "green",
+  },
+  {
+    id: "orange-2",
+    type: "orange",
+    stock: 15,
+    expiry: "2025-04-05",
+    depletionTime: "5 days",
+    color: "orange",
+  },
+];
+
+export const InventoryProvider = ({ children }) => {
+  const { data: items = [], isLoading } = useQuery({
+    queryKey: ["inventory"],
+    queryFn: async () => {
+      const token = localStorage.getItem("accessToken");
+
+      const response = await fetch(`${BASE_URL}/api/products`, {
+        headers: {
+          "ngrok-skip-browser-warning": "444",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error(`Error: ${response.status} - ${response.statusText}`);
+        return dummyData.map((item, index) => ({
+          ...item,
+          position: generateStablePosition(item.id, index),
+          rotation: generateStableRotation(item.id),
+          scale: [2.3, 2.3, 2.3],
+        }));
+      }
+
+      const fetchedItems = await response.json();
+
+      return fetchedItems.map((item, index) => ({
+        ...item,
+        position: generateStablePosition(item.id, index),
+        rotation: generateStableRotation(item.id),
+        scale: [2.3, 2.3, 2.3],
+      }));
+    },
+    staleTime: 1000 * 60 * 5,
+  });
 
   return (
-    <InventoryContext.Provider value={{ items, addItem, removeItem, clearInventory, updateItemPosition }}>
+    <InventoryContext.Provider value={{ items, isLoading }}>
       {children}
     </InventoryContext.Provider>
-  )
-}
-
-export const useInventory = () => {
-  const context = useContext(InventoryContext)
-  if (context === undefined) {
-    throw new Error("useInventory must be used within an InventoryProvider")
-  }
-  return context
-}
-
+  );
+};

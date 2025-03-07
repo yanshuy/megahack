@@ -1,7 +1,7 @@
 import { Experience } from "@/components/3dInventory/Experience"
 import { Canvas } from "@react-three/fiber"
-import { InventoryControls } from "@/components/3dInventory/InventoryControls"
 import { InventoryProvider } from "@/context/InventoryContext"
+import { InventoryControls } from "@/components/3dInventory/InventoryControls"
 
 const ThreeDIMS = () => {
   return (
@@ -10,13 +10,12 @@ const ThreeDIMS = () => {
         <Canvas
           shadows
           camera={{
-            position: [25, 10, 45],
+            position: [60, 9, -3],
             fov: 35,
           }}
         >
           <Experience />
         </Canvas>
-        <InventoryControls />
       </InventoryProvider>
     </div>
   )

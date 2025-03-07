@@ -1,6 +1,6 @@
-import { OrbitControls, Stage } from "@react-three/drei"
-import { Rack } from "./Rack"
-import { InventoryItems } from "./InventoryItems"
+import { OrbitControls, Stage } from "@react-three/drei";
+import { Rack } from "./Rack";
+import { InventoryItems } from "./InventoryItems";
 
 export const Experience = () => {
   return (
@@ -25,10 +25,8 @@ export const Experience = () => {
         makeDefault
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2}
-        // Set target to focus on the rack
         target={[15.285, 5.164, 38.998]}
       />
     </>
-  )
-}
-
+  );
+};
