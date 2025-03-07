@@ -171,7 +171,7 @@ const HomeScreen = () => {
             <div className="relative">
               <button
                 onClick={handleLocationClick}
-                className="flex w-full flex-col gap-2 rounded-lg p-3 transition-all duration-200 hover:bg-white/10"
+                className="flex w-full flex-col gap-2 rounded-lg transition-all duration-200 hover:bg-white/10"
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-sm text-gray-100">Your location</span>
