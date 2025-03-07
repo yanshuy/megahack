@@ -1,13 +1,20 @@
-import { Star } from "lucide-react"
-import type { Farmer } from "../farmer-products/page"
+import { Farmer } from "@/data/farmer-dummy"
+import { ArrowLeft, Star } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 interface FarmerHeaderProps {
   farmer: Farmer
 }
 
 export const FarmerHeader = ({ farmer }: FarmerHeaderProps) => {
+
+  const navigate = useNavigate()
+
   return (
     <div className="relative w-full">
+      <div className="absolute left-4 top-4 flex justify-center items-center p-1 bg-gray-50 z-10 rounded-full" onClick={() => navigate(-1)}>
+        <ArrowLeft className="text-green-700"/>
+      </div>
       <div className="w-full h-[400px] relative overflow-hidden rounded-b-xl">
         <img src={farmer.image || "https://images.unsplash.com/photo-1609252509102-aa73ff792667?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={farmer.name} className="w-full h-full object-cover" />
       </div>
@@ -27,11 +34,11 @@ export const FarmerHeader = ({ farmer }: FarmerHeaderProps) => {
             </div>
           </div>
           <div className="flex gap-2 mt-3">
-            {farmer.categories.map((category) => (
+            {/* {farmer?.products.map((category) => (
               <span key={category} className="px-3 py-1 bg-white/20 rounded-full text-sm">
                 {category}
               </span>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

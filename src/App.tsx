@@ -5,11 +5,13 @@ import { CartProvider } from "./context/CartContext";
 
 import MainLayout from "./layouts/MainLayout";
 import OnboardingScreen from "./pages/onboarding/page";
-import HomeScreen from "./pages/Home/page";
 import CartScreen from "./pages/Cart/page";
 import FarmerProductListing from "./pages/farmer-products/page";
 import FarmersDirectoryPage from "./pages/farmers-directory/page";
 import { FarmerProfile } from "./pages/farmer-profile/page";
+import MarketplacesPage from "./pages/marketplace-listing/page";
+import MarketplaceDetailPage from "./pages/marketplace/page";
+import HomeScreen from "./pages/Home/page";
 
 export const BASE_URL = "https://toucan-driven-admittedly.ngrok-free.app";
 
@@ -27,12 +29,18 @@ function App() {
           <Routes>
             <Route element={<MainLayout />}>
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
+
+              <Route path="/mp" element={<HomeScreen />} />
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/farmers" element={<FarmersDirectoryPage />} />
               <Route path="/farmers/:id" element={<FarmerProfile />} />
             </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
+            <Route
+              path="/market/:marketId"
+              element={<MarketplaceDetailPage />}
+            />
             {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
             <Route
               path="/product/:productId"

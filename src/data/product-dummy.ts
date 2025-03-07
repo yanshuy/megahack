@@ -90,7 +90,7 @@ export const products: FarmerProduct[] = [
     description:
       "Experience the luxury of pure Kashmiri Saffron, hand-picked from the pristine valleys of Kashmir. These delicate threads are renowned for their vibrant color, intense aroma, and unique flavor. Add a touch of magic to your culinary creations with this precious spice.",
     price: 45000,
-    unit: "10 grams",
+    unit: "10 g",
     images: [
       "https://placehold.co/600x400?text=Kashmiri+Saffron+1",
       "https://placehold.co/600x400?text=Kashmiri+Saffron+2",
@@ -108,7 +108,7 @@ export const products: FarmerProduct[] = [
       rating: 4.9,
     },
     video: "https://placehold.co/600x400?text=Alphonso+Mangoes+1",
-    availableQuantities: ["1 gram", "5 grams", "10 grams"],
+    availableQuantities: ["1 g", "5 g", "10 g"],
   },
   {
     id: "5",

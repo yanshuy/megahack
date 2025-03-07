@@ -1,19 +1,18 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
-import { Star } from "lucide-react"
-import type { Farmer, Review } from "./page"
+import { Star, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { Farmer, Review } from "@/data/farmer-dummy"
 
 interface ReviewSectionProps {
   farmer: Farmer
 }
 
 export const ReviewSection = ({ farmer }: ReviewSectionProps) => {
-  const [rating, setRating] = useState(5)
+  const [rating, setRating] = useState(0)
   const [comment, setComment] = useState("")
 
   const handleSubmitReview = (e: React.FormEvent) => {
@@ -27,7 +26,7 @@ export const ReviewSection = ({ farmer }: ReviewSectionProps) => {
       <h2 className="text-2xl font-bold mb-6">Customer Reviews</h2>
 
       {/* Review Form */}
-      <form onSubmit={handleSubmitReview} className="mb-8 bg-gray-50 dark:bg-gray-800 p-6 rounded-lg">
+      <form onSubmit={handleSubmitReview} className="mb-1 bg-transparent p-6 pl-1 rounded-lg">
         <h3 className="text-lg font-semibold mb-4">Write a Review</h3>
         <div className="flex items-center gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -51,15 +50,11 @@ export const ReviewSection = ({ farmer }: ReviewSectionProps) => {
       </form>
 
       {/* Review List */}
-      <div className="space-y-6">
+      <div className="space-y-3 px-2 flex flex-col items-center justify-center">
         {farmer.reviews.map((review: Review) => (
-          <div key={review.id} className="border-b dark:border-gray-700 pb-6">
+          <div key={review.id} className="pb-4">
             <div className="flex items-center gap-4 mb-3">
-              <img
-                src={review.userImage || "/placeholder.svg"}
-                alt={review.userName}
-                className="w-10 h-10 rounded-full"
-              />
+              <User />
               <div>
                 <h4 className="font-semibold">{review.userName}</h4>
                 <div className="flex items-center gap-1">
@@ -78,8 +73,8 @@ export const ReviewSection = ({ farmer }: ReviewSectionProps) => {
             <p className="text-gray-600 dark:text-gray-300">{review.comment}</p>
           </div>
         ))}
+        <button className="border border-gray-300 rounded-lg px-4 py-2">Read more</button>
       </div>
     </div>
   )
 }
-
