@@ -3,13 +3,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { CartProvider } from "./context/CartContext";
 
-import VintageCafeGame from "./pages/minigames/VintageCafeGame";
 import MainLayout from "./layouts/MainLayout";
-import ThreeD from "./pages/3DIMS/3DIMS";
-import OnboardingScreen from "./pages/Onboarding/page";
-import ProductDetailScreen from "./pages/ProductDetails/page";
+import OnboardingScreen from "./pages/onboarding/page";
 import HomeScreen from "./pages/Home/page";
 import CartScreen from "./pages/Cart/page";
+import FarmerProductListing from "./pages/farmer-products/page";
+import FarmersDirectoryPage from "./pages/farmers-directory/page";
 
 export const BASE_URL = "https://toucan-driven-admittedly.ngrok-free.app";
 
@@ -29,10 +28,15 @@ function App() {
               {/* <Route path="/" element={<VintageCafeGame />} /> */}
               <Route path="/" element={<HomeScreen />} />
               <Route path="/cart" element={<CartScreen />} />
+              <Route path="/farmers" element={<FarmersDirectoryPage />} />
             </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
-            <Route path="/pd/:productId" element={<ProductDetailScreen />} />
-            <Route path="/3d" element={<ThreeD />} />
+            {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
+            <Route
+              path="/product/:productId"
+              element={<FarmerProductListing />}
+            />
+            {/* <Route path="/3d" element={<ThreeD />} /> */}
             <Route path="*" element={<div>page under construction</div>} />
           </Routes>
         </BrowserRouter>

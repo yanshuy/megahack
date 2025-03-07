@@ -1,25 +1,37 @@
-import { products } from "@/components/data/product-dummy";
-import { Product, useCart } from "@/context/CartContext";
+import { products } from "@/data/product-dummy";
+import { FarmerProduct, useCart } from "@/context/CartContext";
 import { RupeeSymbol } from "@/utils/randomcolor";
-import { Search, Menu, CarrotIcon, Cherry, Milk, Star } from "lucide-react";
+import { icon } from "leaflet";
+import {
+  Search,
+  Menu,
+  CarrotIcon,
+  Cherry,
+  Milk,
+  Star,
+  Bean,
+  Flame,
+} from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard: React.FC<{
-  product: Product;
+  product: FarmerProduct;
   onClick: () => void;
   onAddToCart: () => void;
 }> = ({ product, onClick, onAddToCart }) => {
+  console.log(product);
   return (
-    <div className="relative min-w-44 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-md">
+    <div className="relative min-w-52 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-md">
       <div
         className="relative cursor-pointer overflow-hidden"
         onClick={onClick}
       >
-        {/* <img
-          src={product.image || "/placeholder.svg"}
+        <img
+          src={product.images[0] || "/placeholder.svg"}
           alt={product.name}
           className="h-32 w-full object-cover transition-transform duration-300 hover:scale-105"
-        /> */}
+        />
         <div className="absolute top-2 right-2 rounded-full bg-white p-1 shadow-sm">
           <div className="flex items-center text-xs">
             <Star className="mr-0.5 h-3 w-3 fill-yellow-500 text-yellow-500" />
@@ -35,9 +47,7 @@ const ProductCard: React.FC<{
             {product.category}
           </span>
         </div>
-        <h3 className="line-clamp-2 h-10 text-sm font-medium">
-          {product.name}
-        </h3>
+        <h3 className="mt-2 line-clamp-2 h-8 font-medium">{product.name}</h3>
         <div className="mt-1 mb-2 flex items-center">
           <span className="text-xs text-gray-500">{product.farmer.name}</span>
         </div>
@@ -67,11 +77,15 @@ const HomeScreen = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: FarmerProduct) => {
     addToCart(product, 1, product.unit);
   };
+
+  const [selectedCategory, setSelectedCategory] =
+    useState<Pick<FarmerProduct, "category">>("Veggies");
+
   return (
-    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral) pb-[12vh]">
+    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral) pb-[11vh]">
       <div className="flex items-center p-4">
         <div className="flex flex-grow items-center">
           <div className="flex items-center">
@@ -103,36 +117,55 @@ const HomeScreen = () => {
       <div className="flex-grow overflow-y-auto pt-4">
         <h2 className="mb-4 px-4 text-xl font-bold">Shop By Categories</h2>
 
-        <div className="no-scrollbar mb-6 flex space-x-2 overflow-x-auto px-4 pb-2">
-          <div className="flex items-center gap-2 rounded-full bg-green-700 px-4 py-3 font-medium whitespace-nowrap text-white">
-            <CarrotIcon />
-            <span>Veggies</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full bg-white px-4 py-3 font-medium whitespace-nowrap text-black shadow-sm">
-            <Cherry />
-            <span>Fruits</span>
-          </div>
-          <div className="flex items-center gap-2 rounded-full bg-white px-4 py-3 font-medium whitespace-nowrap text-black shadow-sm">
-            <Milk />
-            <span>Dairy Products</span>
-          </div>
+        <div className="no-scrollbar mb-2 flex space-x-2 overflow-x-auto px-4 pb-2">
+          {[
+            {
+              icon: CarrotIcon,
+              name: "Veggies",
+            },
+            {
+              icon: Cherry,
+              name: "Fruits",
+            },
+            {
+              icon: Milk,
+              name: "Dairy",
+            },
+
+            {
+              icon: Bean,
+              name: "Grains",
+            },
+
+            {
+              icon: Flame,
+              name: "Spices",
+            },
+          ].map((item) => (
+            <button
+              className={`flex items-center gap-2 rounded-full ${selectedCategory == item.name ? "bg-green-700 text-white" : "border bg-white"} px-4 py-3 font-medium whitespace-nowrap`}
+              onClick={() => setSelectedCategory(item.name)}
+            >
+              <item.icon />
+              <span>{item.name}</span>
+            </button>
+          ))}
         </div>
 
-        <div className="mb-4 flex items-center justify-between px-4">
-          <h2 className="text-xl font-bold">Recently Listed</h2>
-          <a href="#" className="text-sm font-medium text-green-600">
-            View all
-          </a>
-        </div>
-        <div className="no-scrollbar mb-6 flex gap-4 overflow-x-auto p-4">
-          {products.slice(0, 4).map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onClick={() => navigate(`/pd/${product.id}`)}
-              onAddToCart={() => handleAddToCart(product)}
-            />
-          ))}
+        <div className="no-scrollbar mb-6 flex gap-4 overflow-x-auto p-4 pt-1">
+          {products
+            .filter((product) => {
+              if (product.category == selectedCategory) return true;
+              return false;
+            })
+            .map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onClick={() => navigate(`/product/${product.id}`)}
+                onAddToCart={() => handleAddToCart(product)}
+              />
+            ))}
         </div>
 
         <div>
@@ -142,7 +175,7 @@ const HomeScreen = () => {
               View all
             </a>
           </div>
-          <div className="no-scrollbar flex space-x-3 overflow-x-auto px-4 pb-4">
+          <div className="no-scrollbar flex space-x-3 overflow-x-auto px-4 pt-2 pb-4">
             {[
               {
                 img: "https://media.gettyimages.com/id/538620640/photo/indian-farmer-holding-freshly-picked-capsicums.jpg?s=612x612&w=0&k=20&c=8dUyuHwUU545sCtgFbdnpujNxP50PxrcEzDoO7IxLi0=",
@@ -184,6 +217,23 @@ const HomeScreen = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="mt-5 mb-4 flex items-center justify-between px-4">
+          <h2 className="text-xl font-bold">Recently Listed</h2>
+          <a href="#" className="text-sm font-medium text-green-600">
+            View all
+          </a>
+        </div>
+        <div className="no-scrollbar mb-6 flex gap-4 overflow-x-auto p-4 pt-1">
+          {products.slice(0, 4).map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onClick={() => navigate(`/product/${product.id}`)}
+              onAddToCart={() => handleAddToCart(product)}
+            />
+          ))}
         </div>
       </div>
     </div>

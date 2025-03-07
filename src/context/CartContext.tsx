@@ -1,25 +1,29 @@
 // Cart context to manage cart state across the application
 import React, { createContext, useContext, useReducer, useEffect } from "react";
 
-export interface Product {
+export interface FarmerProduct {
   id: string;
   name: string;
   description: string;
   price: number;
   unit: string;
-  image: string;
-  category: string;
+  images: string[];
+  video?: string;
+  tasteProfile: string;
+  growingPractices: string;
+  certifications: string[];
+  category: "Spices" | "Fruits" | "Dairy" | "Grains" | "Veggies";
+  availableQuantities: string[];
   farmer: {
     id: string;
     name: string;
-    rating: number;
     image: string;
+    rating: number;
   };
-  availableQuantities: string[];
 }
 
 export interface CartItem {
-  product: Product;
+  product: FarmerProduct;
   quantity: number;
   selectedUnit: string;
 }
@@ -41,7 +45,11 @@ interface CartState {
 type CartAction =
   | {
       type: "ADD_ITEM";
-      payload: { product: Product; quantity: number; selectedUnit: string };
+      payload: {
+        product: FarmerProduct;
+        quantity: number;
+        selectedUnit: string;
+      };
     }
   | { type: "REMOVE_ITEM"; payload: { productId: string } }
   | {
@@ -53,7 +61,11 @@ type CartAction =
 // Define the context interface
 interface CartContextType {
   cart: CartState;
-  addToCart: (product: Product, quantity: number, selectedUnit: string) => void;
+  addToCart: (
+    product: FarmerProduct,
+    quantity: number,
+    selectedUnit: string,
+  ) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -218,7 +230,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Cart actions
   const addToCart = (
-    product: Product,
+    product: FarmerProduct,
     quantity: number,
     selectedUnit: string,
   ) => {

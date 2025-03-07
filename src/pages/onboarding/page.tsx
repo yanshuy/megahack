@@ -53,7 +53,7 @@ const OnboardingScreen = () => {
       <div className="p-6 pb-10">
         <button
           className="w-full rounded-full bg-green-700 py-3 font-medium text-white"
-          onClick={() => navigate("/marketplace")}
+          onClick={() => navigate("/")}
         >
           Continue
         </button>

@@ -1,4 +1,3 @@
-import type React from "react";
 import { ChevronLeft, Trash2, Plus, Minus, ArrowRight } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom";
@@ -69,7 +68,7 @@ const CartScreen = () => {
                 >
                   <div className="flex">
                     <img
-                      src={item.product.image || "/placeholder.svg"}
+                      src={item.product.images[0] || "/placeholder.svg"}
                       alt={item.product.name}
                       className="h-20 w-20 rounded-lg object-cover"
                     />
