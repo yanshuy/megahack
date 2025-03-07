@@ -13,7 +13,7 @@ import {
 import { useCart } from "@/context/CartContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { products } from "@/data/product-dummy";
-import { RupeeSymbol } from "@/utils/randomcolor";
+import { RupeeSymbol } from "@/utils/utility";
 
 const FarmerProductListing = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -201,6 +201,22 @@ const FarmerProductListing = () => {
             per {product.unit}
           </span>
         </p>
+      </div>
+
+      <div className="no-scrollbar flex space-x-3 overflow-x-auto py-2">
+        {product.availableQuantities.map((unit) => (
+          <button
+            key={unit}
+            className={`rounded-full px-4 py-2 shadow-[0px_0px_1px_0.5px_#d1d5dc] ${
+              selectedUnit === unit
+                ? "border-green-700 bg-green-700 text-white"
+                : "border-gray-300 bg-white"
+            }`}
+            onClick={() => setSelectedUnit(unit)}
+          >
+            {unit}
+          </button>
+        ))}
       </div>
 
       <div className="fixed right-0 bottom-0 left-0 bg-white p-4">

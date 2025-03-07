@@ -1,24 +1,13 @@
-import { products } from "@/data/product-dummy"
-import { FarmerProduct, useCart } from "@/context/CartContext"
-import { RupeeSymbol } from "@/utils/randomcolor"
-import {
-  Search,
-  Menu,
-  CarrotIcon,
-  Cherry,
-  Milk,
-  Star,
-  Bean,
-  Flame,
-  ChevronDown,
-  MapPin,
-  ArrowRight,
-} from "lucide-react"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import Map from "@/components/Map"
 import { marketplaces } from "@/data/marketplaces"
 import MarketplaceCard from "@/components/MarketplaceCard"
+import { products } from "@/data/product-dummy";
+import { FarmerProduct, useCart } from "@/context/CartContext";
+import { getProductBadgeStyle, RupeeSymbol } from "@/utils/utility";
+import { ArrowRight, Bean, CarrotIcon, Cherry, ChevronDown, Flame, MapPin, Menu, Milk, Search, Star } from "lucide-react"
+
 
 export const ProductCard: React.FC<{
   product: FarmerProduct
@@ -47,7 +36,9 @@ export const ProductCard: React.FC<{
       {/* Product details */}
       <div className="p-3" onClick={onClick}>
         <div className="mb-1 flex items-center">
-          <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">
+          <span
+            className={`rounded-full px-2 py-0.5 text-xs ${getProductBadgeStyle(product.category)}`}
+          >
             {product.category}
           </span>
         </div>

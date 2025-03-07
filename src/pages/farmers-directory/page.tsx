@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Search, Filter, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import FarmerCard from "@/components/FarmerCard";
 import { farmers } from "@/data/farmer-dummy";
-
 import {
   Select,
   SelectContent,
@@ -15,7 +14,6 @@ import {
 
 const FarmersDirectoryPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [showFilters, setShowFilters] = useState(false);
 
   // Initialize state from URL parameters
@@ -31,9 +29,7 @@ const FarmersDirectoryPage = () => {
   const [minRating, setMinRating] = useState(
     parseFloat(searchParams.get("rating") || "0"),
   );
-  const [activeFilters, setActiveFilters] = useState<
-    { type: string; value: string }[]
-  >([]);
+  const [activeFilters, setActiveFilters] = useState([]);
 
   // Update active filters based on URL parameters
   useEffect(() => {
@@ -75,6 +71,16 @@ const FarmersDirectoryPage = () => {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
+  // Immediately update URL when filters are changed
+  useEffect(() => {
+    // Only run this effect after initial render to prevent double updates
+    const handler = setTimeout(() => {
+      updateUrlParams();
+    }, 0);
+
+    return () => clearTimeout(handler);
+  }, [selectedLocation, selectedProductType, minRating]);
+
   // Filter farmers based on current filters
   const filteredFarmers = farmers.filter((farmer) => {
     // Search query filter
@@ -110,7 +116,7 @@ const FarmersDirectoryPage = () => {
   };
 
   // Remove a specific filter
-  const removeFilter = (filterToRemove: { type: string; value: string }) => {
+  const removeFilter = (filterToRemove) => {
     if (filterToRemove.type === "location") {
       setSelectedLocation("");
     } else if (filterToRemove.type === "product") {
@@ -118,16 +124,6 @@ const FarmersDirectoryPage = () => {
     } else if (filterToRemove.type === "rating") {
       setMinRating(0);
     }
-
-    setActiveFilters(
-      activeFilters.filter(
-        (f) =>
-          !(f.type === filterToRemove.type && f.value === filterToRemove.value),
-      ),
-    );
-
-    // Update URL after removing filter
-    setTimeout(updateUrlParams, 0);
   };
 
   // Clear all filters
@@ -136,7 +132,6 @@ const FarmersDirectoryPage = () => {
     setSelectedLocation("");
     setSelectedProductType("");
     setMinRating(0);
-    setActiveFilters([]);
 
     // Reset URL to base path
     setSearchParams(new URLSearchParams());
@@ -256,11 +251,10 @@ const FarmersDirectoryPage = () => {
                     value={selectedLocation}
                     onValueChange={setSelectedLocation}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full rounded-lg border border-gray-300 bg-white">
                       <SelectValue placeholder="All Locations" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">All Locations</SelectItem>
+                    <SelectContent className="rounded-lg border border-gray-200 shadow-lg">
                       <SelectItem value="Karnataka">Karnataka</SelectItem>
                       <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
                       <SelectItem value="Punjab">Punjab</SelectItem>
@@ -279,11 +273,10 @@ const FarmersDirectoryPage = () => {
                     value={selectedProductType}
                     onValueChange={setSelectedProductType}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full rounded-lg border border-gray-300 bg-white">
                       <SelectValue placeholder="All Products" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">All Products</SelectItem>
+                    <SelectContent className="rounded-lg border border-gray-200 shadow-lg">
                       <SelectItem value="Vegetables">Vegetables</SelectItem>
                       <SelectItem value="Fruits">Fruits</SelectItem>
                       <SelectItem value="Dairy">Dairy</SelectItem>

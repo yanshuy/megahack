@@ -6,11 +6,11 @@ import { ReviewSection } from "../farmer-profile/ReviewSection"
 import { ContactSection } from "./ContactSection"
 import { farmers } from "@/data/farmer-dummy"
 import { products } from "@/data/product-dummy"
-import { ProductCard } from "../Home/page"
 import { useNavigate, useParams } from "react-router-dom"
 import { FarmerProduct, useCart } from "@/context/CartContext"
+import { ProductCard } from "../Home/page"
 
-export const FarmerProfile = () => {
+export const FarmerProfileForUser = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const { addToCart } = useCart()

@@ -1,5 +1,5 @@
 import { Farmer } from "@/data/farmer-dummy"
-import { ArrowLeft, Star } from "lucide-react"
+import { ArrowLeft, ChevronLast, ChevronLeft, Star } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 
 interface FarmerHeaderProps {
@@ -13,7 +13,7 @@ export const FarmerHeader = ({ farmer }: FarmerHeaderProps) => {
   return (
     <div className="relative w-full">
       <div className="absolute left-4 top-4 flex justify-center items-center p-1 bg-gray-50 z-10 rounded-full" onClick={() => navigate(-1)}>
-        <ArrowLeft className="text-green-700"/>
+        <ChevronLeft className="text-green-700"/>
       </div>
       <div className="w-full h-[400px] relative overflow-hidden rounded-b-xl">
         <img src={farmer.image || "https://images.unsplash.com/photo-1609252509102-aa73ff792667?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt={farmer.name} className="w-full h-full object-cover" />
