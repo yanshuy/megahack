@@ -277,7 +277,7 @@ const FarmersDirectoryPage = () => {
                       <SelectValue placeholder="All Products" />
                     </SelectTrigger>
                     <SelectContent className="rounded-lg border border-gray-200 shadow-lg">
-                      <SelectItem value="Vegetables">Vegetables</SelectItem>
+                      <SelectItem value="Veggies">Veggies</SelectItem>
                       <SelectItem value="Fruits">Fruits</SelectItem>
                       <SelectItem value="Dairy">Dairy</SelectItem>
                     </SelectContent>
