@@ -12,6 +12,7 @@ import { ProductCard } from "../Home/page";
 import { FarmerProduct, useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { products } from "@/data/product-dummy";
+import { farmers } from "@/data/farmer-dummy";
 
 export default function Shop() {
   const { addToCart } = useCart();
@@ -119,43 +120,19 @@ export default function Shop() {
             </a>
           </div>
           <div className="no-scrollbar flex space-x-3 overflow-x-auto px-4 pt-2 pb-4">
-            {[
-              {
-                img: "https://media.gettyimages.com/id/538620640/photo/indian-farmer-holding-freshly-picked-capsicums.jpg?s=612x612&w=0&k=20&c=8dUyuHwUU545sCtgFbdnpujNxP50PxrcEzDoO7IxLi0=",
-                name: "S. Anant",
-                review: "4.9",
-              },
-              {
-                img: "https://media.gettyimages.com/id/1313437484/photo/farmer-with-arms-crossed-in-agriculture-field.jpg?s=612x612&w=0&k=20&c=EOmZnOHSFxn3ffF1QLKKZDKiGMnpfuuLSIlPsSXfLQ8=",
-                name: "A. Prakash",
-                review: "4.9",
-              },
-              {
-                img: "https://media.gettyimages.com/id/1186928936/photo/wheat-grains-in-man-hand-stock-photo.jpg?s=612x612&w=0&k=20&c=ALHedSbQ9QKD3Mgz4FutPqTvZu14Y6OxIKLb7xq9HLA=",
-                name: "D. Singh",
-                review: "4.8",
-              },
-              {
-                img: "https://media.gettyimages.com/id/1524726433/photo/farmer-woman-holding-crop-at-green-agricultural-field.jpg?s=612x612&w=0&k=20&c=6C7a03yrQ5Z8LGnA1JvPKkitD9s156_fwjHVikL-z2k=",
-                name: "Kutu Tai",
-                review: "4.8",
-              },
-              {
-                img: "https://media.gettyimages.com/id/1205325344/photo/farmer-in-agricultural-field.jpg?s=612x612&w=0&k=20&c=krsRk4T2MsmMy6PmrpPDR0i_1ja3_jQaNl80fBejWck=",
-                name: "Birju",
-                review: "4.8",
-              },
-            ].map((farmer) => (
+            {farmers.map((farmer) => (
               <div className="flex flex-col items-center">
                 <img
-                  src={farmer.img}
+                  src={farmer.image}
                   alt="Farmer"
                   className="mb-1 size-20 min-w-20 rounded-full object-cover"
                 />
-                <p className="text-xs font-medium">{farmer.name}</p>
+                <p className="text-xs font-medium">
+                  {farmer.name.split(" ")[0][0]}. {farmer.name.split(" ")[1]}
+                </p>
                 <div className="mt-1 flex items-center rounded-full bg-white px-2 py-0.5 text-xs">
                   <span className="mr-1 text-yellow-500">★</span>
-                  <span>{farmer.review}</span>
+                  <span>{farmer.rating}</span>
                 </div>
               </div>
             ))}
