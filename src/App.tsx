@@ -47,7 +47,6 @@ function App() {
                 {/* <Route path="/" element={<VintageCafeGame />} /> */}
                 <Route path="/" element={<HomeScreen />} />
                 <Route path="/shop" element={<Shop />} />
-                <Route path="/shop/:marketId" element={<ShopForMarket />} />
                 <Route path="/mp" element={<MarketplacesPage />} />
                 <Route path="/cart" element={<CartScreen />} />
                 <Route path="/farmers" element={<FarmersDirectoryPage />} />
@@ -66,6 +65,7 @@ function App() {
                 path="/market/:marketId"
                 element={<MarketplaceDetailPage />}
               />
+              <Route path="/shop/:marketId" element={<ShopForMarket />} />
               <Route path="/farmers/:id" element={<FarmerProfileForUser />} />
               {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
               <Route

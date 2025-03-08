@@ -1,7 +1,10 @@
 import {
+  ArrowBigLeft,
+  ArrowLeft,
   Bean,
   CarrotIcon,
   Cherry,
+  ChevronLeft,
   Flame,
   Menu,
   Milk,
@@ -33,7 +36,13 @@ export default function ShopForMarket() {
 
   return (
     <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral) pb-[12vh]">
-      <div className="flex items-center p-4">
+      <button
+        className="flex -translate-x-1 items-center gap-1 px-4 py-4 font-medium text-green-800"
+        onClick={() => navigate(-1)}
+      >
+        <ChevronLeft className="size-4 -translate-y-[0.5px]" /> Back to market
+      </button>
+      <div className="flex items-center p-4 pt-0">
         <div className="flex flex-grow items-center">
           <h2 className="text-lg font-medium">
             You are now shopping at
@@ -52,7 +61,7 @@ export default function ShopForMarket() {
           </div>
         </div>
       </div>
-      <div className="flex-grow overflow-y-auto pt-4">
+      <div className="flex-grow overflow-y-auto pt-2">
         <h2 className="mb-4 px-4 text-xl font-bold">Shop By Categories</h2>
 
         <div className="no-scrollbar mb-2 flex space-x-2 overflow-x-auto px-4 pb-2">
@@ -139,7 +148,7 @@ export default function ShopForMarket() {
         </div>
 
         <div className="mt-5 mb-4 flex items-center justify-between px-4">
-          <h2 className="text-xl font-bold">Recently Listed</h2>
+          <h2 className="text-xl font-bold">Seasonal</h2>
           <a href="#" className="text-sm font-medium text-green-600">
             View all
           </a>

@@ -54,11 +54,11 @@ export const ProductCard: React.FC<{
   onAddToCart: () => void;
 }> = ({ product, onClick, onAddToCart }) => {
   return (
-    <div className="relative min-w-52 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-md">
-      <div
-        className="relative cursor-pointer overflow-hidden"
-        onClick={onClick}
-      >
+    <div
+      className="relative min-w-52 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-md"
+      onClick={onClick}
+    >
+      <div className="relative cursor-pointer overflow-hidden">
         <img
           src={product.images[0] || "/placeholder.svg"}
           alt={product.name}
@@ -96,8 +96,7 @@ export const ProductCard: React.FC<{
       {/* Add to cart button */}
       <button
         className="absolute right-3 bottom-3 rounded-full bg-green-700 px-3 py-1.5 text-sm text-white shadow-md transition-colors hover:bg-green-800"
-        onClick={(e) => {
-          e.stopPropagation();
+        onClick={() => {
           onAddToCart();
         }}
       >
