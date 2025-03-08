@@ -5,8 +5,13 @@ import { Banana } from "./items/Banana";
 import { Orange } from "./items/Orange";
 import { Carrot } from "./items/Carrot";
 import { Broccoli } from "./items/Brocolli";
+import { Avocado } from "./items/Avacado";
 import { Html } from "@react-three/drei";
 import { X } from "lucide-react";
+import { WheatSeeds } from "./items/Wheat_seeds";
+import { Watermelon } from "./items/Watermelon";
+import { Potato } from "./items/Potato";
+import { Cauliflower } from "./items/CauliFLower";
 
 interface InventoryItem {
   id: string;
@@ -27,6 +32,11 @@ const itemComponents: Record<InventoryItem["name"], React.FC<any>> = {
   orange: Orange,
   carrot: Carrot,
   broccoli: Broccoli,
+  // avocado: Avocado,
+  watermelon: Watermelon,
+  // "wheat seeds": WheatSeeds,
+  potato: Potato,
+  cauliflower: Cauliflower,
 };
 
 export const InventoryItems = () => {
@@ -36,7 +46,7 @@ export const InventoryItems = () => {
   return (
     <group>
       {items.map((item) => {
-        const ItemComponent = itemComponents[item.name.toLowerCase()];
+        const ItemComponent = itemComponents[item.name.trim().toLowerCase()];
         console.log(ItemComponent);
 
         if (!ItemComponent) return null; // Ensure the component exists

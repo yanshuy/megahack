@@ -27,45 +27,37 @@ const shelfGridPositions = [
   ],
 ];
 
-// Hash function to generate consistent pseudo-random values based on item ID
 const hashString = (str) => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return hash;
-};
-
-const generateStableRandom = (min, max, seed) => {
-  const normalized = (Math.sin(seed) + 1) / 2; // Normalize between 0 and 1
-  return min + normalized * (max - min);
+  return Math.abs(hash);
 };
 
 const generateStablePosition = (id, index) => {
-  const hash = hashString(id);
-
-  const shelfIndex = index % shelfGridPositions.length;
-  const columnIndex = index % shelfGridPositions[shelfIndex].length;
+  const shelfIndex = Math.floor(index / 3) % shelfGridPositions.length;
+  const columnIndex = index % 3;
+  
   const basePosition = shelfGridPositions[shelfIndex][columnIndex];
-
   if (!basePosition) return [0, 0, 0];
-
+  
   return [
-    basePosition[0] + generateStableRandom(-1, 1, hash), // Stable offset in X
-    basePosition[1], // Keep the same shelf height
-    basePosition[2] + generateStableRandom(-1, 1, hash * 2), // Stable offset in Z
+    basePosition[0],
+    basePosition[1],
+    basePosition[2]
   ];
 };
 
 const generateStableRotation = (id) => {
   const hash = hashString(id);
-  return [0, generateStableRandom(0, Math.PI * 2, hash), 0];
+  return [0, (hash % 360) * (Math.PI / 180), 0];
 };
 
 const dummyData = [
   {
     id: "broccoli-1",
-    type: "broccoli",
+    name: "broccoli",
     stock: 10,
     expiry: "2025-06-10",
     depletionTime: "3 days",
@@ -73,7 +65,7 @@ const dummyData = [
   },
   {
     id: "orange-2",
-    type: "orange",
+    name: "orange",
     stock: 15,
     expiry: "2025-04-05",
     depletionTime: "5 days",
@@ -105,7 +97,7 @@ export const InventoryProvider = ({ children }) => {
       }
 
       const fetchedItems = await response.json();
-
+      
       return fetchedItems.map((item, index) => ({
         ...item,
         position: generateStablePosition(item.id, index),

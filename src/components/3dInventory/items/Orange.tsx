@@ -2,11 +2,10 @@
 
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useInventory } from "@/context/InventoryContext";
-import { Sphere } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import type * as THREE from "three";
 
-interface OrangeProps {
+interface ModelProps {
   position: [number, number, number];
   rotation?: [number, number, number];
   scale?: number;
@@ -17,35 +16,26 @@ interface OrangeProps {
 export const Orange = ({
   position,
   rotation = [0, 0, 0],
-  scale = 1,
+  scale = 3,
   itemId,
   onPointerDown,
-}: OrangeProps) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+}: ModelProps) => {
+  const { nodes, materials } = useGLTF("../models/orange.glb");
+  const meshRef = useRef<THREE.Group>(null);
 
-  // Optional: Add subtle animation
-  useFrame((state) => {
+  useFrame(() => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.002;
     }
   });
 
   return (
-    <group
-      position={position}
-      rotation={rotation as [number, number, number]}
-      scale={scale}
-      onPointerDown={onPointerDown}
-    >
-      <Sphere args={[0.3, 32, 32]} ref={meshRef}>
-        <meshStandardMaterial color="#f39c12" roughness={0.7} />
-      </Sphere>
-
-      {/* Orange stem/leaf */}
-      <mesh position={[0, 0.32, 0]} rotation={[0, 0, 0]}>
-        <cylinderGeometry args={[0.03, 0.03, 0.05, 8]} />
-        <meshStandardMaterial color="#795548" roughness={0.8} />
-      </mesh>
+    <group ref={meshRef} position={position} rotation={rotation} scale={12} onPointerDown={onPointerDown}>
+      <group rotation={[-Math.PI / 2, 0, 0]}>
+        <mesh geometry={nodes.Orange_Orange_Baked_0.geometry} material={materials.Orange_Baked} rotation={[-Math.PI / 2, 0, 0]} />
+      </group>
     </group>
   );
 };
+
+useGLTF.preload("../models/orange.glb");

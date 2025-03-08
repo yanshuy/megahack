@@ -1,25 +1,45 @@
 {
-    "common": {
-      "location": "Your location",
-      "findMarkets": "Let's find some Farmer's Markets",
-      "search": "Search for Farmer's Markets...",
-      "nearbyMarkets": "Nearby Farmer's Markets",
-      "bestMarkets": "The best farmer's markets near you",
-      "viewMore": "View More",
-      "loadingLocation": "Loading location...",
-      "profile": {
-        "name": "Vinayak Sharma",
-        "city": "Mumbai"
-      },
-      "product": {
-        "add": "ADD",
-        "per": "per"
-      }
-    },
-    "categories": {
-      "vegetables": "Vegetables",
-      "fruits": "Fruits",
-      "dairy": "Dairy",
-      "grains": "Grains"
-    }
+  "common": {
+    "back": "परत",
+    "share": "शेअर करा",
+    "bookmark": "बुकमार्क",
+    "closed": "बंद",
+    "getDirections": "मार्गदर्शन घ्या",
+    "reviews": "समीक्षा",
+    "writeReview": "समीक्षा लिहा",
+    "seeAll": "सर्व पहा",
+    "viewAllFarmers": "सर्व शेतकरी पहा"
+  },
+  "tabs": {
+    "information": "माहिती",
+    "farmers": "शेतकरी",
+    "products": "उत्पादने"
+  },
+  "sections": {
+    "about": "परिचय",
+    "facilities": "सुविधा आणि वैशिष्ट्ये",
+    "hours": "उघडण्याची वेळ",
+    "location": "स्थान",
+    "reviews": "समीक्षा",
+    "featuredFarmers": "विशेष शेतकरी",
+    "availableProducts": "उपलब्ध उत्पादने"
+  },
+  "marketplace_1": {
+    "name": "पालघर शेतकरी बाजार",
+    "description": "शेतकऱ्यांकडून थेट ताज्या उत्पादनांची उपलब्धता असलेला एक जिवंत स्थानिक बाजार"
+  },
+  "features": {
+    "parking": "पार्किंग",
+    "restrooms": "शौचालय",
+    "street_food_stalls": "स्ट्रीट फूड स्टॉल",
+    "cultural_performances": "सांस्कृतिक कार्यक्रम",
+    "organic": "सेंद्रिय उत्पादने",
+    "local": "स्थानिक उत्पादने"
+  },
+  "categories": {
+    "Veggies": "भाज्या",
+    "Fruits": "फळे",
+    "Dairy": "दुग्धजन्य उत्पादने",
+    "Spices": "मसाले"
   }
+}
