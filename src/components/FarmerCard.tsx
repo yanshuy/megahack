@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ChatModal from "@/components/ChatModal";
 import { Farmer } from "../data/farmer-dummy";
+import { getProductBadgeStyle } from "@/utils/utility";
 
 interface FarmerCardProps {
   farmer: Farmer;
@@ -35,6 +36,7 @@ export default function FarmerCard({ farmer }: FarmerCardProps) {
             <MapPin className="mr-1 h-4 w-4" />
             <span>{farmer.location}</span>
           </div>
+          <p className="text-sm font-light">{farmer.description}</p>
           <div className="mb-2">
             {/* {farmer.verificationBadges.map((badge) => (
               <Badge key={badge} variant="secondary" className="mr-1">
@@ -49,7 +51,7 @@ export default function FarmerCard({ farmer }: FarmerCardProps) {
                 <Badge
                   key={product}
                   variant="secondary"
-                  className="mr-1 mb-1 font-medium shadow-none"
+                  className={`mr-1 mb-1 ${getProductBadgeStyle(product)} font-medium shadow-none`}
                 >
                   {product}
                 </Badge>
