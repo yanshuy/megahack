@@ -57,6 +57,8 @@ const MarketplaceDetailPage = () => {
     }
   };
 
+  const iframeSrc = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.734492634778!2d${marketplace.address.coordinates.longitude}!3d${marketplace.address.coordinates.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b9c08f210e35%3A0x4d1d570a1c1f0e69!2sPalghar%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700673315528!5m2!1sen!2sin`;
+
   return (
     <div className="min-h-screen bg-gray-100 pb-16">
       {/* Header */}
@@ -230,11 +232,19 @@ const MarketplaceDetailPage = () => {
             {/* Location */}
             <div className="rounded-lg bg-white p-4 shadow-sm">
               <h2 className="mb-3 text-lg font-bold">Location</h2>
-              <div className="mb-3 flex h-40 items-center justify-center rounded-lg bg-gray-200">
-                <MapPin className="h-6 w-6 text-gray-500" />
-                <span className="ml-2 text-gray-500">Map View</span>
+              <div
+                className="overflow-clip rounded-lg"
+                style={{ width: "100%", height: "160px" }}
+              >
+                <iframe
+                  src={iframeSrc}
+                  width="100%"
+                  height="160"
+                  loading="lazy"
+                ></iframe>
               </div>
-              <p className="text-sm text-gray-700">
+
+              <p className="mt-3 text-sm text-gray-700">
                 {marketplace.address.street}, <br />
                 {marketplace.address.city}, {marketplace.address.state} -{" "}
                 {marketplace.address.zipCode}, <br />
