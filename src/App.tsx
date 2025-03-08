@@ -23,9 +23,11 @@ import Shop from "./pages/shop/page";
 
 import HealthReportPage from "./pages/HealthReportPage";
 import { LocationProvider } from "./context/LocationContext";
+import Items from "./pages/FarmerDasboard/Items";
+import SoilAnalysis from "./pages/FarmerDasboard/SoilAnanlysis";
+import UserLogin from "./pages/Auth/UserLogin";
 
 export const BASE_URL =
-  // "https://toucan-driven-admittedly.ngrok-free.app/api/products";
   "https://live-merely-drum.ngrok-free.app";
 
 export const accessToken =
@@ -71,11 +73,14 @@ function App() {
                 element={<FarmerProductListing />}
               />
               <Route path="/3d" element={<ThreeDIMS />} />
+              <Route path="/user/login" element={<UserLogin />} />
               <Route path="*" element={<div>page under construction</div>} />
 
               <Route path="farmer" element={<FarmerLayout />}>
                 <Route index element={<AddItems />} />
                 <Route path="/farmer/profile" element={<FarmerProfile />} />
+                <Route path="/farmer/items" element={<Items />} />
+                <Route path="/farmer/soil" element={<SoilAnalysis />} />
               </Route>
             </Routes>
           </BrowserRouter>

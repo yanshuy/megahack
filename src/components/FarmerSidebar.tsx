@@ -19,6 +19,8 @@ import {
   Wallet,
   Plus,
   UserPen,
+  ShoppingBasket,
+  Filter,
 } from "lucide-react";
 
 const FarmerSidebar = () => {
@@ -37,6 +39,12 @@ const FarmerSidebar = () => {
           </SidebarLink>
           <SidebarLink href="/farmer/profile" icon={UserPen }>
             Profile
+          </SidebarLink>
+          <SidebarLink href="/farmer/items" icon={ShoppingBasket }>
+            My Items
+          </SidebarLink>
+          <SidebarLink href="/farmer/profile" icon={Filter }>
+            Soil Analysis
           </SidebarLink>
          
         
@@ -57,7 +65,7 @@ const SidebarLink = ({ href, icon: Icon, children }) => {
   return (
     <Link
       to={href}
-      className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-indigo-100   hover:text-[#021e39] rounded-lg transition-colors duration-150"
+      className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-green-200   hover:text-[#021e39] rounded-lg transition-colors duration-150"
     >
       <Icon className="w-5 h-5" />
       {children}

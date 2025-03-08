@@ -90,7 +90,7 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
     method: "GET",
     headers: {
         'Authorization': `Bearer ${accessToken}`,
-        'ngrok-skip-browser-warning': 'true'  // Add this header to skip the Ngrok browser warning
+        'ngrok-skip-browser-warning': 'true'  
     }
 });
       
@@ -99,23 +99,25 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
       }
       
       const data = await response.json();
-      setNearbyMarketplaces(data);
+      const filteredData = data["markets"]
+      console.log(filteredData);
+      
+      setNearbyMarketplaces(filteredData);
     } catch (error) {
       console.error('Error fetching nearby marketplaces:', error);
-      // Fallback to static data in case of error
       setNearbyMarketplaces(marketplaces);
     } finally {
       setIsLoadingMarketplaces(false);
     }
   };
 
-  // Load Google Maps script - prevent multiple script loading
+
+
   useEffect(() => {
     const loadGoogleMapsScript = () => {
-      // Check if the script is already loaded
       if (window.google && window.google.maps) {
         initializeMap();
-        return () => {}; // Return empty cleanup function
+        return () => {}; 
       }
       
       const script = document.createElement('script');
@@ -154,7 +156,6 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
       const newMap = new google.maps.Map(mapRef.current, mapOptions);
       setMap(newMap);
 
-      // Create initial marker at default center
       const newMarker = new google.maps.Marker({
         position: defaultCenter,
         map: newMap,
@@ -162,7 +163,6 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
       });
       setMarker(newMarker);
       
-      // Apply location from context if available (moved from useEffect)
       if (text !== "0" && latitude && longitude && latitude !== 0 && longitude !== 0) {
         const position = { lat: latitude, lng: longitude };
         newMap.setCenter(position);
@@ -170,10 +170,8 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
         newMap.setZoom(16);
         setSearchInput(text);
         
-        // Update marker position
         newMarker.setPosition(position);
         
-        // Fetch nearby marketplaces
         fetchNearbyMarketplaces(position);
       }
     }

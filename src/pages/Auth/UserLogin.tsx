@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import loginImage from "../../assets/authImage.png"
 import { BASE_URL } from "../../App";
+import { jwtDecode } from "jwt-decode";
 
 
 const UserLogin = () => {
@@ -27,7 +28,7 @@ const UserLogin = () => {
         password,
     };
 
-    const response = await fetch(`${BASE_URL}/api/token/`, {
+    const response = await fetch(`${BASE_URL}/api/login/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -41,16 +42,18 @@ const UserLogin = () => {
 
   console.log(data);
 
-//   setAuth({
-//     accessToken: data.access,
-//     refreshToken: data.refresh,
-//   });
-
-
   localStorage.setItem("accessToken", data.access);
   localStorage.setItem("refreshToken", data.refresh);
+  const accessToken = localStorage.getItem("accessToken")
+  const decoded = jwtDecode(accessToken);
+  if (decoded.role=="farmer") {
+    navigate("/farmer")
+  }else{
+    navigate("/")
+  }
+  console.log(decoded);
+  
 
-  navigate("/");
 }
 
   }
