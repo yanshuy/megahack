@@ -13,7 +13,7 @@ import {
   Toilet,
   ChevronLeft,
 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { marketplaces } from "@/data/marketplaces";
 import { farmers } from "@/data/farmer-dummy";
 import { products } from "@/data/product-dummy";
@@ -27,6 +27,7 @@ const MarketplaceDetailPage = () => {
     marketplaces[Number.isNaN(Number(marketId)) ? 1 : Number(marketId) - 1];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("info");
+  const navigate = useNavigate();
 
   // Get current day for highlighting in operating hours
   const currentDay = new Date().toLocaleString("en-us", { weekday: "long" });
@@ -131,10 +132,16 @@ const MarketplaceDetailPage = () => {
 
         {/* Action Buttons */}
         <div className="mb-6 grid grid-cols-2 gap-3">
-          <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
-            <Navigation className="mr-2 h-4 w-4" />
-            Get Directions
-          </button>
+          <a
+            href={`http://maps.google.com/maps?q=${marketplace.address.coordinates.latitude},${marketplace.address.coordinates.longitude}`}
+            className="contents"
+            target="_blank"
+          >
+            <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
+              <Navigation className="mr-2 h-4 w-4" />
+              Get Directions
+            </button>
+          </a>
         </div>
 
         {/* Tab Navigation */}
@@ -276,7 +283,8 @@ const MarketplaceDetailPage = () => {
                   return false;
                 })
                 .map((farmer) => (
-                  <div
+                  <button
+                    onClick={() => navigate(`/farmers/${farmer.id}`)}
                     key={farmer.id}
                     className="flex items-center rounded-lg bg-white p-3 shadow-sm"
                   >
@@ -285,7 +293,7 @@ const MarketplaceDetailPage = () => {
                       alt={farmer.name}
                       className="mr-3 h-16 w-16 rounded-full object-cover"
                     />
-                    <div className="flex-1">
+                    <div className="flex-1 text-left">
                       <h3 className="font-medium">{farmer.name}</h3>
                       <div className="mb-1 flex items-center text-sm text-amber-500">
                         <Star className="mr-1 h-4 w-4 fill-amber-500 stroke-amber-500" />
@@ -313,7 +321,7 @@ const MarketplaceDetailPage = () => {
                       </div>
                     </div>
                     <ChevronRight className="h-5 w-5 text-gray-400" />
-                  </div>
+                  </button>
                 ))}
             </div>
             <div className="flex justify-center">
@@ -329,7 +337,8 @@ const MarketplaceDetailPage = () => {
             <h2 className="mb-2 text-lg font-bold">Available Products</h2>
             <div className="grid grid-cols-1 gap-3">
               {products.map((product) => (
-                <div
+                <button
+                  onClick={() => navigate(`/product/${product.id}`)}
                   key={product.id}
                   className="flex overflow-hidden rounded-lg bg-white shadow-sm"
                 >
@@ -338,7 +347,7 @@ const MarketplaceDetailPage = () => {
                     alt={product.name}
                     className="h-full w-24 object-cover"
                   />
-                  <div className="flex-1 p-3">
+                  <div className="flex-1 p-3 text-left">
                     <span
                       className={`mb-1 inline-block rounded-full px-2 py-1 text-xs ${
                         product.category === "Veggies"
@@ -368,7 +377,7 @@ const MarketplaceDetailPage = () => {
                       </button>
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </div>

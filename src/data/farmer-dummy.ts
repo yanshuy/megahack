@@ -27,7 +27,7 @@ export interface Farmer {
 export const farmers: Farmer[] = [
   {
     id: 1,
-    name: "S. Anant",
+    name: "S. Anand",
     image:
       "https://images.unsplash.com/photo-1609252509102-aa73ff792667?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     rating: 4.9,
@@ -55,7 +55,8 @@ export const farmers: Farmer[] = [
   {
     id: 2,
     name: "A. Prakash",
-    image: "https://images.unsplash.com/photo-1519181245277-cffeb31da2e2?q=80&w=2070&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1519181245277-cffeb31da2e2?q=80&w=2070&auto=format&fit=crop",
     rating: 4.9,
     products: ["Fruits"],
     location: "Tamil Nadu",
@@ -81,7 +82,8 @@ export const farmers: Farmer[] = [
   {
     id: 3,
     name: "D. Singh",
-    image: "https://images.unsplash.com/photo-1474447976065-67d23accb1e3?q=80&w=2070&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1474447976065-67d23accb1e3?q=80&w=2070&auto=format&fit=crop",
     rating: 4.8,
     products: ["Dairy", "Vegetables"],
     location: "Punjab",
@@ -105,8 +107,9 @@ export const farmers: Farmer[] = [
   },
   {
     id: 4,
-    name: "Kutu Tai",
-    image: "https://images.unsplash.com/photo-1503777119540-7e50c0ebbd41?q=80&w=2070&auto=format&fit=crop",
+    name: "Kuttu Tai",
+    image:
+      "https://images.unsplash.com/photo-1503777119540-7e50c0ebbd41?q=80&w=2070&auto=format&fit=crop",
     rating: 4.8,
     products: ["Fruits", "Vegetables"],
     location: "Maharashtra",
@@ -132,7 +135,8 @@ export const farmers: Farmer[] = [
   {
     id: 5,
     name: "Rajesh Patil",
-    image: "https://images.unsplash.com/photo-1507120410856-1f35574c3b45?q=80&w=2070&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1507120410856-1f35574c3b45?q=80&w=2070&auto=format&fit=crop",
     rating: 4.8,
     products: ["Fruits"],
     location: "Maharashtra",
@@ -157,7 +161,8 @@ export const farmers: Farmer[] = [
   {
     id: 6,
     name: "Suresh Kumar",
-    image: "https://images.unsplash.com/photo-1555992336-03a23c88a1a8?q=80&w=2070&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1555992336-03a23c88a1a8?q=80&w=2070&auto=format&fit=crop",
     rating: 4.7,
     products: ["Dairy"],
     location: "Haryana",

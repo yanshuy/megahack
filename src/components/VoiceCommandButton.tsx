@@ -1,13 +1,8 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {
-  Mic,
-  Loader2,
-  MicOff,
-  Navigation2Off,
-  Navigation2,
-} from "lucide-react";
+import Img from "./../../public/icons8-technical-support-96.png";
+import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { accessToken, BASE_URL } from "@/App";
 
@@ -140,19 +135,19 @@ export function VoiceCommandButton() {
       disabled={processing}
       className={`z-50 size-full rounded-full p-0 ${
         isListening
-          ? "bg-red-600 hover:bg-red-700"
+          ? "bg-yellow-500 hover:bg-yellow-600"
           : "bg-green-700 hover:bg-green-800"
       }`}
       aria-label={isListening ? "Stop voice command" : "Start voice command"}
     >
       {isListening ? (
         <div className="animate-pulse">
-          <Navigation2Off className="size-6" />
+          <img src={Img} alt="" className="size-9 invert" />
         </div>
       ) : processing ? (
         <Loader2 className="h-6 w-6 animate-spin" />
       ) : (
-        <Navigation2 className="size-6" />
+        <img src={Img} alt="" className="size-9 invert" />
       )}
     </Button>
   );

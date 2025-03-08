@@ -31,7 +31,6 @@ export interface CartItem {
 export interface CartSummary {
   subtotal: number;
   deliveryFee: number;
-  platformFee: number;
   total: number;
 }
 
@@ -100,13 +99,12 @@ const calculateSummary = (items: CartItem[]): CartSummary => {
 
   // Calculate fees
   const deliveryFee = subtotal > 50 ? 0 : 5.99;
-  const platformFee = subtotal * 0.05; // 5% platform fee
 
   return {
     subtotal,
     deliveryFee,
-    platformFee,
-    total: subtotal + deliveryFee + platformFee,
+
+    total: subtotal + deliveryFee,
   };
 };
 
@@ -116,7 +114,7 @@ const initialState: CartState = {
   summary: {
     subtotal: 0,
     deliveryFee: 0,
-    platformFee: 0,
+
     total: 0,
   },
 };
