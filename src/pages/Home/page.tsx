@@ -19,6 +19,8 @@ import {
   Search,
   Star,
 } from "lucide-react";
+import { useTranslation } from 'react-i18next';
+import i18n from "@/i18n";
 
 export const ProductCard: React.FC<{
   product: FarmerProduct;
@@ -84,6 +86,9 @@ const HomeScreen = () => {
   const [userLocation, setUserLocation] = useState<string>("");
   const [isLocationExpanded, setIsLocationExpanded] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation('home');
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const currentLang = i18n.language;
 
   // Get user's location on component mount
   useEffect(() => {
@@ -155,9 +160,34 @@ const HomeScreen = () => {
         </div>
 
         <div className="flex space-x-3">
-          <div className="rounded-full border p-3">
-            <Search className="size-6 text-gray-700" />
-          </div>
+        <div className="relative">
+              <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="flex items-center gap-2 rounded-full border p-3"
+              >
+                <span className="text-sm font-medium">{currentLang.toUpperCase()}</span>
+                <ChevronDown className="h-4 w-4" />
+              </button>
+              {isLangOpen && (
+                <div className="absolute right-0 mt-2 w-32 rounded-lg border bg-white shadow-lg z-20">
+                  <div className="py-1">
+                    {['en', 'hi', 'mr'].map((lang) => (
+                      <button
+                        key={lang}
+                        className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                        onClick={() => {
+                          i18n.changeLanguage(lang);
+                          localStorage.setItem('lang', lang);
+                          setIsLangOpen(false);
+                        }}
+                      >
+                        {lang === 'en' ? 'English' : lang === 'hi' ? 'हिंदी' : 'मराठी'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           <div className="rounded-full border p-3">
             <Menu className="size-6 text-gray-700" />
           </div>
@@ -174,7 +204,7 @@ const HomeScreen = () => {
                 className="flex w-full flex-col gap-2 rounded-lg transition-all duration-200 hover:bg-white/10"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm text-gray-100">Your location</span>
+                  <span className="text-sm text-gray-100">{t('common.location')}</span>
                   <ChevronDown
                     className={`h-4 w-4 transition-transform duration-200 ${isLocationExpanded ? "rotate-180" : ""} ${
                       window.innerWidth > 768 ? "hidden" : ""
@@ -198,14 +228,14 @@ const HomeScreen = () => {
 
             <div className="flex flex-col">
               <h1 className="mb-4 text-4xl font-semibold">
-                Let's find some Farmer's Markets
+                {t('common.findMarkets')}
               </h1>
               <form onSubmit={handleSearch} className="relative">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search for parking spots..."
+                  placeholder={t('common.search')}
                   className="w-full rounded-lg border bg-transparent px-4 py-3 pl-12 text-white placeholder-white focus:outline-none md:w-1/2"
                 />
                 <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-white" />
@@ -219,14 +249,14 @@ const HomeScreen = () => {
       <div className="px-4 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold">Nearby Farmer's Markets</h2>
+           <h2 className="text-xl font-semibold">{t('common.nearbyMarkets')}</h2>
             <p className="mb-5 text-gray-500">
-              The best farmer's markets near you
+              {t('common.bestMarkets')}
             </p>
           </div>
           <Link to={"/"} className="max-md:hidden">
             <button className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-violet-500 px-4 py-2 text-center text-white">
-              View More <ArrowRight className="h-5 w-5" />
+              {t('common.viewMore')} <ArrowRight className="h-5 w-5" />
             </button>
           </Link>
         </div>
