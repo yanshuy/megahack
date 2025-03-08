@@ -2,10 +2,10 @@
 
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useInventory } from "@/context/InventoryContext";
+import { useGLTF } from "@react-three/drei";
 import type * as THREE from "three";
 
-interface CarrotProps {
+interface ModelProps {
   position: [number, number, number];
   rotation?: [number, number, number];
   scale?: number;
@@ -19,51 +19,32 @@ export const Carrot = ({
   scale = 1,
   itemId,
   onPointerDown,
-}: CarrotProps) => {
-  const meshRef = useRef<THREE.Group>(null);
+}: ModelProps) => {
+  const group = useRef<THREE.Group>(null);
+  const { nodes, materials } = useGLTF("../models/carrot.glb");
 
-  // Optional: Add subtle animation
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += 0.002;
+  useFrame(() => {
+    if (group.current) {
+      group.current.rotation.y += 0.001;
     }
   });
 
   return (
-    <group
-      position={position}
-      rotation={rotation as [number, number, number]}
-      scale={scale}
-      onPointerDown={onPointerDown}
-      ref={meshRef}
-    >
-      {/* Carrot body */}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <coneGeometry args={[0.15, 0.6, 16]} />
-        <meshStandardMaterial color="#e67e22" roughness={0.7} />
-      </mesh>
-
-      {/* Carrot greens */}
-      <group position={[0, 0.3, 0]}>
-        {[0, 1, 2, 3, 4].map((i) => (
-          <mesh
-            key={i}
-            position={[
-              Math.sin((i * Math.PI) / 2.5) * 0.05,
-              0.1 + Math.random() * 0.1,
-              Math.cos((i * Math.PI) / 2.5) * 0.05,
-            ]}
-            rotation={[
-              Math.random() * 0.2,
-              Math.random() * Math.PI * 2,
-              Math.random() * 0.2,
-            ]}
-          >
-            <boxGeometry args={[0.02, 0.2, 0.01]} />
-            <meshStandardMaterial color="#27ae60" roughness={0.5} />
-          </mesh>
-        ))}
+    <group ref={group} position={[position[0] , position[1], position[2] + 0.5]} rotation={rotation} scale={0.005} onPointerDown={onPointerDown}>
+      <group position={[305.827, 0, -24.307]}>
+        <mesh geometry={nodes.body_body_0.geometry} material={materials.body} />
+        <mesh geometry={nodes.body_body1_0.geometry} material={materials.body1} />
+        <mesh geometry={nodes.body_leaf_0.geometry} material={materials.leaf} />
       </group>
+      <mesh geometry={nodes.leaf_1_leaf_0.geometry} material={materials.leaf} position={[85.554, 35.908, 17.077]} />
+      <mesh geometry={nodes.leaf_2_leaf_0.geometry} material={materials.leaf} position={[31.419, 80.792, -25.479]} />
+      <mesh geometry={nodes.leaf_3_leaf_0.geometry} material={materials.leaf} position={[90.995, 36.78, -83.716]} />
+      <mesh geometry={nodes.leaf_4_leaf_0.geometry} material={materials.leaf} position={[28.523, -6.755, -25.479]} />
+      <mesh geometry={nodes.leaf_5_leaf_0.geometry} material={materials.leaf} position={[54.044, 55.545, -19.355]} />
+      <mesh geometry={nodes.leaf_6_leaf_0.geometry} material={materials.leaf} position={[65.983, 6.066, -32.552]} />
+      <mesh geometry={nodes.leaf_7_leaf_0.geometry} material={materials.leaf} position={[65.517, 41.251, -60.308]} />
     </group>
   );
 };
+
+useGLTF.preload("../models/carrot.glb");

@@ -60,26 +60,26 @@ const MarketplaceDetailPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 pb-16">
       {/* Header */}
-      <div className="sticky top-0 z-10 flex items-center justify-between bg-white p-4">
-        <div className="flex items-center">
-          <ChevronLeft className="mr-2 h-5 w-5" onClick={() => navigate(-1)} />
-          <h1 className="text-xl font-bold">
-            {t(`marketplace_${marketplace.id}.name`)}
-          </h1>
+      <div className="fixed top-0 z-10 flex w-full items-center justify-between p-4">
+        <div className="flex size-10 items-center justify-center rounded-full bg-white">
+          <ChevronLeft
+            className="mr-2 h-5 w-5 translate-x-0.5"
+            onClick={() => navigate(-1)}
+          />
         </div>
         <div className="flex space-x-3">
-          <button className="rounded-full p-2 hover:bg-gray-100">
-            <Share2 className="h-5 w-5" />
+          <button className="flex size-10 items-center justify-center rounded-full bg-white p-2 hover:bg-gray-100">
+            <Share2 className="h-5 w-5 -translate-x-0.5" />
           </button>
-          <button className="rounded-full p-2 hover:bg-gray-100">
-            <Bookmark className="h-5 w-5" />
+          <button className="size-10 items-center justify-center rounded-full bg-white p-2 hover:bg-gray-100">
+            <Bookmark className="h-5 w-5 translate-x-[3px]" />
           </button>
         </div>
       </div>
 
       {/* Image Carousel */}
       <div className="relative">
-        <div className="h-64 overflow-hidden">
+        <div className="overflow-hidden">
           <div
             className="flex transition-transform duration-300"
             style={{ transform: `translateX(-${activeImageIndex * 100}%)` }}
@@ -89,7 +89,7 @@ const MarketplaceDetailPage = () => {
                 key={index}
                 src={image}
                 alt={`${marketplace.name} - Image ${index + 1}`}
-                className="h-64 w-full flex-shrink-0 object-cover"
+                className="h-80 w-full flex-shrink-0 object-cover"
               />
             ))}
           </div>
@@ -139,7 +139,7 @@ const MarketplaceDetailPage = () => {
         <div className="mb-6 grid grid-cols-2 gap-3">
           <button
             className="flex items-center justify-center rounded-lg border bg-green-700 py-3 font-medium text-white"
-            onClick={() => navigate(`/shop`)}
+            onClick={() => navigate(`/shop/${marketplace.id}`)}
           >
             <ShoppingBag className="mr-2 h-4 w-4" />
             Shop
@@ -147,11 +147,12 @@ const MarketplaceDetailPage = () => {
           <a
             className="contents"
             href={`http://maps.google.com/maps?q=${marketplace.address.coordinates.latitude},${marketplace.address.coordinates.longitude}`}
-          ></a>
-          <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
-            <Navigation className="mr-2 h-4 w-4" />
-            Get Directions
-          </button>
+          >
+            <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
+              <Navigation className="mr-2 h-4 w-4" />
+              Get Directions
+            </button>
+          </a>
         </div>
 
         {/* Tab Navigation */}

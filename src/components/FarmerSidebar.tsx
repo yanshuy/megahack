@@ -19,6 +19,8 @@ import {
   Wallet,
   Plus,
   UserPen,
+  ThermometerSunIcon,
+  Boxes,
   ShoppingBasket,
   Filter,
 } from "lucide-react";
@@ -39,6 +41,9 @@ const FarmerSidebar = () => {
           </SidebarLink>
           <SidebarLink href="/farmer/profile" icon={UserPen }>
             Profile
+          </SidebarLink>
+          <SidebarLink href="/farmer/3d" icon={Boxes}>
+            Inventory Visualization
           </SidebarLink>
           <SidebarLink href="/farmer/items" icon={ShoppingBasket }>
             My Items

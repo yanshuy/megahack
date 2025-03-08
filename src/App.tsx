@@ -23,6 +23,7 @@ import Shop from "./pages/shop/page";
 
 import HealthReportPage from "./pages/HealthReportPage";
 import { LocationProvider } from "./context/LocationContext";
+import ShopForMarket from "./pages/shop/ShopForMarket";
 import Items from "./pages/FarmerDasboard/Items";
 import SoilAnalysis from "./pages/FarmerDasboard/SoilAnanlysis";
 import UserLogin from "./pages/Auth/UserLogin";
@@ -66,19 +67,21 @@ function App() {
                 path="/market/:marketId"
                 element={<MarketplaceDetailPage />}
               />
+              <Route path="/shop/:marketId" element={<ShopForMarket />} />
               <Route path="/farmers/:id" element={<FarmerProfileForUser />} />
               {/* <Route path="/pd/:productId" element={<ProductDetailScreen />} /> */}
               <Route
                 path="/product/:productId"
                 element={<FarmerProductListing />}
               />
-              <Route path="/3d" element={<ThreeDIMS />} />
               <Route path="/user/login" element={<UserLogin />} />
               <Route path="*" element={<div>page under construction</div>} />
 
               <Route path="farmer" element={<FarmerLayout />}>
                 <Route index element={<AddItems />} />
                 <Route path="/farmer/profile" element={<FarmerProfile />} />
+              <Route path="/farmer/3d" element={<ThreeDIMS />} />
+
                 <Route path="/farmer/items" element={<Items />} />
                 <Route path="/farmer/soil" element={<SoilAnalysis />} />
               </Route>
