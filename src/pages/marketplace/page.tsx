@@ -61,7 +61,7 @@ const MarketplaceDetailPage = () => {
       {/* Header */}
       <div className="sticky top-0 z-10 flex items-center justify-between bg-white p-4">
         <div className="flex items-center">
-          <ChevronLeft className="h-5 w-5 mr-2" onClick={() => navigate(-1)}/>
+          <ChevronLeft className="h-5 w-5 mr-2" onClick={navigate(-1)}/>
           <h1 className="text-xl font-bold">{t(`marketplace_${marketplace.id}.name`)}</h1>
         </div>
         <div className="flex space-x-3">

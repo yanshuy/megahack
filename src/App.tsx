@@ -22,11 +22,12 @@ import ThreeDIMS from "./pages/3DIMS/3DIMS";
 import Shop from "./pages/shop/page";
 
 import HealthReportPage from "./pages/HealthReportPage";
+import { LocationProvider } from "./context/LocationContext";
 
-export const BASE_URL = "https://live-merely-drum.ngrok-free.app";
+export const BASE_URL = "https://toucan-driven-admittedly.ngrok-free.app/api/products";
 
 export const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTUyMTA1LCJpYXQiOjE3NDEzNzkzMDUsImp0aSI6IjM5NzhkNjIyNTYwNDQ2ZDU5YjRkOWUyNzU3N2FlYzJmIiwidXNlcl9pZCI6MX0.-PkgMx7izqevnzxxnfnXTOO8VHmU5bV-adcN4ws0VzY";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTQ4NTAwLCJpYXQiOjE3NDEzNzU3MDAsImp0aSI6ImE4ZDAxYjUwODc4MDQwOTc5NGFiZGVlNDY0OGQ0NTY4IiwidXNlcl9pZCI6MX0.H5TEeyOYutVMaVuq0m16DD_tSAP2PPlWxXT8DvbAF4Y";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Toaster />
 
+      <LocationProvider>
       <CartProvider>
         <BrowserRouter>
           <Routes>
@@ -49,10 +51,13 @@ function App() {
                 path="/search/marketplace"
                 element={<SearchFramersMarket />}
               />
-                <Route path="/health-report" element={<HealthReportPage />} /> {/* Add the new route */}
-          </Route>
+            </Route>
+            <Route path="/health-report" element={<HealthReportPage />} />
             <Route path="/onboarding" element={<OnboardingScreen />} />
-            <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
+            <Route
+              path="/search/marketplace"
+              element={<SearchFramersMarket />}
+            />
             <Route
               path="/market/:marketId"
               element={<MarketplaceDetailPage />}
@@ -73,6 +78,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
+      </LocationProvider>
     </QueryClientProvider>
   );
 }

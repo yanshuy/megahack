@@ -148,13 +148,6 @@ const CartScreen = () => {
                     )}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Platform Fee (5%)</span>
-                  <span className="font-medium">
-                    {RupeeSymbol}
-                    {formatPrice(cart.summary.platformFee)}
-                  </span>
-                </div>
               </div>
 
               <div className="flex justify-between border-t border-gray-200 pt-3">

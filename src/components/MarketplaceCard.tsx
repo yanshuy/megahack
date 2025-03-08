@@ -2,6 +2,7 @@ import { MapPin, Users, Star, Clock, ChevronRight } from "lucide-react";
 import { Marketplace } from "@/data/marketplaces";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface MarketplaceCardProps {
   marketplace: Marketplace;
