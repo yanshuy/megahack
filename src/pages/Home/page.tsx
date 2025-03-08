@@ -4,18 +4,13 @@ import Map from "@/components/Map";
 import { marketplaces } from "@/data/marketplaces";
 import MarketplaceCard from "@/components/MarketplaceCard";
 import { products } from "@/data/product-dummy";
-import { FarmerProduct, useCart } from "@/context/CartContext";
+import { FarmerProduct } from "@/context/CartContext";
 import { getProductBadgeStyle, RupeeSymbol } from "@/utils/utility";
 import {
   ArrowRight,
-  Bean,
-  CarrotIcon,
-  Cherry,
   ChevronDown,
-  Flame,
   MapPin,
   Menu,
-  Milk,
   Search,
   Star,
 } from "lucide-react";

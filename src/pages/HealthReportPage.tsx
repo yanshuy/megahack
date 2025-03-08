@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { ChevronLeft, Upload, FileText, Check, AlertTriangle } from "lucide-react";
+import {
+  ChevronLeft,
+  Upload,
+  FileText,
+  Check,
+  AlertTriangle,
+  ArrowBigRight,
+  ArrowLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { accessToken, BASE_URL } from "@/App";
@@ -69,7 +78,7 @@ const HealthReportPage = () => {
       const response = await fetch(`${BASE_URL}/api/health-recommendations/`, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
         },
         body: formData,
       });
@@ -82,7 +91,8 @@ const HealthReportPage = () => {
       setResponse(data);
       toast({
         title: "Report Analyzed",
-        description: "We've analyzed your health report and found some recommendations",
+        description:
+          "We've analyzed your health report and found some recommendations",
       });
     } catch (error) {
       console.error("Error uploading health report:", error);
@@ -97,13 +107,15 @@ const HealthReportPage = () => {
   };
 
   return (
-    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral) pb-[12vh]">
+    <div className="flex h-full min-h-screen flex-col bg-(--bg-neutral)">
       <div className="flex items-center border-b border-gray-100 p-4">
         <ChevronLeft
           className="cursor-pointer text-gray-700"
           onClick={() => navigate(-1)}
         />
-        <h1 className="flex-grow text-center text-xl font-bold">Health Report Analysis</h1>
+        <h1 className="flex-grow text-center text-xl font-bold">
+          Health Report Analysis
+        </h1>
         <div className="w-6"></div>
       </div>
 
@@ -113,24 +125,31 @@ const HealthReportPage = () => {
             <div className="rounded-xl bg-white p-5 shadow-sm">
               <h2 className="mb-4 text-lg font-bold">Upload Health Report</h2>
               <p className="mb-6 text-sm text-gray-600">
-                Upload your health report PDF to get personalized product recommendations based on your nutritional needs.
+                Upload your health report PDF to get personalized product
+                recommendations based on your nutritional needs.
               </p>
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-6">
-                  <div 
+                  <div
                     className={`flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 ${
-                      file ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-gray-400'
+                      file
+                        ? "border-green-500 bg-green-50"
+                        : "border-gray-300 hover:border-gray-400"
                     }`}
                   >
                     {file ? (
                       <>
                         <FileText size={48} className="mb-2 text-green-500" />
-                        <p className="font-medium text-green-700">{file.name}</p>
-                        <p className="mt-1 text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        <p className="font-medium text-green-700">
+                          {file.name}
+                        </p>
+                        <p className="mt-1 text-xs text-gray-500">
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
                         <div className="mt-4 flex space-x-2">
-                          <Button 
-                            type="button" 
+                          <Button
+                            type="button"
                             variant="outline"
                             size="sm"
                             onClick={() => setFile(null)}
@@ -142,7 +161,9 @@ const HealthReportPage = () => {
                     ) : (
                       <>
                         <Upload size={48} className="mb-2 text-gray-400" />
-                        <p className="mb-2 font-medium">Click to upload or drag and drop</p>
+                        <p className="mb-2 font-medium">
+                          Click to upload or drag and drop
+                        </p>
                         <p className="text-xs text-gray-500">PDF (max. 10MB)</p>
                         <input
                           type="file"
@@ -169,17 +190,17 @@ const HealthReportPage = () => {
           <div className="space-y-6">
             <div className="rounded-xl bg-white p-5 shadow-sm">
               <h2 className="mb-3 text-lg font-bold">Report Summary</h2>
-              <p className="whitespace-pre-line text-sm text-gray-700">
+              <p className="overflow-clip text-sm whitespace-pre-line text-gray-700">
                 {response.extracted_text_preview}
               </p>
             </div>
 
             <div className="rounded-xl bg-white p-5 shadow-sm">
               <h2 className="mb-4 text-lg font-bold">Nutritional Needs</h2>
-              
+
               <div className="space-y-3">
                 {response.suggested_items.map((item) => (
-                  <div 
+                  <div
                     key={item.id}
                     className="flex items-start rounded-lg border border-gray-100 bg-gray-50 p-3"
                   >
@@ -199,40 +220,70 @@ const HealthReportPage = () => {
 
             <div className="rounded-xl bg-white p-5 shadow-sm">
               <h2 className="mb-4 text-lg font-bold">Recommended Products</h2>
-              
+
               {response.matching_products.length > 0 ? (
                 <div className="space-y-4">
                   {response.matching_products.map((product) => (
-                    <div 
+                    <div
                       key={product.id}
-                      className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm"
+                      className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition-all hover:border-green-200 hover:shadow-md"
                     >
-                      <div className="flex items-center p-4">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-md bg-green-100">
-                          <FileText className="h-8 w-8 text-green-600" />
+                      <div className="flex items-start p-4">
+                        {/* Icon Container */}
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-green-100 bg-green-50">
+                          <FileText className="h-6 w-6 text-green-700" />
                         </div>
+
+                        {/* Product Details */}
                         <div className="ml-4 flex-grow">
-                          <h3 className="font-medium">{product.name}</h3>
-                          <div className="flex items-center text-sm text-gray-600">
-                            <span className="rounded-full bg-green-100 px-2 py-0.5 text-green-800">{product.category}</span>
-                            <span className="mx-2">•</span>
-                            <span>Rich in {product.nutrient}</span>
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            {product.name}
+                          </h3>
+
+                          <div className="mt-1 flex flex-wrap items-center gap-2">
+                            <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
+                              {product.category}
+                            </span>
+                            <span className="text-sm text-gray-600">
+                              Rich in{" "}
+                              <span className="font-medium text-gray-900">
+                                {product.nutrient}
+                              </span>
+                            </span>
+                          </div>
+
+                          {/* Additional Info */}
+                          <div className="mt-2 flex items-center gap-3 text-sm text-gray-600">
+                            <div className="flex items-center">
+                              <span className="h-2 w-2 rounded-full bg-green-500"></span>
+                              <span className="ml-2">
+                                {product.stock} available
+                              </span>
+                            </div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-bold text-green-700">
-                            {RupeeSymbol}{product.price}
+
+                        {/* Price Section */}
+                        <div className="ml-4 text-right">
+                          <p className="text-xl font-bold text-green-700">
+                            {RupeeSymbol}
+                            <span className="ml-1">{product.price}</span>
                           </p>
-                          <p className="text-xs text-gray-500">{product.stock} in stock</p>
+                          <p className="mt-1 text-xs font-medium text-gray-500">
+                            per kg
+                          </p>
                         </div>
                       </div>
-                      <div className="border-t border-gray-100 bg-gray-50 p-3">
-                        <Button 
-                          className="w-full rounded-full bg-green-700 text-sm font-medium text-white"
+
+                      {/* Action Button */}
+                      <div className="border-t border-gray-100 px-4 py-3">
+                        <button
                           onClick={() => navigate(`/product/${product.id}`)}
+                          className="flex w-full items-center justify-between rounded-lg bg-green-50 px-4 py-2.5 text-sm font-medium text-green-700 transition-colors hover:bg-green-100"
                         >
-                          View Product
-                        </Button>
+                          <span>View Product Details</span>
+                          <ChevronRight className="h-4 w-4" />
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -245,12 +296,13 @@ const HealthReportPage = () => {
               )}
             </div>
 
-            <Button
-              className="w-full rounded-full bg-green-700 py-3 font-medium text-white"
+            <button
+              className="flex w-full items-center justify-center rounded-full bg-transparent py-3 text-center font-medium text-green-700"
               onClick={() => setResponse(null)}
             >
+              <ArrowLeft className="mr-1" />
               Upload Another Report
-            </Button>
+            </button>
           </div>
         )}
       </div>

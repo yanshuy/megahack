@@ -49,10 +49,13 @@ function App() {
                 path="/search/marketplace"
                 element={<SearchFramersMarket />}
               />
-                <Route path="/health-report" element={<HealthReportPage />} /> {/* Add the new route */}
-          </Route>
+            </Route>
+            <Route path="/health-report" element={<HealthReportPage />} />
             <Route path="/onboarding" element={<OnboardingScreen />} />
-            <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
+            <Route
+              path="/search/marketplace"
+              element={<SearchFramersMarket />}
+            />
             <Route
               path="/market/:marketId"
               element={<MarketplaceDetailPage />}
