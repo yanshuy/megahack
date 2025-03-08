@@ -103,7 +103,7 @@ const AddItems = () => {
   {
     "parts": [
       {
-        "text": `Extract relevant details from the given voice message transcript and return a JSON object. Use the following JSON structure as a reference:\n\n{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": number,\n  \"unit\": \"string\",\n  \"certifications\": [\"array\"],\n  \"category\": \"string\",\n  \"availableQuantities\": [\"array\"]\n}\n\nExtract only the details explicitly mentioned in the transcript. Do not assume any values. If a field is not mentioned, keep the key but assign it an appropriate empty value: \n- For strings, use an empty string \"\".\n- For numbers, use 0.\n- For arrays, use an empty array [].\n\nIf a field is present in the transcript and a change is requested, update it accordingly. However, if a field is present but no change is requested, retain its original value. Additionally, if existing information in the transcript can help determine the value of another field, use that information intelligently.\n\nEnsure that the description is expanded naturally to make it more detailed and engaging. All extracted details must be formatted in proper English, even if they were originally in Hindi or Hinglish.\n\nVoice Message Transcript: ${transcript}\n\nOnly return the JSON output. Do not include any additional text, explanations, or formatting. ALSO GIVE CATEGORY,UNIT AT ANY COST ALSO CERTIFICATE IF POSSIBLE  ,I WANT FIELDS VALUE IN ENGLISH EVEN IF THE VOICE MESSAGE IS IN HINDI/HINGLISH `
+        "text": `Extract relevant details from the given voice message transcript and return a JSON object. Use the following JSON structure as a reference:\n\n{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": number,\n  \"unit\": \"string\",\n  \"certifications\": [\"array\"],\n  \"category\": \"string\",\n  \"availableQuantities\": [\"array\"]\n}\n\nExtract only the details explicitly mentioned in the transcript. Do not assume any values. If a field is not mentioned, keep the key but assign it an appropriate empty value: \n- For strings, use an empty string \"\".\n- For numbers, use 0.\n- For arrays, use an empty array [].\n\nIf a field is present in the transcript and a change is requested, update it accordingly. However, if a field is present but no change is requested, retain its original value. Additionally, if existing information in the transcript can help determine the value of another field, use that information intelligently.\n\nEnsure that the description is expanded naturally to make it more detailed and engaging. All extracted details must be formatted in proper English, even if they were originally in Hindi or Hinglish.\n\nVoice Message Transcript: ${transcript}\n\nOnly return the JSON output. Do not include any additional text, explanations, or formatting. ALSO GIVE CATEGORY,UNIT AT ANY COST ALSO CERTIFICATE IF POSSIBLE  ,I WANT FIELDS VALUE IN ENGLISH EVEN IF THE VOICE MESSAGE IS IN HINDI/HINGLISH CONVERT IT TO ENGLISH AT ANY COST`
       }
     ]
   }
@@ -156,7 +156,7 @@ const AddItems = () => {
           </DialogHeader>
          <div className=" mx-auto my-10 p-8 bg-white rounded-xl shadow-lg">
             <div className="text-center mb-8">
-                <h2 className="text-2xl font-bold text-gray-800 mb-3">Speech to Text Converter</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-3">Smart Auto Fill</h2>
             </div>
 
             <div 
