@@ -23,6 +23,7 @@ import Shop from "./pages/shop/page";
 
 import HealthReportPage from "./pages/HealthReportPage";
 import { LocationProvider } from "./context/LocationContext";
+import ShopForMarket from "./pages/shop/ShopForMarket";
 
 export const BASE_URL =
   // "https://toucan-driven-admittedly.ngrok-free.app/api/products";
@@ -46,6 +47,7 @@ function App() {
                 {/* <Route path="/" element={<VintageCafeGame />} /> */}
                 <Route path="/" element={<HomeScreen />} />
                 <Route path="/shop" element={<Shop />} />
+                <Route path="/shop/:marketId" element={<ShopForMarket />} />
                 <Route path="/mp" element={<MarketplacesPage />} />
                 <Route path="/cart" element={<CartScreen />} />
                 <Route path="/farmers" element={<FarmersDirectoryPage />} />

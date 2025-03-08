@@ -107,7 +107,7 @@ export const farmers: Farmer[] = [
   },
   {
     id: 4,
-    name: "Kuttu Tai",
+    name: "Kutu Tai",
     image:
       "https://media.gettyimages.com/id/1524726433/photo/farmer-woman-holding-crop-at-green-agricultural-field.jpg?s=612x612&w=0&k=20&c=6C7a03yrQ5Z8LGnA1JvPKkitD9s156_fwjHVikL-z2k=",
     rating: 4.8,

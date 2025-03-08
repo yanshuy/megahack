@@ -94,8 +94,8 @@ export interface Marketplace {
 export const marketplaces: Marketplace[] = [
   {
     id: "1",
-    name: "marketplace_1_name",  // Translation key
-    description: "marketplace_1_description",  // Translation key
+    name: "marketplace_1_name", // Translation key
+    description: "marketplace_1_description", // Translation key
     address: {
       street: "Near Gandhi Maidan",
       city: "Palghar",
@@ -128,11 +128,10 @@ export const marketplaces: Marketplace[] = [
     },
     farmers: ["farmer1", "farmer2", "farmer3", "farmer4", "farmer5"],
     products: ["1", "2", "3", "4", "5"],
-    features: ["organic", "local"],  // Store feature keys
+    features: ["organic", "local"], // Store feature keys
     rating: 4.5,
     totalReviews: 150,
     createdAt: new Date("2022-05-15"),
     updatedAt: new Date("2023-12-20"),
   },
 ];
-
