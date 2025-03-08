@@ -145,6 +145,10 @@ const MarketplaceDetailPage = () => {
             <ShoppingBag className="mr-2 h-4 w-4" />
             Shop
           </button>
+          <a
+            className="contents"
+            href={`http://maps.google.com/maps?q=${marketplace.address.coordinates.latitude},${marketplace.address.coordinates.longitude}`}
+          ></a>
           <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
             <Navigation className="mr-2 h-4 w-4" />
             Get Directions
