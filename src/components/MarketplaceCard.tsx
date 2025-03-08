@@ -1,14 +1,16 @@
 import { MapPin, Users, Star, Clock, ChevronRight } from "lucide-react";
 import { Marketplace } from "@/data/marketplaces";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 interface MarketplaceCardProps {
   marketplace: Marketplace;
 }
 
 export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
-  const { t } = useTranslation('marketplace');
+  const { t } = useTranslation('marketplacecard');
   
+  const navigate = useNavigate();
   const today = new Date().getDay();
   const adjustedDay = today === 0 ? 6 : today - 1;
   const todayHours =
@@ -78,11 +80,24 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
         {/* Footer */}
         <div className="mt-auto flex items-center justify-between border-t pt-3">
           <button className="flex items-center text-sm font-medium text-green-600 hover:text-green-700">
+          <div className="flex items-center gap-2 text-sm text-gray-600">
+            {/* {marketplace.organic && (
+              <span className="flex items-center">🌱 Organic</span>
+            )}
+            {marketplace.localProduce && (
+              <span className="flex items-center">� Local</span>
+            )} */}
+          </div>
+          </button>
+          <button
+            className="flex items-center text-sm font-medium text-green-600 hover:text-green-700"
+            onClick={() => navigate(`/market/${marketplace.id}`)}
+          >
             {t('marketplace.viewDetails')}
             <ChevronRight className="ml-1 h-4 w-4" />
           </button>
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,16 +1,45 @@
 {
-    "marketplace": {
-      "closedLabel": "बंद",
-      "closedToday": "आज बंद",
-      "todayHours": "आज के समय",
+    "common": {
+      "back": "वापस",
+      "share": "शेयर करें",
+      "bookmark": "बुकमार्क",
+      "closed": "बंद",
+      "getDirections": "रास्ता पाएं",
+      "reviews": "समीक्षाएं",
+      "writeReview": "समीक्षा लिखें",
+      "seeAll": "सभी देखें",
+      "viewAllFarmers": "सभी किसान देखें"
+    },
+    "tabs": {
+      "information": "जानकारी",
       "farmers": "किसान",
-      "viewDetails": "विवरण देखें",
-      "features": {
-        "organic": "सेंद्रिय",
-        "local": "स्थानीय"
-      },
-      "marketplace_1_name": "अपना मंडी",
-      "marketplace_1_description": "भारत की समृद्ध कृषि विविधता को प्रदर्शित करने वाला एक साप्ताहिक बाजार।"
+      "products": "उत्पाद"
+    },
+    "sections": {
+      "about": "परिचय",
+      "facilities": "सुविधाएं और विशेषताएं",
+      "hours": "खुलने का समय",
+      "location": "स्थान",
+      "reviews": "समीक्षाएं",
+      "featuredFarmers": "विशेष किसान",
+      "availableProducts": "उपलब्ध उत्पाद"
+    },
+    "marketplace_1": {
+      "name": "पालघर किसान बाज़ार",
+      "description": "किसानों से सीधे ताज़ा उत्पाद प्रदान करने वाला एक जीवंत स्थानीय बाज़ार"
+    },
+    "features": {
+      "parking": "पार्किंग",
+      "restrooms": "शौचालय",
+      "street_food_stalls": "स्ट्रीट फूड स्टॉल",
+      "cultural_performances": "सांस्कृतिक प्रदर्शन",
+      "organic": "जैविक उत्पाद",
+      "local": "स्थानीय उत्पाद"
+    },
+    "categories": {
+      "Veggies": "सब्जियां",
+      "Fruits": "फल",
+      "Dairy": "डेयरी उत्पाद",
+      "Spices": "मसाले"
     }
   }
-  

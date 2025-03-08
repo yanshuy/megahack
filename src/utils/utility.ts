@@ -16,3 +16,19 @@ export const getProductBadgeStyle = (product: string) => {
 };
 
 export const RupeeSymbol = "₹" as const;
+
+export const changeLanguage = (lang: string) => {
+  // Use a small delay to ensure the widget has loaded
+  const interval = setInterval(() => {
+    console.log("hi", lang);
+
+    const combo = document.querySelector<HTMLSelectElement>(".goog-te-combo");
+    if (combo) {
+      combo.value = lang;
+      combo.dispatchEvent(new Event("change"));
+      clearInterval(interval);
+    }
+  }, 500);
+
+  return interval;
+};

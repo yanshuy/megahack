@@ -1,16 +1,25 @@
 {
-    "marketplace": {
-      "closedLabel": "बंद",
-      "closedToday": "आज बंद आहे",
-      "todayHours": "आजची वेळ",
-      "farmers": "शेतकरी",
-      "viewDetails": "तपशील पहा",
-      "features": {
-        "organic": "सेंद्रिय",
-        "local": "स्थानिक"
+    "common": {
+      "location": "Your location",
+      "findMarkets": "Let's find some Farmer's Markets",
+      "search": "Search for Farmer's Markets...",
+      "nearbyMarkets": "Nearby Farmer's Markets",
+      "bestMarkets": "The best farmer's markets near you",
+      "viewMore": "View More",
+      "loadingLocation": "Loading location...",
+      "profile": {
+        "name": "Vinayak Sharma",
+        "city": "Mumbai"
       },
-      "marketplace_1_name": "अपना मंडी",
-      "marketplace_1_description": "भारतातील समृद्ध कृषी विविधता दर्शविणारा साप्ताहिक बाजार।"
+      "product": {
+        "add": "ADD",
+        "per": "per"
+      }
+    },
+    "categories": {
+      "vegetables": "Vegetables",
+      "fruits": "Fruits",
+      "dairy": "Dairy",
+      "grains": "Grains"
     }
   }
-  

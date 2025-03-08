@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "./components/ui/toaster";
 import { CartProvider } from "./context/CartContext";
-import { VoiceCommandButton } from "./components/VoiceCommandButton"; // Import the component
 
 import MainLayout from "./layouts/MainLayout";
 import OnboardingScreen from "./pages/onboarding/page";
@@ -22,10 +21,12 @@ import SearchFramersMarket from "./pages/SearchFramersMarket/SearchFramersMarket
 import ThreeDIMS from "./pages/3DIMS/3DIMS";
 import Shop from "./pages/shop/page";
 
+import HealthReportPage from "./pages/HealthReportPage";
+
 export const BASE_URL = "https://live-merely-drum.ngrok-free.app";
 
 export const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTM3ODM3LCJpYXQiOjE3NDEzNjUwMzcsImp0aSI6IjkyOTZhODEyZTIwNjRjYmM4ZmU3NmYyMTA5YWEwZGZmIiwidXNlcl9pZCI6MX0.EL6XtlBDcqdQRhy4ExgqlVKEAmCjbHY6Ne96Udcea-c";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTUyMTA1LCJpYXQiOjE3NDEzNzkzMDUsImp0aSI6IjM5NzhkNjIyNTYwNDQ2ZDU5YjRkOWUyNzU3N2FlYzJmIiwidXNlcl9pZCI6MX0.-PkgMx7izqevnzxxnfnXTOO8VHmU5bV-adcN4ws0VzY";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
+
       <CartProvider>
         <BrowserRouter>
           <Routes>
@@ -47,8 +49,10 @@ function App() {
                 path="/search/marketplace"
                 element={<SearchFramersMarket />}
               />
-            </Route>
+                <Route path="/health-report" element={<HealthReportPage />} /> {/* Add the new route */}
+          </Route>
             <Route path="/onboarding" element={<OnboardingScreen />} />
+            <Route path="/search/marketplace" element={<SearchFramersMarket/>} />
             <Route
               path="/market/:marketId"
               element={<MarketplaceDetailPage />}

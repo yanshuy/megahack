@@ -1,0 +1,16 @@
+{
+    "marketplace": {
+      "closedLabel": "Closed",
+      "closedToday": "Closed Today",
+      "todayHours": "Today's Hours",
+      "farmers": "Farmers",
+      "viewDetails": "View Details",
+      "features": {
+        "organic": "Organic",
+        "local": "Local"
+      },
+      "marketplace_1_name": "Apna Mandi",
+      "marketplace_1_description": "A bustling weekly market showcasing India's rich agricultural diversity."
+    }
+  }
+  
