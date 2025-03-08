@@ -24,10 +24,12 @@ import Shop from "./pages/shop/page";
 import HealthReportPage from "./pages/HealthReportPage";
 import { LocationProvider } from "./context/LocationContext";
 
-export const BASE_URL = "https://toucan-driven-admittedly.ngrok-free.app/api/products";
+export const BASE_URL = 
+// "https://toucan-driven-admittedly.ngrok-free.app/api/products";
+    "https://live-merely-drum.ngrok-free.app"
 
 export const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTQ4NTAwLCJpYXQiOjE3NDEzNzU3MDAsImp0aSI6ImE4ZDAxYjUwODc4MDQwOTc5NGFiZGVlNDY0OGQ0NTY4IiwidXNlcl9pZCI6MX0.H5TEeyOYutVMaVuq0m16DD_tSAP2PPlWxXT8DvbAF4Y";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTczODI4LCJpYXQiOjE3NDE0MDEwMjgsImp0aSI6Ijc2NTFmMWQzZTIzOTRhMWE5NTc0ZDNmYjBiMjcwODFmIiwidXNlcl9pZCI6MX0.ewHpDzOk_3xSnmjJ59iABGVcXYRg-flmzlZaGAvGYTI";
 
 const queryClient = new QueryClient();
 
