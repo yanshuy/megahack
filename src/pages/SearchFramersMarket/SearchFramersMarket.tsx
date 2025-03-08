@@ -4,6 +4,8 @@ import Drawer from '../../components/Drawer';
 import { Link } from 'react-router-dom';
 import MarketplaceCard from '@/components/MarketplaceCard';
 import { marketplaces } from '@/data/marketplaces';
+import { useLocation } from '@/context/LocationContext';
+import { accessToken, BASE_URL } from '@/App';
 
 
 // TypeScript interfaces
@@ -42,9 +44,15 @@ interface AutocompleteResponse {
   suggestions: AutocompleteSuggestion[];
 }
 
+interface Marketplace {
+  id: string;
+  name: string;
+  // Add other properties from your marketplace type
+}
+
 const SearchFramersMarket: React.FC<MapComponentProps> = ({
   apiKey,
-  defaultCenter = { lat: 37.7749, lng: -122.4194 }, // San Francisco as default
+  defaultCenter = { lat: 19.6967, lng: 72.7699 }, // San Francisco as default
   defaultZoom = 13,
 }) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
@@ -55,17 +63,60 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [coordinates, setCoordinates] = useState<Location | null>(null);
-  console.log(coordinates);
-
-  console.log(selectedPlace);
-
+  const [nearbyMarketplaces, setNearbyMarketplaces] = useState<Marketplace[]>([]);
+  const [isLoadingMarketplaces, setIsLoadingMarketplaces] = useState(false);
+  
   const mapRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const googleMapsApiKey = import.meta.env.VITE_MAPS_API_KEY as string || '';
 
-  // Load Google Maps script
+  const {latitude, longitude, text} = useLocation();
+  console.log([latitude, longitude, text]);
+
+  // Fetch nearby marketplaces when coordinates change
+  useEffect(() => {
+    if (coordinates && coordinates.lat !== 0 && coordinates.lng !== 0) {
+      fetchNearbyMarketplaces(coordinates);
+    }
+  }, [coordinates]);
+
+  // Fetch nearby marketplaces function
+  const fetchNearbyMarketplaces = async (position: Location) => {
+    if (position.lat === 0 && position.lng === 0) return;
+    
+    setIsLoadingMarketplaces(true);
+    try {
+      const response = await fetch(`${BASE_URL}/api/nearby/?lat=${position.lat}&lng=${position.lng}`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch nearby marketplaces');
+      }
+      
+      const data = await response.json();
+      setNearbyMarketplaces(data);
+    } catch (error) {
+      console.error('Error fetching nearby marketplaces:', error);
+      // Fallback to static data in case of error
+      setNearbyMarketplaces(marketplaces);
+    } finally {
+      setIsLoadingMarketplaces(false);
+    }
+  };
+
+  // Load Google Maps script - prevent multiple script loading
   useEffect(() => {
     const loadGoogleMapsScript = () => {
+      // Check if the script is already loaded
+      if (window.google && window.google.maps) {
+        initializeMap();
+        return () => {}; // Return empty cleanup function
+      }
+      
       const script = document.createElement('script');
       script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places`;
       script.async = true;
@@ -74,15 +125,19 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
       document.head.appendChild(script);
 
       return () => {
-        document.head.removeChild(script);
+        // Only remove if it's our script
+        const scripts = document.getElementsByTagName('script');
+        for (let i = 0; i < scripts.length; i++) {
+          if (scripts[i].src.includes('maps.googleapis.com/maps/api/js')) {
+            document.head.removeChild(scripts[i]);
+            break;
+          }
+        }
       };
     };
 
     return loadGoogleMapsScript();
   }, [googleMapsApiKey]);
-
-
- 
 
   // Initialize the map
   const initializeMap = () => {
@@ -90,9 +145,9 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
       const mapOptions: google.maps.MapOptions = {
         center: defaultCenter,
         zoom: defaultZoom,
-        mapTypeControl: false, // Removed map type control
-        streetViewControl: false, // Removed street view control
-        fullscreenControl: false, // Removed fullscreen control
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
       };
 
       const newMap = new google.maps.Map(mapRef.current, mapOptions);
@@ -105,6 +160,21 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
         animation: google.maps.Animation.DROP,
       });
       setMarker(newMarker);
+      
+      // Apply location from context if available (moved from useEffect)
+      if (text !== "0" && latitude && longitude && latitude !== 0 && longitude !== 0) {
+        const position = { lat: latitude, lng: longitude };
+        newMap.setCenter(position);
+        setCoordinates(position);
+        newMap.setZoom(16);
+        setSearchInput(text);
+        
+        // Update marker position
+        newMarker.setPosition(position);
+        
+        // Fetch nearby marketplaces
+        fetchNearbyMarketplaces(position);
+      }
     }
   };
 
@@ -211,6 +281,9 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
         setSelectedPlace(placeData.formattedAddress || placeData.name);
         setSearchInput(displayText); // Fill input with selected value
         setShowSuggestions(false);
+        
+        // Fetch nearby marketplaces for the selected location
+        fetchNearbyMarketplaces(position);
       }
     } catch (error) {
       console.error('Error fetching place details:', error);
@@ -219,7 +292,7 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
 
   return (
     <div className="relative w-full h-full">
-      <div className="px-1 py-2 outline-none border-none bg-white shadow-md z-10 absolute top-4 left-4 w-[22rem]  rounded-4xl">
+      <div className="px-1 py-2 outline-none border-none bg-white shadow-md z-10 absolute top-4 left-4 w-[22rem] rounded-4xl">
         <div className="flex items-center gap-2 relative">
           <Search className="ml-2" />
           <input
@@ -263,34 +336,31 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
 
       <div ref={mapRef} className="w-full h-full min-h-screen" />
       <div className="drawer">
-                        <Drawer
-                           
-                            initialHeight={400}
-                            minHeight={40}
-                            maxHeight={window.innerHeight * 0.9}
-                        >
-                          <div className="fixed bg-white top-7 px-4   z-50 w-full py-1  font-semibold">
-                                    Nearby Famers' Market
-                                </div>
-                            <div className="space-y-4 pt-2.5 px-4 relative">
-                                
-
-                               {marketplaces.map((marketplace) => (
-                                         <MarketplaceCard  key={marketplace.id} marketplace={marketplace} />
-                                       ))}
-                               {marketplaces.map((marketplace) => (
-                                         <MarketplaceCard key={marketplace.id} marketplace={marketplace} />
-                                       ))}
-                               {marketplaces.map((marketplace) => (
-                                         <MarketplaceCard key={marketplace.id} marketplace={marketplace} />
-                                       ))}
-
-
-
-
-                            </div>
-                        </Drawer>
-                    </div>
+        <Drawer
+          initialHeight={400}
+          minHeight={40}
+          maxHeight={window.innerHeight * 0.9}
+        >
+          <div className="fixed bg-white top-7 px-4 z-50 w-full py-1 font-semibold">
+            Nearby Farmers' Market
+          </div>
+          <div className="space-y-4 pt-2.5 px-4 relative">
+            {isLoadingMarketplaces ? (
+              <div className="flex justify-center items-center py-8">
+                <div className="animate-spin h-8 w-8 border-4 border-blue-500 rounded-full border-t-transparent"></div>
+              </div>
+            ) : nearbyMarketplaces.length > 0 ? (
+              nearbyMarketplaces.map((marketplace) => (
+                <MarketplaceCard key={marketplace.id} marketplace={marketplace} />
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                No farmers markets found in this area
+              </div>
+            )}
+          </div>
+        </Drawer>
+      </div>
     </div>
   );
 };

@@ -21,11 +21,12 @@ import FarmerProfile from "./pages/FarmerDasboard/FarmerProfile";
 import SearchFramersMarket from "./pages/SearchFramersMarket/SearchFramersMarket";
 import ThreeDIMS from "./pages/3DIMS/3DIMS";
 import Shop from "./pages/shop/page";
+import { LocationProvider } from "./context/LocationContext";
 
-export const BASE_URL = "https://live-merely-drum.ngrok-free.app";
+export const BASE_URL = "https://toucan-driven-admittedly.ngrok-free.app/api/products";
 
 export const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTM3ODM3LCJpYXQiOjE3NDEzNjUwMzcsImp0aSI6IjkyOTZhODEyZTIwNjRjYmM4ZmU3NmYyMTA5YWEwZGZmIiwidXNlcl9pZCI6MX0.EL6XtlBDcqdQRhy4ExgqlVKEAmCjbHY6Ne96Udcea-c";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxNTQ4NTAwLCJpYXQiOjE3NDEzNzU3MDAsImp0aSI6ImE4ZDAxYjUwODc4MDQwOTc5NGFiZGVlNDY0OGQ0NTY4IiwidXNlcl9pZCI6MX0.H5TEeyOYutVMaVuq0m16DD_tSAP2PPlWxXT8DvbAF4Y";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Toaster />
+      <LocationProvider>
       <CartProvider>
         <BrowserRouter>
           <Routes>
@@ -70,6 +72,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
+      </LocationProvider>
     </QueryClientProvider>
   );
 }

@@ -225,7 +225,7 @@ const Map: React.FC<MapProps> = ({ onlyMap }) => {
           center={userLocation}
           zoom={13}
           scrollWheelZoom={true}
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "50%", width: "100%" }}
           zoomControl={false}
         >
           <MapController center={selectedLocation} />

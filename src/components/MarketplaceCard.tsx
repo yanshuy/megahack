@@ -1,5 +1,6 @@
 import { MapPin, Users, Star, Clock, ChevronRight } from "lucide-react";
 import { Marketplace } from "@/data/marketplaces";
+import { Link } from "react-router-dom";
 
 interface MarketplaceCardProps {
   marketplace: Marketplace;
@@ -97,10 +98,12 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
               <span className="flex items-center">� Local</span>
             )} */}
           </div>
+          <Link to={""}>
           <button className="flex items-center text-sm font-medium text-green-600 hover:text-green-700">
             View Details
             <ChevronRight className="ml-1 h-4 w-4" />
           </button>
+          </Link>
         </div>
       </div>
     </div>
