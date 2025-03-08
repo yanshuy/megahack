@@ -86,12 +86,13 @@ const SearchFramersMarket: React.FC<MapComponentProps> = ({
     
     setIsLoadingMarketplaces(true);
     try {
-      const response = await fetch(`${BASE_URL}/api/nearby/?lat=${position.lat}&lng=${position.lng}`, {
-        method: "GET",
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
+      const response = await fetch(`${BASE_URL}/api/markets/nearby/?lat=${position.lat}&lng=${position.lng}`, {
+    method: "GET",
+    headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'ngrok-skip-browser-warning': 'true'  // Add this header to skip the Ngrok browser warning
+    }
+});
       
       if (!response.ok) {
         throw new Error('Failed to fetch nearby marketplaces');
