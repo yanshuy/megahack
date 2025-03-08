@@ -1,12 +1,9 @@
 import {
-  ArrowBigLeft,
-  ArrowLeft,
   Bean,
   CarrotIcon,
   Cherry,
   ChevronLeft,
   Flame,
-  Menu,
   Milk,
   Search,
 } from "lucide-react";
