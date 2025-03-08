@@ -65,7 +65,7 @@ export function VoiceCommandButton() {
 
       try {
         // Replace with your actual API endpoint
-        const response = await fetch(`${BASE_URL}/api/navigation/`, {
+        const response = await fetch(`${BASE_URL}/api/navigate/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
