@@ -108,9 +108,8 @@ export const marketplaces: Marketplace[] = [
       },
     },
     images: [
-      "https://imgs.search.brave.com/7J_R3Xw_J5WF5resR7OUgRpkvh2tdWbErDeesCjs5Ps/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy80/LzQ5L0Zhcm1lcnMn/X01hcmtldF9pbl9D/aGFuZGlnYXJoLmpw/Zw",
-      "/placeholder.svg?height=400&width=600",
-      "/placeholder.svg?height=400&width=600",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQC8n9M9MjMdx7C70gnGizqCEv3rXYoTBTpo4rZWcnhv-bOcEJA-r5CVyKT9v9qYLsE6g&usqp=CAU",
+      "https://akm-img-a-in.tosshub.com/indiatoday/images/story/202109/agra_private_market.jpg?size=690:388",
     ],
     operatingHours: [
       { day: "Monday", open: "Closed", close: "Closed", isClosed: true },

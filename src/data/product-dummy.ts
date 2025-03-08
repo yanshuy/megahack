@@ -9,9 +9,9 @@ export const products: FarmerProduct[] = [
     price: 1200,
     unit: "1 dozen",
     images: [
-      "https://placehold.co/600x400?text=Alphonso+Mangoes+1",
-      "https://placehold.co/600x400?text=Alphonso+Mangoes+2",
-      "https://placehold.co/600x400?text=Alphonso+Mangoes+3",
+      "https://plantparadise.in/cdn/shop/products/alphonso-mango_c1bc4801-d7ad-46ff-9dcc-b0ea3258ecef_800x.jpg?v=1691200140",
+      "https://5.imimg.com/data5/YM/EJ/MY-11526153/alphonso_mango-1-500x5002-500x500.jpg",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSilCchOvs6rr_GlIlfFfIFoG2hVPEKvds34sf0V913tYwh-oLow1cROIfJIG60Lw0t6-0&usqp=CAU",
     ],
     tasteProfile:
       "Sweet, aromatic, with notes of honey and saffron. The flesh is smooth and buttery, with minimal fiber.",

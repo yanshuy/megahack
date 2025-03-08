@@ -1,3 +1,5 @@
+import { BASE_URL } from "@/App";
+
 export const getProductBadgeStyle = (product: string) => {
   switch (product) {
     case "Vegetables":
@@ -31,4 +33,21 @@ export const changeLanguage = (lang: string) => {
   }, 500);
 
   return interval;
+};
+
+export const uFetch = async (
+  url: string,
+  method: string = "GET",
+  body?: string,
+) => {
+  const res = await fetch(`${BASE_URL}${url}`, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      Authentication: `Bearer ${localStorage.getItem("accessToken")}`,
+      "ngrok-skip-browser-warning": "69420",
+    },
+    body: body ? body : undefined,
+  });
+  return res;
 };

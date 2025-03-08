@@ -13,11 +13,94 @@ import {
 import { useCart } from "@/context/CartContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { products } from "@/data/product-dummy";
-import { RupeeSymbol } from "@/utils/utility";
+import { RupeeSymbol, uFetch } from "@/utils/utility";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "@/data/marketplaces";
+
+export function Loader() {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-amber-50">
+      <div className="mb-4">
+        <svg
+          className="h-16 w-16 animate-spin text-amber-600"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </div>
+      <div className="flex items-center space-x-2">
+        <span className="text-lg font-medium text-amber-800">
+          Loading fresh produce
+        </span>
+        <div className="flex space-x-1">
+          <div
+            className="h-2 w-2 animate-bounce rounded-full bg-amber-600"
+            style={{ animationDelay: "0ms" }}
+          ></div>
+          <div
+            className="h-2 w-2 animate-bounce rounded-full bg-amber-600"
+            style={{ animationDelay: "300ms" }}
+          ></div>
+          <div
+            className="h-2 w-2 animate-bounce rounded-full bg-amber-600"
+            style={{ animationDelay: "600ms" }}
+          ></div>
+        </div>
+      </div>
+      <p className="mt-2 text-sm text-amber-700">
+        From farm to table, just a moment please
+      </p>
+    </div>
+  );
+}
 
 const FarmerProductListing = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const navigate = useNavigate();
+
+  const { productId } = useParams();
+  const { data: product, isLoading } = useQuery({
+    queryKey: ["product", productId ? Number(productId) : 1],
+    queryFn: () => {
+      return uFetch(`/api/products/${productId ? Number(productId) : 1}`);
+    },
+  });
+  const { data: farmer, isLoading: isLoadingFarmer } = useQuery({
+    queryKey: ["product", productId ? Number(productId) : 1],
+    queryFn: () => {
+      return uFetch(`/api/farmers/${productId ? Number(productId) : 1}`);
+    },
+  });
+
+  console.log(product);
+  const [selectedUnit, setSelectedUnit] = useState(product?.unit);
+  const { addToCart, removeFromCart, cart } = useCart();
+  const isAdded = cart.items.some(
+    (item) =>
+      item.product.id === product?.id && item.selectedUnit === selectedUnit,
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isLoadingFarmer) {
+    return <Loader />;
+  }
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) =>
@@ -34,18 +117,6 @@ const FarmerProductListing = () => {
   const toggleVideo = () => {
     setIsPlaying(!isPlaying);
   };
-
-  const { productId } = useParams();
-  const product =
-    products[Number.isNaN(Number(productId)) ? 0 : Number(productId) - 1];
-  const navigate = useNavigate();
-
-  const [selectedUnit, setSelectedUnit] = useState(product?.unit);
-  const { addToCart, removeFromCart, cart } = useCart();
-  const isAdded = cart.items.some(
-    (item) =>
-      item.product.id === product.id && item.selectedUnit === selectedUnit,
-  );
 
   const totalItems = cart.items.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -85,15 +156,15 @@ const FarmerProductListing = () => {
         <h1 className="mb-2 text-3xl font-bold">{product.name}</h1>
         <div className="mb-4 flex items-center">
           <img
-            src={product.farmer.image || "/placeholder.svg"}
-            alt={product.farmer.name}
+            src={farmer.image || "/placeholder.svg"}
+            alt={farmer.name}
             className="mr-2 size-10 rounded-full object-cover"
           />
           <div>
-            <p className="font-medium">{product.farmer.name}</p>
+            <p className="font-medium">{farmer.name}</p>
             <div className="flex items-center">
               <Star className="h-4 w-4 fill-current text-yellow-400" />
-              <span className="ml-1">{product.farmer.rating}</span>
+              <span className="ml-1">{farmer.rating}</span>
             </div>
           </div>
         </div>

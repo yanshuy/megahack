@@ -11,7 +11,7 @@ import { X } from "lucide-react";
 import { WheatSeeds } from "./items/Wheat_seeds";
 import { Watermelon } from "./items/Watermelon";
 import { Potato } from "./items/Potato";
-import { Cauliflower } from "./items/CauliFLower";
+import { Cauliflower } from "./items/CauliFlower";
 
 interface InventoryItem {
   id: string;

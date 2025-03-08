@@ -91,7 +91,7 @@ const MarketplaceDetailPage = () => {
                 key={index}
                 src={image}
                 alt={`${marketplace.name} - Image ${index + 1}`}
-                className="h-80 w-full flex-shrink-0 object-cover"
+                className="h-80 w-screen flex-shrink-0 scale-y-125 object-cover"
               />
             ))}
           </div>
