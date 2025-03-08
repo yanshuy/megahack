@@ -12,10 +12,9 @@ import {
   ParkingCircle,
   Toilet,
   ChevronLeft,
-  ShoppingBasket,
   ShoppingBag,
 } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { marketplaces } from "@/data/marketplaces";
 import { farmers } from "@/data/farmer-dummy";
 import { products } from "@/data/product-dummy";
@@ -63,7 +62,7 @@ const MarketplaceDetailPage = () => {
       {/* Header */}
       <div className="sticky top-0 z-10 flex items-center justify-between bg-white p-4">
         <div className="flex items-center">
-          <ChevronLeft className="mr-2 h-5 w-5" onClick={navigate(-1)} />
+          <ChevronLeft className="mr-2 h-5 w-5" onClick={() => navigate(-1)} />
           <h1 className="text-xl font-bold">
             {t(`marketplace_${marketplace.id}.name`)}
           </h1>
