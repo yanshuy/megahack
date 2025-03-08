@@ -108,7 +108,7 @@ export const marketplaces: Marketplace[] = [
       },
     },
     images: [
-      "/placeholder.svg?height=400&width=600",
+      "https://imgs.search.brave.com/7J_R3Xw_J5WF5resR7OUgRpkvh2tdWbErDeesCjs5Ps/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy80/LzQ5L0Zhcm1lcnMn/X01hcmtldF9pbl9D/aGFuZGlnYXJoLmpw/Zw",
       "/placeholder.svg?height=400&width=600",
       "/placeholder.svg?height=400&width=600",
     ],

@@ -9,8 +9,8 @@ interface MarketplaceCardProps {
 }
 
 export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
-  const { t } = useTranslation('marketplacecard');
-  
+  const { t } = useTranslation("marketplacecard");
+
   const navigate = useNavigate();
   const today = new Date().getDay();
   const adjustedDay = today === 0 ? 6 : today - 1;
@@ -19,7 +19,7 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
   const isOpenToday = todayHours && !todayHours.isClosed;
   const hoursDisplay = isOpenToday
     ? `${todayHours.open} - ${todayHours.close}`
-    : t('marketplace.closedToday');
+    : t("marketplace.closedToday");
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition-all hover:shadow-md">
@@ -32,7 +32,7 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
         />
         {!isOpenToday && (
           <div className="absolute top-2 right-2 rounded-lg bg-red-100 px-2.5 py-1 text-xs font-medium text-red-800">
-            {t('marketplace.closedLabel')}
+            {t("marketplace.closedLabel")}
           </div>
         )}
       </div>
@@ -61,7 +61,9 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
         <div className="mb-4">
           <div className="flex items-center text-sm text-gray-600">
             <Clock className="mr-2 h-5 w-5 text-gray-500" />
-            <p className="font-medium text-gray-900 mr-2">{t('marketplace.todayHours')}</p>
+            <p className="mr-2 font-medium text-gray-900">
+              {t("marketplace.todayHours")}
+            </p>
             <p className="text-sm"> {hoursDisplay}</p>
           </div>
         </div>
@@ -81,25 +83,24 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
         {/* Footer */}
         <div className="mt-auto flex items-center justify-between border-t pt-3">
           <button className="flex items-center text-sm font-medium text-green-600 hover:text-green-700">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            {/* {marketplace.organic && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              {/* {marketplace.organic && (
               <span className="flex items-center">🌱 Organic</span>
             )}
             {marketplace.localProduce && (
               <span className="flex items-center">� Local</span>
             )} */}
-          </div>
+            </div>
           </button>
           <button
             className="flex items-center text-sm font-medium text-green-600 hover:text-green-700"
             onClick={() => navigate(`/market/${marketplace.id}`)}
           >
-            {t('marketplace.viewDetails')}
+            {t("marketplace.viewDetails")}
             <ChevronRight className="ml-1 h-4 w-4" />
           </button>
-          
         </div>
       </div>
     </div>
-  )
+  );
 }
