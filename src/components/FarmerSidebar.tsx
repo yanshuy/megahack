@@ -19,6 +19,8 @@ import {
   Wallet,
   Plus,
   UserPen,
+  ThermometerSunIcon,
+  Boxes,
 } from "lucide-react";
 
 const FarmerSidebar = () => {
@@ -37,6 +39,9 @@ const FarmerSidebar = () => {
           </SidebarLink>
           <SidebarLink href="/farmer/profile" icon={UserPen }>
             Profile
+          </SidebarLink>
+          <SidebarLink href="/farmer/3d" icon={Boxes}>
+            Inventory Visualization
           </SidebarLink>
          
         

@@ -72,12 +72,13 @@ function App() {
                 path="/product/:productId"
                 element={<FarmerProductListing />}
               />
-              <Route path="/3d" element={<ThreeDIMS />} />
               <Route path="*" element={<div>page under construction</div>} />
 
               <Route path="farmer" element={<FarmerLayout />}>
                 <Route index element={<AddItems />} />
                 <Route path="/farmer/profile" element={<FarmerProfile />} />
+              <Route path="/farmer/3d" element={<ThreeDIMS />} />
+
               </Route>
             </Routes>
           </BrowserRouter>
