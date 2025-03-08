@@ -22,7 +22,7 @@ export function Loader() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-amber-50">
       <div className="mb-4">
         <svg
-          className="h-16 w-16 animate-spin text-amber-600"
+          className="h-16 w-16 animate-spin text-green-600"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -43,27 +43,22 @@ export function Loader() {
         </svg>
       </div>
       <div className="flex items-center space-x-2">
-        <span className="text-lg font-medium text-amber-800">
-          Loading fresh produce
-        </span>
+        <span className="text-lg font-medium text-green-800">Loading</span>
         <div className="flex space-x-1">
           <div
-            className="h-2 w-2 animate-bounce rounded-full bg-amber-600"
+            className="h-2 w-2 animate-bounce rounded-full bg-green-600"
             style={{ animationDelay: "0ms" }}
           ></div>
           <div
-            className="h-2 w-2 animate-bounce rounded-full bg-amber-600"
+            className="h-2 w-2 animate-bounce rounded-full bg-green-600"
             style={{ animationDelay: "300ms" }}
           ></div>
           <div
-            className="h-2 w-2 animate-bounce rounded-full bg-amber-600"
+            className="h-2 w-2 animate-bounce rounded-full bg-green-600"
             style={{ animationDelay: "600ms" }}
           ></div>
         </div>
       </div>
-      <p className="mt-2 text-sm text-amber-700">
-        From farm to table, just a moment please
-      </p>
     </div>
   );
 }
@@ -81,10 +76,13 @@ const FarmerProductListing = () => {
     },
   });
   const { data: farmer, isLoading: isLoadingFarmer } = useQuery({
-    queryKey: ["product", productId ? Number(productId) : 1],
+    queryKey: ["farmer", product?.owner_id ? Number(product?.owner_id) : 1],
     queryFn: () => {
-      return uFetch(`/api/farmers/${productId ? Number(productId) : 1}`);
+      return uFetch(
+        `/api/farmers/${product?.owner_id ? Number(product?.owner_id) : 1}`,
+      );
     },
+    enabled: !!product && !!product.owner_id,
   });
 
   console.log(product);
@@ -267,7 +265,7 @@ const FarmerProductListing = () => {
         <h2 className="mb-2 text-2xl font-bold">Pricing</h2>
         <p className="text-3xl font-bold text-green-600">
           {RupeeSymbol}
-          {product.price.toFixed(2)}{" "}
+          {Number(product.price).toFixed(2)}{" "}
           <span className="text-base font-normal text-gray-600">
             per {product.unit}
           </span>

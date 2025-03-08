@@ -44,10 +44,10 @@ export const uFetch = async (
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authentication: `Bearer ${localStorage.getItem("accessToken")}`,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       "ngrok-skip-browser-warning": "69420",
     },
     body: body ? body : undefined,
   });
-  return res;
+  return res.json();
 };
