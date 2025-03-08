@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, X, Upload, FileVideo, Image, Trash2, Mic, Send, MicOff } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { accessToken, BASE_URL } from "@/App";
 
 const AddItems = () => {
   const [product, setProduct] = useState({
@@ -60,32 +61,80 @@ const AddItems = () => {
   const videoInputRef = useRef(null)
   const imageInputRef  = useRef(null)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+
+  try {
+    // Create the FormData object
+    const formData = new FormData();
     
-    try {
-      const formData = new FormData();
-      formData.append('productData', JSON.stringify(product));
-      images.forEach((image, index) => {
-        formData.append(`images`, image);
-      });
-      if (video) {
-        formData.append('video', video);
-      }
-      
-      console.log("Product data:", product);
-      console.log("Images:", images);
-      console.log("Video:", video);
-      
-      alert("Form submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error submitting form: " + error.message);
-    } finally {
-      setIsSubmitting(false);
+    // Add all product fields individually
+    formData.append("name", product.name);
+    formData.append("description", product.description);
+    formData.append("price", product.price);
+    formData.append("unit", product.unit);
+    formData.append("category", product.category);
+    
+    // Add arrays as JSON strings
+    formData.append("certifications", JSON.stringify(product.certifications));
+    formData.append("availableQuantities", JSON.stringify(product.availableQuantities));
+    
+    // Add all image files with distinct field names
+    images.forEach((image, index) => {
+      formData.append(`images[${index}]`, image);
+    });
+    
+    // Add video if it exists
+    if (video) {
+      formData.append("video", video);
     }
-  };
+
+    // Log FormData to verify content (for debugging)
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+
+    const response = await fetch(`${BASE_URL}/api/products/`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "ngrok-skip-browser-warning": "true",
+        // Do not set Content-Type when using FormData
+      },
+    });
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.message || "Failed to submit form");
+    }
+
+    const result = await response.json();
+    console.log("Response from server:", result);
+    alert("Form submitted successfully!");
+    
+    // Reset form after successful submission
+    setProduct({
+      name: "",
+      description: "",
+      price: null,
+      unit: "",
+      certifications: [],
+      category: "",
+      availableQuantities: [],
+    });
+    setImages([]);
+    setVideo(null);
+    
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    alert("Error submitting form: " + error.message);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
 
    const fetchGeminiData = async ()=>{

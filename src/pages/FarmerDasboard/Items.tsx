@@ -129,29 +129,30 @@ export default function Items() {
       stock: 0,
     },
   ])
+  const [isLoading, setIsLoading] = useState(false)
 
-  const fetchData = async ()=>{
-    
-     const response = await fetch(`${BASE_URL}/api/products/my`, {
-         method: "GET",
-         headers: {
-             'Authorization': `Bearer ${accessToken}`,
-             'ngrok-skip-browser-warning': 'true'  
-         }
-     });
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/products/my`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'ngrok-skip-browser-warning': 'true'  
+        }
+      });
 
-     const data = await response.json()
-
-     console.log(data);
-     setProducts(data)
-     
-
+      const data = await response.json();
+      console.log(data);
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
+  }
 
 
-    useEffect(() => {
-      fetchData()
-    }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
     
 
   const [productToDelete, setProductToDelete] = useState<number | null>(null)
@@ -160,25 +161,43 @@ export default function Items() {
     setProductToDelete(id)
   }
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (productToDelete !== null) {
-      setProducts(products.filter((product) => product.id !== productToDelete))
-      setProductToDelete(null)
+      setIsLoading(true);
+      try {
+        // Send DELETE request to the backend
+        const response = await fetch(`${BASE_URL}/api/products/${productToDelete}/`, {
+          method: "DELETE",
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'ngrok-skip-browser-warning': 'true'
+          }
+        });
+
+        if (response.ok) {
+          // Remove the product from the UI if backend deletion was successful
+          setProducts(products.filter((product) => product.id !== productToDelete));
+        } else {
+          console.error("Failed to delete product:", await response.text());
+        }
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      } finally {
+        setIsLoading(false);
+        setProductToDelete(null);
+      }
     }
   }
 
-
-
   return (
     <div className="pt-6">
-        <h1 className="pl-4 mb-4 text-3xl font-semibold">My Items</h1>
+      <h1 className="pl-4 mb-4 text-3xl font-semibold">My Items</h1>
       <div className="wrappwr px-4">
-
-        <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} onDelete={handleDeleteIntent} />
-        ))}
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} onDelete={handleDeleteIntent} />
+          ))}
+        </div>
       </div>
 
       <AlertDialog open={productToDelete !== null} onOpenChange={(open) => !open && setProductToDelete(null)}>
@@ -190,12 +209,13 @@ export default function Items() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={isLoading}
             >
-              Delete
+              {isLoading ? "Deleting..." : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

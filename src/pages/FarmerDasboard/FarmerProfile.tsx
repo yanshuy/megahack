@@ -55,7 +55,7 @@ export default function FarmerProfile({ farmerId = 1 }) {
     setTimeout(() => {
       setFormData({
         id: 1,
-        name: "S. Anant",
+        name: "Vinayak",
         image: "https://images.unsplash.com/photo-1609252509102-aa73ff792667?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         rating: 4.9,
         products: ["Vegetables", "Fruits"],
@@ -65,7 +65,7 @@ export default function FarmerProfile({ farmerId = 1 }) {
         totalReviews: 128,
         description: "Passionate organic farmer with over 15 years of experience in sustainable farming. Specializing in seasonal vegetables and exotic fruits.",
         contactNumber: "+91 98765 43210",
-        email: "anant.s@farmersmarket.com",
+        email: "vinayak9769@gmail.com",
       })
       setIsLoading(false)
     }, 1000)
