@@ -21,13 +21,13 @@ export interface Farmer {
   description?: string;
   contactNumber?: string;
   email?: string;
-  reviews?: Review[];
+  reviews: Review[];
 }
 
 export const farmers: Farmer[] = [
   {
     id: 1,
-    name: "S. Anand",
+    name: "Suresh Anand",
     image:
       "https://images.unsplash.com/photo-1609252509102-aa73ff792667?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     rating: 4.9,
@@ -54,9 +54,9 @@ export const farmers: Farmer[] = [
   },
   {
     id: 2,
-    name: "A. Prakash",
+    name: "Arjun Prakash",
     image:
-      "https://images.unsplash.com/photo-1519181245277-cffeb31da2e2?q=80&w=2070&auto=format&fit=crop",
+      "https://media.gettyimages.com/id/1313437484/photo/farmer-with-arms-crossed-in-agriculture-field.jpg?s=612x612&w=0&k=20&c=EOmZnOHSFxn3ffF1QLKKZDKiGMnpfuuLSIlPsSXfLQ8=",
     rating: 4.9,
     products: ["Fruits"],
     location: "Tamil Nadu",
@@ -81,9 +81,9 @@ export const farmers: Farmer[] = [
   },
   {
     id: 3,
-    name: "D. Singh",
+    name: "Diljeet Singh",
     image:
-      "https://images.unsplash.com/photo-1474447976065-67d23accb1e3?q=80&w=2070&auto=format&fit=crop",
+      "https://media.gettyimages.com/id/1186928936/photo/wheat-grains-in-man-hand-stock-photo.jpg?s=612x612&w=0&k=20&c=ALHedSbQ9QKD3Mgz4FutPqTvZu14Y6OxIKLb7xq9HLA=",
     rating: 4.8,
     products: ["Dairy", "Vegetables"],
     location: "Punjab",
@@ -109,7 +109,7 @@ export const farmers: Farmer[] = [
     id: 4,
     name: "Kuttu Tai",
     image:
-      "https://images.unsplash.com/photo-1503777119540-7e50c0ebbd41?q=80&w=2070&auto=format&fit=crop",
+      "https://media.gettyimages.com/id/1524726433/photo/farmer-woman-holding-crop-at-green-agricultural-field.jpg?s=612x612&w=0&k=20&c=6C7a03yrQ5Z8LGnA1JvPKkitD9s156_fwjHVikL-z2k=",
     rating: 4.8,
     products: ["Fruits", "Vegetables"],
     location: "Maharashtra",
@@ -136,7 +136,7 @@ export const farmers: Farmer[] = [
     id: 5,
     name: "Rajesh Patil",
     image:
-      "https://images.unsplash.com/photo-1507120410856-1f35574c3b45?q=80&w=2070&auto=format&fit=crop",
+      "https://media.gettyimages.com/id/1205325344/photo/farmer-in-agricultural-field.jpg?s=612x612&w=0&k=20&c=krsRk4T2MsmMy6PmrpPDR0i_1ja3_jQaNl80fBejWck=",
     rating: 4.8,
     products: ["Fruits"],
     location: "Maharashtra",
@@ -162,7 +162,7 @@ export const farmers: Farmer[] = [
     id: 6,
     name: "Suresh Kumar",
     image:
-      "https://images.unsplash.com/photo-1555992336-03a23c88a1a8?q=80&w=2070&auto=format&fit=crop",
+      "https://media.gettyimages.com/id/538620640/photo/indian-farmer-holding-freshly-picked-capsicums.jpg?s=612x612&w=0&k=20&c=8dUyuHwUU545sCtgFbdnpujNxP50PxrcEzDoO7IxLi0=",
     rating: 4.7,
     products: ["Dairy"],
     location: "Haryana",

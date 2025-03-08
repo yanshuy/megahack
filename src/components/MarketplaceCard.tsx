@@ -97,6 +97,7 @@ export default function MarketplaceCard({ marketplace }: MarketplaceCardProps) {
             {t('marketplace.viewDetails')}
             <ChevronRight className="ml-1 h-4 w-4" />
           </button>
+          
         </div>
       </div>
     </div>
