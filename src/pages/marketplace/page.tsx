@@ -12,6 +12,8 @@ import {
   ParkingCircle,
   Toilet,
   ChevronLeft,
+  ShoppingBasket,
+  ShoppingBag,
 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { marketplaces } from "@/data/marketplaces";
@@ -23,8 +25,8 @@ import { useTranslation } from "react-i18next";
 const MarketplaceDetailPage = () => {
   // Products sample data
 
-  const navigate = useNavigate()
-  const { t } = useTranslation('marketplace');
+  const navigate = useNavigate();
+  const { t } = useTranslation("marketplace");
   const { marketId } = useParams();
   const marketplace =
     marketplaces[Number.isNaN(Number(marketId)) ? 1 : Number(marketId) - 1];
@@ -36,7 +38,7 @@ const MarketplaceDetailPage = () => {
 
   // Function to format operating hours display
   const formatHours = (hours) => {
-    if (hours.isClosed) return t('common.closed');
+    if (hours.isClosed) return t("common.closed");
     return `${hours.open} - ${hours.close}`;
   };
 
@@ -61,8 +63,10 @@ const MarketplaceDetailPage = () => {
       {/* Header */}
       <div className="sticky top-0 z-10 flex items-center justify-between bg-white p-4">
         <div className="flex items-center">
-          <ChevronLeft className="h-5 w-5 mr-2" onClick={navigate(-1)}/>
-          <h1 className="text-xl font-bold">{t(`marketplace_${marketplace.id}.name`)}</h1>
+          <ChevronLeft className="mr-2 h-5 w-5" onClick={navigate(-1)} />
+          <h1 className="text-xl font-bold">
+            {t(`marketplace_${marketplace.id}.name`)}
+          </h1>
         </div>
         <div className="flex space-x-3">
           <button className="rounded-full p-2 hover:bg-gray-100">
@@ -84,7 +88,7 @@ const MarketplaceDetailPage = () => {
             {marketplace.images.map((image, index) => (
               <img
                 key={index}
-                src="https://placehold.co/600x400"
+                src={image}
                 alt={`${marketplace.name} - Image ${index + 1}`}
                 className="h-64 w-full flex-shrink-0 object-cover"
               />
@@ -110,7 +114,9 @@ const MarketplaceDetailPage = () => {
       <div className="p-4">
         {/* Title & Rating */}
         <div className="mb-2 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">{t(`marketplace_${marketplace.id}.name`)}</h1>
+          <h1 className="text-2xl font-bold">
+            {t(`marketplace_${marketplace.id}.name`)}
+          </h1>
           <div className="flex items-center rounded-lg bg-white px-2 py-1 shadow-sm">
             <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
             <span className="ml-1 font-medium">{marketplace.rating}</span>
@@ -132,6 +138,13 @@ const MarketplaceDetailPage = () => {
 
         {/* Action Buttons */}
         <div className="mb-6 grid grid-cols-2 gap-3">
+          <button
+            className="flex items-center justify-center rounded-lg border bg-green-700 py-3 font-medium text-white"
+            onClick={() => navigate(`/shop`)}
+          >
+            <ShoppingBag className="mr-2 h-4 w-4" />
+            Shop
+          </button>
           <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
             <Navigation className="mr-2 h-4 w-4" />
             Get Directions
@@ -140,27 +153,27 @@ const MarketplaceDetailPage = () => {
 
         {/* Tab Navigation */}
         <div className="mb-4 flex border-b">
-        {['info', 'farmers', 'products'].map((tab) => (
-          <button
-            key={tab}
-            className={`px-4 py-2 text-sm font-medium ${
-              activeTab === tab
-                ? "border-b-2 border-green-600 text-green-600"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {t(`tabs.${tab}`)}
-          </button>
-        ))}
-      </div>
+          {["info", "farmers", "products"].map((tab) => (
+            <button
+              key={tab}
+              className={`px-4 py-2 text-sm font-medium ${
+                activeTab === tab
+                  ? "border-b-2 border-green-600 text-green-600"
+                  : "text-gray-600"
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {t(`tabs.${tab}`)}
+            </button>
+          ))}
+        </div>
 
         {/* Tab Content */}
         {activeTab === "info" && (
           <div className="space-y-6">
             {/* Description */}
             <div className="rounded-lg bg-white p-4 shadow-sm">
-              <h2 className="mb-2 text-lg font-bold">{t('sections.about')}</h2>
+              <h2 className="mb-2 text-lg font-bold">{t("sections.about")}</h2>
               <p className="text-sm leading-relaxed text-gray-700">
                 {t(`marketplace_${marketplace.id}.description`)}
               </p>
@@ -168,14 +181,21 @@ const MarketplaceDetailPage = () => {
 
             {/* Features */}
             <div className="rounded-lg bg-white p-4 shadow-sm">
-              <h2 className="mb-3 text-lg font-bold">{t('sections.facilities')}</h2>
+              <h2 className="mb-3 text-lg font-bold">
+                {t("sections.facilities")}
+              </h2>
               <div className="grid grid-cols-2 gap-3">
                 {marketplace.features.map((feature, index) => (
                   <div key={index} className="flex items-center text-gray-700">
                     <div className="mr-2 rounded-full bg-green-100 p-2">
                       {getFeatureIcon(feature)}
                     </div>
-                    <span className="text-sm capitalize"> {t(`features.${feature.toLowerCase().replace(/\s+/g, '_')}`)}</span>
+                    <span className="text-sm capitalize">
+                      {" "}
+                      {t(
+                        `features.${feature.toLowerCase().replace(/\s+/g, "_")}`,
+                      )}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -194,7 +214,7 @@ const MarketplaceDetailPage = () => {
                   >
                     <span className="text-sm">{hours.day}</span>
                     <span
-                      className={`text-sm ${hours.isClosed ? "text-red-500" : "text-green-600"}`}
+                      className={`text-sm ${hours.isClosed ? "text-red-500" : "text-green-700"}`}
                     >
                       {formatHours(hours)}
                     </span>
@@ -222,7 +242,7 @@ const MarketplaceDetailPage = () => {
             <div className="rounded-lg bg-white p-4 shadow-sm">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-lg font-bold">Reviews</h2>
-                <button className="flex items-center text-sm font-medium text-green-600">
+                <button className="flex items-center text-sm font-medium text-green-700">
                   See All <ChevronRight className="ml-1 h-4 w-4" />
                 </button>
               </div>
@@ -237,7 +257,7 @@ const MarketplaceDetailPage = () => {
                   Based on {marketplace.totalReviews} reviews
                 </span>
               </div>
-              <button className="flex w-full items-center justify-center rounded-lg border border-green-600 py-2 font-medium text-green-600">
+              <button className="flex w-full items-center justify-center rounded-lg border border-green-700 py-2 font-medium text-green-700">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Write a Review
               </button>
@@ -301,7 +321,7 @@ const MarketplaceDetailPage = () => {
                 ))}
             </div>
             <div className="flex justify-center">
-              <button className="flex items-center font-medium text-green-600">
+              <button className="flex items-center font-medium text-green-700">
                 View All Farmers <ChevronRight className="ml-1 h-4 w-4" />
               </button>
             </div>
@@ -343,11 +363,11 @@ const MarketplaceDetailPage = () => {
                       By {product.farmer.name}
                     </p>
                     <div className="mt-1 flex items-center justify-between">
-                      <span className="font-bold text-green-600">
+                      <span className="font-bold text-green-700">
                         {RupeeSymbol}
                         {product.price}/{product.unit}
                       </span>
-                      <button className="rounded-full bg-green-600 px-3 py-1 text-xs font-medium text-white">
+                      <button className="rounded-full bg-green-700 px-3 py-1 text-xs font-medium text-white">
                         ADD
                       </button>
                     </div>
