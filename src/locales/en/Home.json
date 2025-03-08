@@ -1,0 +1,10 @@
+{
+    "common": {
+      "location": "Your location",
+      "findMarkets": "Let's find some Farmer's Markets",
+      "search": "Search for Farmer's Market...",
+      "nearbyMarkets": "Nearby Farmer's Markets",
+      "bestMarkets": "The best farmer's markets near you",
+      "viewMore": "View More"
+    }
+  }

@@ -94,9 +94,8 @@ export interface Marketplace {
 export const marketplaces: Marketplace[] = [
   {
     id: "1",
-    name: "Apna Mandi",
-    description:
-      "A bustling weekly market showcasing the rich agricultural diversity of India. Discover fresh, locally-sourced produce, traditional spices, handcrafted textiles, and regional delicacies. Experience the vibrant culture and warm hospitality of rural India.",
+    name: "marketplace_1_name",  // Translation key
+    description: "marketplace_1_description",  // Translation key
     address: {
       street: "Near Gandhi Maidan",
       city: "Palghar",
@@ -109,7 +108,7 @@ export const marketplaces: Marketplace[] = [
       },
     },
     images: [
-      "/placeholder.svg?height=400&width=600",
+      "https://imgs.search.brave.com/7J_R3Xw_J5WF5resR7OUgRpkvh2tdWbErDeesCjs5Ps/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy80/LzQ5L0Zhcm1lcnMn/X01hcmtldF9pbl9D/aGFuZGlnYXJoLmpw/Zw",
       "/placeholder.svg?height=400&width=600",
       "/placeholder.svg?height=400&width=600",
     ],
@@ -129,16 +128,11 @@ export const marketplaces: Marketplace[] = [
     },
     farmers: ["farmer1", "farmer2", "farmer3", "farmer4", "farmer5"],
     products: ["1", "2", "3", "4", "5"],
-    features: [
-      "parking",
-      "restrooms",
-      "street food stalls",
-      "cultural performances",
-    ],
+    features: ["organic", "local"],  // Store feature keys
     rating: 4.5,
     totalReviews: 150,
     createdAt: new Date("2022-05-15"),
     updatedAt: new Date("2023-12-20"),
   },
-  // Add more marketplace data as needed
 ];
+

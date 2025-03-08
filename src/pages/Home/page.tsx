@@ -14,6 +14,8 @@ import {
   Search,
   Star,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 import { useLocation } from "@/context/LocationContext";
 
@@ -111,7 +113,10 @@ const HomeScreen = () => {
   const [userLocation, setUserLocation] = useState<string>("");
   const [isLocationExpanded, setIsLocationExpanded] = useState(false);
   const navigate = useNavigate();
-  
+  const { t } = useTranslation("home");
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const currentLang = i18n.language;
+
   // Google Maps autocomplete states
   const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<string | null>(null);
@@ -120,18 +125,14 @@ const HomeScreen = () => {
   const [coordinates, setCoordinates] = useState<Location | null>(null);
 
   // console.log([suggestions , coordinates]);
-  
-  
-  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const googleMapsApiKey = import.meta.env.VITE_MAPS_API_KEY as string || '';
 
-  const {text,updateText, updateCoordinates} = useLocation();
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const googleMapsApiKey = (import.meta.env.VITE_MAPS_API_KEY as string) || "";
+
+  const { text, updateText, updateCoordinates } = useLocation();
 
   // console.log([searchQuery]);
 
-  
-  
-  
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -192,15 +193,12 @@ const HomeScreen = () => {
     }
   };
 
-
-  const handleContextData = (lat , long , address)=>{
-    updateCoordinates(lat , long)
+  const handleContextData = (lat, long, address) => {
+    updateCoordinates(lat, long);
     updateText(address);
     // console.log([lat , long , address]);
-     navigate("/search/marketplace");
-
-    
-  }
+    navigate("/search/marketplace");
+  };
 
   // Fetch autocomplete suggestions
   const fetchAutocompleteResults = async (input: string) => {
@@ -213,13 +211,15 @@ const HomeScreen = () => {
 
       // Get position from navigator if available
       if (navigator.geolocation) {
-        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-          });
-        }).catch(() => null);
+        const position = await new Promise<GeolocationPosition>(
+          (resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true,
+              timeout: 5000,
+              maximumAge: 0,
+            });
+          },
+        ).catch(() => null);
 
         if (position) {
           lat = position.coords.latitude;
@@ -227,30 +227,33 @@ const HomeScreen = () => {
         }
       }
 
-      const response = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': googleMapsApiKey,
-        },
-        body: JSON.stringify({
-          input,
-          locationBias: {
-            circle: {
-              center: {
-                latitude: lat,
-                longitude: lng,
-              },
-              radius: 10000.0, // 10km radius
-            },
+      const response = await fetch(
+        "https://places.googleapis.com/v1/places:autocomplete",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": googleMapsApiKey,
           },
-        }),
-      });
+          body: JSON.stringify({
+            input,
+            locationBias: {
+              circle: {
+                center: {
+                  latitude: lat,
+                  longitude: lng,
+                },
+                radius: 10000.0, // 10km radius
+              },
+            },
+          }),
+        },
+      );
 
       const data: AutocompleteResponse = await response.json();
       setSuggestions(data.suggestions);
     } catch (error) {
-      console.error('Error fetching autocomplete results:', error);
+      console.error("Error fetching autocomplete results:", error);
     } finally {
       setIsLoading(false);
     }
@@ -259,13 +262,16 @@ const HomeScreen = () => {
   // Handle place selection
   const handlePlaceSelect = async (placeId: string, displayText: string) => {
     try {
-      const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {
-        method: 'GET',
-        headers: {
-          'X-Goog-Api-Key': googleMapsApiKey,
-          'X-Goog-FieldMask': 'name,formattedAddress,location',
+      const response = await fetch(
+        `https://places.googleapis.com/v1/places/${placeId}`,
+        {
+          method: "GET",
+          headers: {
+            "X-Goog-Api-Key": googleMapsApiKey,
+            "X-Goog-FieldMask": "name,formattedAddress,location",
+          },
         },
-      });
+      );
 
       const placeData = await response.json();
 
@@ -276,28 +282,30 @@ const HomeScreen = () => {
         };
 
         // Update coordinates state
-        handleContextData(placeData.location.latitude ,placeData.location.longitude , displayText );
+        handleContextData(
+          placeData.location.latitude,
+          placeData.location.longitude,
+          displayText,
+        );
         setCoordinates(position);
         setSelectedPlace(placeData.formattedAddress || placeData.name);
         setSearchQuery(displayText); // Fill input with selected value
         setShowSuggestions(false);
-        
+
         // console.log("Selected place coordinates:", position);
-        
+
         // You could also update the map center here if needed
         // or trigger a search for nearby farmer's markets
       }
     } catch (error) {
-      console.error('Error fetching place details:', error);
+      console.error("Error fetching place details:", error);
     }
-
-   
   };
 
   // Prevent form submission and do custom handling
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (coordinates) {
       // console.log("Searching near coordinates:", coordinates);
       // Here you could:
@@ -312,14 +320,14 @@ const HomeScreen = () => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       // Check if the click is outside the search input and suggestions
-      if (!target.closest('.search-container')) {
+      if (!target.closest(".search-container")) {
         setShowSuggestions(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -344,8 +352,39 @@ const HomeScreen = () => {
         </div>
 
         <div className="flex space-x-3">
-          <div className="rounded-full border p-3">
-            <Search className="size-6 text-gray-700" />
+          <div className="relative">
+            <button
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              className="flex items-center gap-2 rounded-full border p-3"
+            >
+              <span className="text-sm font-medium">
+                {currentLang.toUpperCase()}
+              </span>
+              <ChevronDown className="h-4 w-4" />
+            </button>
+            {isLangOpen && (
+              <div className="absolute right-0 z-20 mt-2 w-32 rounded-lg border bg-white shadow-lg">
+                <div className="py-1">
+                  {["en", "hi", "mr"].map((lang) => (
+                    <button
+                      key={lang}
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                      onClick={() => {
+                        i18n.changeLanguage(lang);
+                        localStorage.setItem("lang", lang);
+                        setIsLangOpen(false);
+                      }}
+                    >
+                      {lang === "en"
+                        ? "English"
+                        : lang === "hi"
+                          ? "हिंदी"
+                          : "मराठी"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="rounded-full border p-3">
             <Menu className="size-6 text-gray-700" />
@@ -363,7 +402,9 @@ const HomeScreen = () => {
                 className="flex w-full flex-col gap-2 rounded-lg transition-all duration-200 hover:bg-white/10"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm text-gray-100">Your location</span>
+                  <span className="text-sm text-gray-100">
+                    {t("common.location")}
+                  </span>
                   <ChevronDown
                     className={`h-4 w-4 transition-transform duration-200 ${isLocationExpanded ? "rotate-180" : ""} ${
                       window.innerWidth > 768 ? "hidden" : ""
@@ -387,7 +428,7 @@ const HomeScreen = () => {
 
             <div className="flex flex-col">
               <h1 className="mb-4 text-4xl font-semibold">
-                Let's find some Farmer's Markets
+                {t("common.findMarkets")}
               </h1>
               <div className="search-container relative">
                 <form onSubmit={handleSearch} className="relative">
@@ -396,23 +437,24 @@ const HomeScreen = () => {
                     value={searchQuery}
                     onChange={handleSearchChange}
                     onFocus={() => setShowSuggestions(true)}
-                    placeholder="Search for farmer's markets..."
-                    className="w-full rounded-lg border bg-white/10 px-4 py-3 pl-12 text-white placeholder-white/80 focus:outline-none focus:ring-2 focus:ring-white/30 md:w-1/2"
+                    placeholder={t("common.search")}
+                    className="w-full rounded-lg border bg-white/10 px-4 py-3 pl-12 text-white placeholder-white/80 focus:ring-2 focus:ring-white/30 focus:outline-none md:w-1/2"
                   />
                   <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-white" />
                   {isLoading && (
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                      <div className="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent"></div>
+                    <div className="absolute top-1/2 right-4 -translate-y-1/2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
                     </div>
                   )}
                 </form>
 
                 {showSuggestions && suggestions.length > 0 && (
-                  <ul className="absolute z-[1000] mt-1 w-full md:w-1/2 bg-white rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  <ul className="absolute z-[1000] mt-1 max-h-60 w-full overflow-y-auto rounded-lg bg-white shadow-lg md:w-1/2">
                     {suggestions.map((suggestion, index) => {
                       if (!suggestion.placePrediction) return null;
 
-                      const { placeId, text, structuredFormat } = suggestion.placePrediction;
+                      const { placeId, text, structuredFormat } =
+                        suggestion.placePrediction;
                       const displayText = structuredFormat
                         ? `${structuredFormat.mainText.text}, ${structuredFormat.secondaryText.text}`
                         : text.text;
@@ -420,11 +462,13 @@ const HomeScreen = () => {
                       return (
                         <li
                           key={placeId + index}
-                          className="p-3 hover:bg-gray-100 cursor-pointer border-b relative z-[1000] border-gray-100 last:border-b-0 text-gray-800"
-                          onClick={() => handlePlaceSelect(placeId, displayText)}
+                          className="relative z-[1000] cursor-pointer border-b border-gray-100 p-3 text-gray-800 last:border-b-0 hover:bg-gray-100"
+                          onClick={() =>
+                            handlePlaceSelect(placeId, displayText)
+                          }
                         >
                           <div className="flex items-start gap-2">
-                            <MapPin className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-500" />
+                            <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-500" />
                             <span>{displayText}</span>
                           </div>
                         </li>
@@ -434,13 +478,16 @@ const HomeScreen = () => {
                 )}
 
                 {selectedPlace && coordinates && (
-                  <div className="mt-3 relative  bg-white/10 rounded-lg p-3 md:w-1/2">
+                  <div className="relative mt-3 rounded-lg bg-white/10 p-3 md:w-1/2">
                     <div className="flex items-start gap-2">
                       <MapPin className="h-5 w-5 flex-shrink-0 text-cyan-400" />
                       <div>
-                        <p className="text-sm font-medium text-white">{selectedPlace}</p>
-                        <p className="text-xs text-white/70 mt-1">
-                          Coordinates: {coordinates.lat.toFixed(4)}, {coordinates.lng.toFixed(4)}
+                        <p className="text-sm font-medium text-white">
+                          {selectedPlace}
+                        </p>
+                        <p className="mt-1 text-xs text-white/70">
+                          Coordinates: {coordinates.lat.toFixed(4)},{" "}
+                          {coordinates.lng.toFixed(4)}
                         </p>
                       </div>
                     </div>
@@ -453,17 +500,17 @@ const HomeScreen = () => {
       </div>
 
       {/* Parking Spots Section */}
-      <div className="px-4 py-6 relative  bg-white">
+      <div className="relative bg-white px-4 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-semibold">Nearby Farmer's Markets</h2>
-            <p className="mb-5 text-gray-500">
-              The best farmer's markets near you
-            </p>
+            <h2 className="text-xl font-semibold">
+              {t("common.nearbyMarkets")}
+            </h2>
+            <p className="mb-5 text-gray-500">{t("common.bestMarkets")}</p>
           </div>
           <Link to={"/"} className="max-md:hidden">
             <button className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg bg-violet-500 px-4 py-2 text-center text-white">
-              View More <ArrowRight className="h-5 w-5" />
+              {t("common.viewMore")} <ArrowRight className="h-5 w-5" />
             </button>
           </Link>
         </div>

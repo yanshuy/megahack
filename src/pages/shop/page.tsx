@@ -121,7 +121,10 @@ export default function Shop() {
           </div>
           <div className="no-scrollbar flex space-x-3 overflow-x-auto px-4 pt-2 pb-4">
             {farmers.map((farmer) => (
-              <div className="flex flex-col items-center">
+              <button
+                className="flex flex-col items-center"
+                onClick={() => navigate(`/farmers/${farmer.id}`)}
+              >
                 <img
                   src={farmer.image}
                   alt="Farmer"
@@ -134,7 +137,7 @@ export default function Shop() {
                   <span className="mr-1 text-yellow-500">★</span>
                   <span>{farmer.rating}</span>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>

@@ -12,29 +12,32 @@ import {
   ParkingCircle,
   Toilet,
   ChevronLeft,
+  ShoppingBag,
 } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { marketplaces } from "@/data/marketplaces";
 import { farmers } from "@/data/farmer-dummy";
 import { products } from "@/data/product-dummy";
 import { RupeeSymbol } from "@/utils/utility";
+import { useTranslation } from "react-i18next";
 
 const MarketplaceDetailPage = () => {
   // Products sample data
 
+  const navigate = useNavigate();
+  const { t } = useTranslation("marketplace");
   const { marketId } = useParams();
   const marketplace =
     marketplaces[Number.isNaN(Number(marketId)) ? 1 : Number(marketId) - 1];
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("info");
-  const navigate = useNavigate();
 
   // Get current day for highlighting in operating hours
   const currentDay = new Date().toLocaleString("en-us", { weekday: "long" });
 
   // Function to format operating hours display
   const formatHours = (hours) => {
-    if (hours.isClosed) return "Closed";
+    if (hours.isClosed) return t("common.closed");
     return `${hours.open} - ${hours.close}`;
   };
 
@@ -59,10 +62,10 @@ const MarketplaceDetailPage = () => {
       {/* Header */}
       <div className="sticky top-0 z-10 flex items-center justify-between bg-white p-4">
         <div className="flex items-center">
-          <Link to="/marketplaces" className="mr-2">
-            <ChevronLeft className="h-5 w-5" />
-          </Link>
-          <h1 className="text-xl font-bold">{marketplace.name}</h1>
+          <ChevronLeft className="mr-2 h-5 w-5" onClick={() => navigate(-1)} />
+          <h1 className="text-xl font-bold">
+            {t(`marketplace_${marketplace.id}.name`)}
+          </h1>
         </div>
         <div className="flex space-x-3">
           <button className="rounded-full p-2 hover:bg-gray-100">
@@ -84,7 +87,7 @@ const MarketplaceDetailPage = () => {
             {marketplace.images.map((image, index) => (
               <img
                 key={index}
-                src="https://placehold.co/600x400"
+                src={image}
                 alt={`${marketplace.name} - Image ${index + 1}`}
                 className="h-64 w-full flex-shrink-0 object-cover"
               />
@@ -110,7 +113,9 @@ const MarketplaceDetailPage = () => {
       <div className="p-4">
         {/* Title & Rating */}
         <div className="mb-2 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">{marketplace.name}</h1>
+          <h1 className="text-2xl font-bold">
+            {t(`marketplace_${marketplace.id}.name`)}
+          </h1>
           <div className="flex items-center rounded-lg bg-white px-2 py-1 shadow-sm">
             <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
             <span className="ml-1 font-medium">{marketplace.rating}</span>
@@ -132,50 +137,38 @@ const MarketplaceDetailPage = () => {
 
         {/* Action Buttons */}
         <div className="mb-6 grid grid-cols-2 gap-3">
-          <a
-            href={`http://maps.google.com/maps?q=${marketplace.address.coordinates.latitude},${marketplace.address.coordinates.longitude}`}
-            className="contents"
-            target="_blank"
+          <button
+            className="flex items-center justify-center rounded-lg border bg-green-700 py-3 font-medium text-white"
+            onClick={() => navigate(`/shop`)}
           >
-            <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
-              <Navigation className="mr-2 h-4 w-4" />
-              Get Directions
-            </button>
-          </a>
+            <ShoppingBag className="mr-2 h-4 w-4" />
+            Shop
+          </button>
+          <a
+            className="contents"
+            href={`http://maps.google.com/maps?q=${marketplace.address.coordinates.latitude},${marketplace.address.coordinates.longitude}`}
+          ></a>
+          <button className="flex items-center justify-center rounded-lg border border-green-600 bg-white py-3 font-medium text-green-600">
+            <Navigation className="mr-2 h-4 w-4" />
+            Get Directions
+          </button>
         </div>
 
         {/* Tab Navigation */}
         <div className="mb-4 flex border-b">
-          <button
-            className={`px-4 py-2 text-sm font-medium ${
-              activeTab === "info"
-                ? "border-b-2 border-green-600 text-green-600"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab("info")}
-          >
-            Information
-          </button>
-          <button
-            className={`px-4 py-2 text-sm font-medium ${
-              activeTab === "farmers"
-                ? "border-b-2 border-green-600 text-green-600"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab("farmers")}
-          >
-            Farmers
-          </button>
-          <button
-            className={`px-4 py-2 text-sm font-medium ${
-              activeTab === "products"
-                ? "border-b-2 border-green-600 text-green-600"
-                : "text-gray-600"
-            }`}
-            onClick={() => setActiveTab("products")}
-          >
-            Products
-          </button>
+          {["info", "farmers", "products"].map((tab) => (
+            <button
+              key={tab}
+              className={`px-4 py-2 text-sm font-medium ${
+                activeTab === tab
+                  ? "border-b-2 border-green-600 text-green-600"
+                  : "text-gray-600"
+              }`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {t(`tabs.${tab}`)}
+            </button>
+          ))}
         </div>
 
         {/* Tab Content */}
@@ -183,22 +176,29 @@ const MarketplaceDetailPage = () => {
           <div className="space-y-6">
             {/* Description */}
             <div className="rounded-lg bg-white p-4 shadow-sm">
-              <h2 className="mb-2 text-lg font-bold">About</h2>
+              <h2 className="mb-2 text-lg font-bold">{t("sections.about")}</h2>
               <p className="text-sm leading-relaxed text-gray-700">
-                {marketplace.description}
+                {t(`marketplace_${marketplace.id}.description`)}
               </p>
             </div>
 
             {/* Features */}
             <div className="rounded-lg bg-white p-4 shadow-sm">
-              <h2 className="mb-3 text-lg font-bold">Facilities & Features</h2>
+              <h2 className="mb-3 text-lg font-bold">
+                {t("sections.facilities")}
+              </h2>
               <div className="grid grid-cols-2 gap-3">
                 {marketplace.features.map((feature, index) => (
                   <div key={index} className="flex items-center text-gray-700">
                     <div className="mr-2 rounded-full bg-green-100 p-2">
                       {getFeatureIcon(feature)}
                     </div>
-                    <span className="text-sm capitalize">{feature}</span>
+                    <span className="text-sm capitalize">
+                      {" "}
+                      {t(
+                        `features.${feature.toLowerCase().replace(/\s+/g, "_")}`,
+                      )}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -217,7 +217,7 @@ const MarketplaceDetailPage = () => {
                   >
                     <span className="text-sm">{hours.day}</span>
                     <span
-                      className={`text-sm ${hours.isClosed ? "text-red-500" : "text-green-600"}`}
+                      className={`text-sm ${hours.isClosed ? "text-red-500" : "text-green-700"}`}
                     >
                       {formatHours(hours)}
                     </span>
@@ -245,7 +245,7 @@ const MarketplaceDetailPage = () => {
             <div className="rounded-lg bg-white p-4 shadow-sm">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-lg font-bold">Reviews</h2>
-                <button className="flex items-center text-sm font-medium text-green-600">
+                <button className="flex items-center text-sm font-medium text-green-700">
                   See All <ChevronRight className="ml-1 h-4 w-4" />
                 </button>
               </div>
@@ -260,7 +260,7 @@ const MarketplaceDetailPage = () => {
                   Based on {marketplace.totalReviews} reviews
                 </span>
               </div>
-              <button className="flex w-full items-center justify-center rounded-lg border border-green-600 py-2 font-medium text-green-600">
+              <button className="flex w-full items-center justify-center rounded-lg border border-green-700 py-2 font-medium text-green-700">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Write a Review
               </button>
@@ -283,8 +283,7 @@ const MarketplaceDetailPage = () => {
                   return false;
                 })
                 .map((farmer) => (
-                  <button
-                    onClick={() => navigate(`/farmers/${farmer.id}`)}
+                  <div
                     key={farmer.id}
                     className="flex items-center rounded-lg bg-white p-3 shadow-sm"
                   >
@@ -293,7 +292,7 @@ const MarketplaceDetailPage = () => {
                       alt={farmer.name}
                       className="mr-3 h-16 w-16 rounded-full object-cover"
                     />
-                    <div className="flex-1 text-left">
+                    <div className="flex-1">
                       <h3 className="font-medium">{farmer.name}</h3>
                       <div className="mb-1 flex items-center text-sm text-amber-500">
                         <Star className="mr-1 h-4 w-4 fill-amber-500 stroke-amber-500" />
@@ -321,11 +320,11 @@ const MarketplaceDetailPage = () => {
                       </div>
                     </div>
                     <ChevronRight className="h-5 w-5 text-gray-400" />
-                  </button>
+                  </div>
                 ))}
             </div>
             <div className="flex justify-center">
-              <button className="flex items-center font-medium text-green-600">
+              <button className="flex items-center font-medium text-green-700">
                 View All Farmers <ChevronRight className="ml-1 h-4 w-4" />
               </button>
             </div>
@@ -337,8 +336,7 @@ const MarketplaceDetailPage = () => {
             <h2 className="mb-2 text-lg font-bold">Available Products</h2>
             <div className="grid grid-cols-1 gap-3">
               {products.map((product) => (
-                <button
-                  onClick={() => navigate(`/product/${product.id}`)}
+                <div
                   key={product.id}
                   className="flex overflow-hidden rounded-lg bg-white shadow-sm"
                 >
@@ -347,7 +345,7 @@ const MarketplaceDetailPage = () => {
                     alt={product.name}
                     className="h-full w-24 object-cover"
                   />
-                  <div className="flex-1 p-3 text-left">
+                  <div className="flex-1 p-3">
                     <span
                       className={`mb-1 inline-block rounded-full px-2 py-1 text-xs ${
                         product.category === "Veggies"
@@ -368,16 +366,16 @@ const MarketplaceDetailPage = () => {
                       By {product.farmer.name}
                     </p>
                     <div className="mt-1 flex items-center justify-between">
-                      <span className="font-bold text-green-600">
+                      <span className="font-bold text-green-700">
                         {RupeeSymbol}
                         {product.price}/{product.unit}
                       </span>
-                      <button className="rounded-full bg-green-600 px-3 py-1 text-xs font-medium text-white">
+                      <button className="rounded-full bg-green-700 px-3 py-1 text-xs font-medium text-white">
                         ADD
                       </button>
                     </div>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           </div>

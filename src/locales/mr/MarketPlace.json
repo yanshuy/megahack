@@ -1,0 +1,25 @@
+{
+    "common": {
+      "location": "Your location",
+      "findMarkets": "Let's find some Farmer's Markets",
+      "search": "Search for Farmer's Markets...",
+      "nearbyMarkets": "Nearby Farmer's Markets",
+      "bestMarkets": "The best farmer's markets near you",
+      "viewMore": "View More",
+      "loadingLocation": "Loading location...",
+      "profile": {
+        "name": "Vinayak Sharma",
+        "city": "Mumbai"
+      },
+      "product": {
+        "add": "ADD",
+        "per": "per"
+      }
+    },
+    "categories": {
+      "vegetables": "Vegetables",
+      "fruits": "Fruits",
+      "dairy": "Dairy",
+      "grains": "Grains"
+    }
+  }

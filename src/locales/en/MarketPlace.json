@@ -1,0 +1,45 @@
+{
+    "common": {
+      "back": "Back",
+      "share": "Share",
+      "bookmark": "Bookmark",
+      "closed": "Closed",
+      "getDirections": "Get Directions",
+      "reviews": "reviews",
+      "writeReview": "Write a Review",
+      "seeAll": "See All",
+      "viewAllFarmers": "View All Farmers"
+    },
+    "tabs": {
+      "info": "Info",
+      "farmers": "Farmers",
+      "products": "Products"
+    },
+    "sections": {
+      "about": "About",
+      "facilities": "Facilities & Features",
+      "hours": "Operating Hours",
+      "location": "Location",
+      "reviews": "Reviews",
+      "featuredFarmers": "Featured Farmers",
+      "availableProducts": "Available Products"
+    },
+    "marketplace_1": {
+      "name": "Palghar Farmers Market",
+      "description": "A vibrant local market offering fresh produce directly from farmers"
+    },
+    "features": {
+      "parking": "Parking",
+      "restrooms": "Restrooms",
+      "street_food_stalls": "Street Food Stalls",
+      "cultural_performances": "Cultural Performances",
+      "organic": "Organic Products",
+      "local": "Local Produce"
+    },
+    "categories": {
+      "Veggies": "Vegetables",
+      "Fruits": "Fruits",
+      "Dairy": "Dairy Products",
+      "Spices": "Spices"
+    }
+  }
