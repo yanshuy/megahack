@@ -3,15 +3,18 @@
 import { Phone, Mail, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Farmer } from "../farmer-products/page"
+import { useNavigate } from "react-router-dom"
 
 interface ContactSectionProps {
   farmer: Farmer
 }
 
 export const ContactSection = ({ farmer }: ContactSectionProps) => {
+
+  const navigate = useNavigate()
+
   const handleStartChat = () => {
-    // Implement chat functionality
-    console.log("Starting chat with farmer:", farmer.id)
+    // navigate('/')
   }
 
   return (
